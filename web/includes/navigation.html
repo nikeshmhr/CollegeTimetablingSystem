@@ -1,38 +1,48 @@
-<div class="navbar navbar-inverse navbar-fixed-top">
-    <div class="container-fluid">
-        <div class="navbar-header">
-            <button type="button" 
-                    class="navbar-toggle"
-                    data-toggle="collapse" 
-                    data-target="#mynavbar-content">
-                <span  class="icon-bar"></span>
-                <span  class="icon-bar"></span>
-                <span  class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" href="#">College Timetabling System</a>
-        </div>
-        <div class="collapse navbar-collapse" id="mynavbar-content">
-            <ul class="nav navbar-nav">
-                <li class="dropdown" id="addResource">
-                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">Add Resources<span class="caret"></span></a>
-                    <ul class="dropdown-menu">
-                        <li><a href="#">Add Modules</a></li>
-                        <li><a href="#">Add Teachers</a></li>
-                        <li><a href="#">Add Subjects</a></li>
-                        <li><a href="#">Add Groups</a></li>
+<html>
+    <head>
+        <link rel="stylesheet" href="../bootstrap/css/bootstrap.min.css" />
+        <link rel="stylesheet" href="../styles/main.css"/>
+        <script src="../bootstrap/js/bootstrap.min.js"></script>
+        <script src="../js/jquery.js"></script>
+    </head>
+    <body>
+        <div class="navbar navbar-inverse">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <button type="button" 
+                            class="navbar-toggle"
+                            data-toggle="collapse" 
+                            data-target="#mynavbar-content">
+                        <span  class="icon-bar"></span>
+                        <span  class="icon-bar"></span>
+                        <span  class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="home.jsp" title="Home"><span class="glyphicon glyphicon-home"></span></a>
+                </div>
+                <div class="collapse navbar-collapse" id="mynavbar-content">
+                    <ul class="nav navbar-nav">
+                        <li class="dropdown" id="addResource">
+                            <a class="dropdown-toggle" data-toggle="dropdown" href="#">Add Resources<span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="addModules.jsp">Add Modules</a></li>
+                                <li><a href="addTeachers.jsp">Add Teachers</a></li>
+                                <li><a href="addSubjects.jsp">Add Subjects</a></li>
+                                <li><a href="addGroups.jsp">Add Groups</a></li>
+                            </ul>
+                        </li>
+                        <li class="dropdown" id="editResource">
+                            <a class="dropdown-toggle" data-toggle="dropdown" href="#">Edit Resources<span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="editModules.jsp">Edit Modules</a></li>
+                                <li><a href="editTeachers.jsp">Edit Teachers</a></li>
+                                <li><a href="editSubjects.jsp">Edit Subjects</a></li>
+                                <li><a href="editGroups.jsp">Edit Groups</a></li>
+                            </ul>
+                        </li>
+                        <li><a  href="#" id="addRelation" class="active">Add Relation</a></li>
                     </ul>
-                </li>
-                <li class="dropdown" id="editResource">
-                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">Edit Resources<span class="caret"></span></a>
-                    <ul class="dropdown-menu">
-                        <li><a href="#">Edit Modules</a></li>
-                        <li><a href="#">Edit Teachers</a></li>
-                        <li><a href="#">Edit Subjects</a></li>
-                        <li><a href="#">Edit Groups</a></li>
-                    </ul>
-                </li>
-                <li><a  href="#" id="addRelation">Add Relation</a></li>
-            </ul>
+                </div>
+            </div>
         </div>
-    </div>
-</div>
+    </body>
+</html>

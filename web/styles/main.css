@@ -9,3 +9,8 @@ and open the template in the editor.
 */
 
 
+.accordion-dropdown:link{
+    display:inline-block;
+    width:100%;
+    text-decoration: none;
+}

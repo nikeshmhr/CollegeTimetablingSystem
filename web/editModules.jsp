@@ -1,6 +1,6 @@
 <%-- 
-    Document   : addModules
-    Created on : Sep 27, 2015, 8:27:31 PM
+    Document   : editModules
+    Created on : Sep 27, 2015, 9:31:11 PM
     Author     : Nikesh
 --%>
 
@@ -10,12 +10,13 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <%@include file="includes/headerInclude.html" %>
-        <title>Add Modules</title>
-        <script type="text/javascript">
-            $(document).ready(function () {
-                $("#addResource").addClass("active");
+        <title>Edit Modules</title>
+        <script>
+            $(document).ready(function(){
+                $("#editResource").addClass("active");
             });
         </script>
+        
     </head>
     <body>
         <div class="container">

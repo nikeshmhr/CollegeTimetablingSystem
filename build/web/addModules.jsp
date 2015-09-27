@@ -9,9 +9,17 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
+        <%@include file="includes/headerInclude.html" %>
+        <title>Add Modules</title>
+        <script type="text/javascript">
+            $(document).ready(function () {
+                $("#addResource").addClass("active");
+            });
+        </script>
     </head>
     <body>
-        <h1>Hello World!</h1>
+        <div class="container">
+            <%@include file="includes/navigation.html" %>
+        </div>
     </body>
 </html>

@@ -11,7 +11,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
         <%@include file="includes/headerInclude.html" %>
-        <title>College Timetabling System</title>
+        <title>Scheduler</title>
     </head>
     <body>
         <div class="container">
@@ -33,7 +33,6 @@
                     <br/>
                     <div class="row">
                         <div class="col-md-12 form-group">
-
                             <input type="password" name="password" placeholder="Password" required class="form-control input-lg" />
                         </div>
                     </div>
