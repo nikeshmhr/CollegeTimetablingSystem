@@ -10,8 +10,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
-        <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css" type="text/css" />
-        <link rel="stylesheet" href="styles/main.css" type="text/css" />
+        <%@include file="includes/headerInclude.html" %>
         <title>College Timetabling System</title>
     </head>
     <body>
@@ -20,37 +19,34 @@
             <div class="col-md-3">
                 &nbsp;
             </div>
-            
+
             <!-- LOGIN FROM STARTS FROM HERE -->
-            <div class="col-md-5 well">
-                <form action="" method="post" role="form" style="padding: 20px;">
-                    
+            <div class="col-md-5 well" style="margin-top: 2%">
+                <form action="home.jsp" method="post" role="form" style="padding: 20px;">
+
                     <h1 class="caption">Login</h1>
-                        <div class="row">
-                            <div class="col-md-12 form-group">
-                                <input type="text" name="username" placeholder="Username" required class="form-control input-lg" />
+                    <div class="row">
+                        <div class="col-md-12 form-group">
+                            <input type="text" name="username" placeholder="Username" required class="form-control input-lg" />
+                        </div>
+                    </div>
+                    <br/>
+                    <div class="row">
+                        <div class="col-md-12 form-group">
 
-                            </div>
+                            <input type="password" name="password" placeholder="Password" required class="form-control input-lg" />
                         </div>
-                        <br/>
-                        <div class="row">
-                            <div class="col-md-12 form-group">
+                    </div>
+                    <br/>
+                    <div class="row">
+                        <div class="col-md-6 form-group">
+                            <input type="submit" name="login" value="Login" class="btn btn-success form-control" />
+                        </div>
+                    </div>
 
-                                <input type="password" name="password" placeholder="Password" required class="form-control input-lg" />
-                            </div>
-                        </div>
-                        <br/>
-                        <div class="row">
-                            <div class="col-md-6 form-group">
-                                <input type="submit" name="login" value="Login" class="btn btn-success form-control" />
-                            </div>
-                        </div>
-                    
                 </form>
             </div>
             <!-- LOGIN FORM ENDS HERE -->
         </div>
     </body>
-    <script type="text/javascript" src="js/jquery.js"></script>
-    <script type="text/javascript" src="bootstrap/js/bootstrap.min.js"></script>
 </html>
