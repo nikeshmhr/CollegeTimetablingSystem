@@ -11,6 +11,11 @@ public final class index_jsp extends org.apache.jasper.runtime.HttpJspBase
 
   private static java.util.List<String> _jspx_dependants;
 
+  static {
+    _jspx_dependants = new java.util.ArrayList<String>(1);
+    _jspx_dependants.add("/includes/headerInclude.html");
+  }
+
   private org.glassfish.jsp.api.ResourceInjector _jspx_resourceInjector;
 
   public java.util.List<String> getDependants() {
@@ -48,28 +53,50 @@ public final class index_jsp extends org.apache.jasper.runtime.HttpJspBase
       out.write("<html>\n");
       out.write("    <head>\n");
       out.write("        <meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">\n");
-      out.write("        \n");
-      out.write("        <link rel=\"stylesheet\" href=\"bootstrap/css/bootstrap.min.css\" type=\"text/css\" />\n");
-      out.write("        <title>College Timetabling System</title>\n");
+      out.write("\n");
+      out.write("        ");
+      out.write("<link rel=\"stylesheet\" href=\"bootstrap/css/bootstrap.min.css\" type=\"text/css\" />\r\n");
+      out.write("<link rel=\"stylesheet\" href=\"styles/main.css\" type=\"text/css\" />\r\n");
+      out.write("<script type=\"text/javascript\" src=\"js/jquery.js\"></script>\r\n");
+      out.write("<script type=\"text/javascript\" src=\"bootstrap/js/bootstrap.min.js\"></script>");
+      out.write("\n");
+      out.write("        <title>Scheduler</title>\n");
       out.write("    </head>\n");
       out.write("    <body>\n");
-      out.write("        <div class=\"container-fluid\">\n");
-      out.write("            <h1>Hello</h1>\n");
-      out.write("            <form action=\"\" method=\"post\" class=\"form-horizontal\">\n");
-      out.write("                <div>\n");
-      out.write("                    <input type=\"text\" name=\"username\" placeholder=\"Username\" required />\n");
-      out.write("                </div>\n");
-      out.write("                <div>\n");
-      out.write("                    <input type=\"password\" name=\"password\" placeholder=\"Password\" required />\n");
-      out.write("                </div>\n");
-      out.write("                <div>\n");
-      out.write("                    <input type=\"submit\" name=\"login\" value=\"Login\" class=\"btn-success\" />\n");
-      out.write("                </div>\n");
-      out.write("            </form>\n");
+      out.write("        <div class=\"container\">\n");
+      out.write("            <!-- HELPS TO CENTER THE LOGIN FORM -->\n");
+      out.write("            <div class=\"col-md-3\">\n");
+      out.write("                &nbsp;\n");
+      out.write("            </div>\n");
+      out.write("\n");
+      out.write("            <!-- LOGIN FROM STARTS FROM HERE -->\n");
+      out.write("            <div class=\"col-md-5 well col-md-offset-3\" style=\"margin-top: 2%\">\n");
+      out.write("                <form action=\"home.jsp\" method=\"post\" role=\"form\" style=\"padding: 20px;\">\n");
+      out.write("\n");
+      out.write("                    <h1 class=\"caption\">Login</h1>\n");
+      out.write("                    <div class=\"row\">\n");
+      out.write("                        <div class=\"col-md-12 form-group\">\n");
+      out.write("                            <input type=\"text\" name=\"username\" placeholder=\"Username\" required class=\"form-control input-lg\" />\n");
+      out.write("                        </div>\n");
+      out.write("                    </div>\n");
+      out.write("                    <br/>\n");
+      out.write("                    <div class=\"row\">\n");
+      out.write("                        <div class=\"col-md-12 form-group\">\n");
+      out.write("                            <input type=\"password\" name=\"password\" placeholder=\"Password\" required class=\"form-control input-lg\" />\n");
+      out.write("                        </div>\n");
+      out.write("                    </div>\n");
+      out.write("                    <br/>\n");
+      out.write("                    <div class=\"row\">\n");
+      out.write("                        <div class=\"col-md-6 form-group\">\n");
+      out.write("                            <input type=\"submit\" name=\"login\" value=\"Login\" class=\"btn btn-success form-control\" />\n");
+      out.write("                        </div>\n");
+      out.write("                    </div>\n");
+      out.write("\n");
+      out.write("                </form>\n");
+      out.write("            </div>\n");
+      out.write("            <!-- LOGIN FORM ENDS HERE -->\n");
       out.write("        </div>\n");
       out.write("    </body>\n");
-      out.write("    <script type=\"text/javascript\" src=\"js/jquery.js\"></script>\n");
-      out.write("    <script type=\"text/javascript\" src=\"bootstrap/js/bootstrap.min.js\"></script>\n");
       out.write("</html>\n");
     } catch (Throwable t) {
       if (!(t instanceof SkipPageException)){

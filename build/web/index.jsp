@@ -16,23 +16,25 @@
     <body>
         <div class="container">
             <!-- HELPS TO CENTER THE LOGIN FORM -->
-            <div class="col-md-3">
+            <!--<div class="col-md-3">
                 &nbsp;
-            </div>
+            </div>-->
 
             <!-- LOGIN FROM STARTS FROM HERE -->
-            <div class="col-md-5 well" style="margin-top: 2%">
+            <div class="col-md-5 well col-md-offset-3" style="margin-top: 2%">
                 <form action="home.jsp" method="post" role="form" style="padding: 20px;">
 
-                    <h1 class="caption">Login</h1>
+                    <h1 class="caption" style="text-align: center">Login</h1>
                     <div class="row">
-                        <div class="col-md-12 form-group">
+                        <div class="col-md-12 form-group input-group">
+                            <span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
                             <input type="text" name="username" placeholder="Username" required class="form-control input-lg" />
                         </div>
                     </div>
                     <br/>
                     <div class="row">
-                        <div class="col-md-12 form-group">
+                        <div class="col-md-12 form-group input-group">
+                            <span class="input-group-addon"><span class="glyphicon glyphicon-lock"></span></span>
                             <input type="password" name="password" placeholder="Password" required class="form-control input-lg" />
                         </div>
                     </div>
