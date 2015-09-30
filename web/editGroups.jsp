@@ -1,6 +1,6 @@
 <%-- 
-    Document   : editModules
-    Created on : Sep 27, 2015, 9:31:11 PM
+    Document   : editGroups
+    Created on : Sep 30, 2015, 7:30:18 PM
     Author     : Nikesh
 --%>
 
@@ -10,31 +10,25 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <%@include file="includes/headerInclude.html" %>
-        <title>Edit Modules</title>
-        <script>
-            $(document).ready(function () {
-                $("#editResource").addClass("active");
-            });
-        </script>
-
+        <title>Edit Groups</title>
     </head>
     <body>
         <div class="container">
             <%@include file="includes/navigation.html" %>
-
+            
             <table class="table table-striped">
-                <h2 class="text-primary" style="text-align: center">Edit Modules</h2>
+                <h2 class="text-primary" style="text-align: center">Edit Groups</h2>
                 <thead>
                     <tr>
-                        <th>Module Code</th>
-                        <th>Module Name</th>
+                        <th>Group Code</th>
+                        <th>Number Of Students</th>
                         <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <td>CC1210</td>
-                        <td>Introduction to Programming</td>
+                        <td>L2C1</td>
+                        <td>40</td>
                         <td>
                             <a href="#"><span class="glyphicon glyphicon-edit" title="Edit"></span></a> 
                             | 
@@ -43,10 +37,10 @@
                     </tr>
                 </tbody>
             </table>
-
         </div>
         <!-- END OF CONTAINER -->
-
+        
         <%@include file="includes/footer.html" %>
+        
     </body>
 </html>

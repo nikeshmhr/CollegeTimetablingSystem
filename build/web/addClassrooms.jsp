@@ -34,8 +34,9 @@
                         <h2 class="text-primary">List of Classrooms</h2>
                         <thead>
                             <tr>
-                                <th>Code</th>
+                                <th>Room Code</th>
                                 <th>Name</th>
+                                <th>Room Type</th>
                                 <th>Capacity</th>
                             </tr>
                         </thead>
@@ -43,11 +44,13 @@
                             <tr>
                                 <td>TR-10</td>
                                 <td>Westminister Palace</td>
+                                <td>Lecture</td>
                                 <td>100</td>
                             </tr>
                             <tr>
                                 <td>TR-12</td>
                                 <td>Buckingham Palace</td>
+                                <td>Lecture</td>
                                 <td>100</td>
                             </tr>
                         </tbody>
@@ -68,12 +71,12 @@
                             <input type="text" name="classroomName" id="classroomName" class="form-control" maxlength="50" required />
                         </div>
                         <div class="form-group">
-                            <label for="typesOfClassroom">Types of classroom</label>
-                            <div class="checkbox">
-                                <label><input class="checkbox-inline" type="checkbox" name="typesOfClassroom" value="lecture" checked> Lecture</label>
-                                <label><input class="checkbox-inline" type="checkbox" name="typesOfClassroom" value="tutorial"> Tutorial</label>
-                                <label><input class="checkbox-inline" type="checkbox" name="typesOfClassroom" value="lab"> Lab</label>
-                                <label><input class="checkbox-inline" type="checkbox" name="typesOfClassroom" value="workshop"> Workshop</label>
+                            <label for="typeOfClassroom">Type of classroom</label>
+                            <div class="radio">
+                                <label><input class="radio-inline" type="radio" name="typeOfClassroom" value="lecture" checked> Lecture</label>
+                                <label><input class="radio-inline" type="radio" name="typeOfClassroom" value="tutorial"> Tutorial</label>
+                                <label><input class="radio-inline" type="radio" name="typeOfClassroom" value="lab"> Lab</label>
+                                <label><input class="radio-inline" type="radio" name="typeOfClassroom" value="workshop"> Workshop</label>
                             </div>
                         </div>
                         <div class="form-group">

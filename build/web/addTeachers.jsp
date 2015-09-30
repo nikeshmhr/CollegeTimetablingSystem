@@ -55,7 +55,7 @@
                     <form action="#" method="post" role="form" onsubmit="return validateAddTeachers()">
                         <div class="form-group">
                             <label for="teacherName">Name(s)</label>
-                            <input type="text" name="teacherName" id="moduleCode" class="form-control" maxlength="200" required />
+                            <input type="text" name="teacherName" id="teacherName" class="form-control" maxlength="200" required />
                         </div>
                         <div class="">
                             <input type="submit" name="addTeacher" value="Add" class="btn btn-success" />
