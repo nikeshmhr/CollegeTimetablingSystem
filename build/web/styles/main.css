@@ -14,3 +14,14 @@ and open the template in the editor.
     width:100%;
     text-decoration: none;
 }
+
+.clear{
+    height:20px;
+    padding: 0;
+    margin: 0;
+    clear: both;
+}
+.container{
+    min-height: 650px;
+    margin-bottom:10px;
+}
