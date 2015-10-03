@@ -39,8 +39,15 @@
                                 <li><a href="editGroups.jsp">Edit Groups</a></li>
                             </ul>
                         </li>
-                        <li><a  href="#" id="addRelation" class="active">Add Relation</a></li>
+                        <li class="dropdown" id="addRelation">
+                            <a class="dropdown-toggle" data-toggle="dropdown" href="#">Add Relation<span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="#">Teacher-Module</a></li>
+                                <li><a href="#">Group-Module</a></li>
+                            </ul>
+                        </li>
                     </ul>
+                    <ul class="nav navbar-nav navbar-right"><li><a href="LogoutController" id="logout">Logout</a></li></ul>
                 </div>
             </div>
         </div>

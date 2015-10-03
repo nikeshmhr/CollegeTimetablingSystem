@@ -13,10 +13,18 @@
         <title>Scheduler</title>
     </head>
     <body>
+        <%
+            String user = (String) session.getAttribute("user");
+            if (user == null || user.equals("")) {
+                request.getRequestDispatcher("index.jsp").forward(request, response);
+            } else {
+                //out.println(user);
+            }
+        %>
         <div class="container">
             <%@include file="includes/navigation.html" %>
             <div class="jumbotron">
-                <h1>Scheduler</h1> 
+                <h1>Scheduler</h1>
                 <p>A Scheduler is a simple college timetabling system that carries out the scheduling activity of course timetables.</p>
             </div>
 

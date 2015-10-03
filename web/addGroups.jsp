@@ -53,7 +53,7 @@
                 <!-- END OF GROUPS LIST -->
                 <!-- START OF FORM TO ADD GROUPS -->
                 <div class="col-md-4 col-md-offset-1">
-                    <h2 class="text-primary">Add new groups</h2>
+                    <h2 class="text-primary">Add new group</h2>
                     <form action="#" method="post" role="form" onsubmit="return validateAddGroups()">
                         <div class="form-group">
                             <label for="groupCode">Group Code</label>

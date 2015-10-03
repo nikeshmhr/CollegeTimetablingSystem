@@ -58,6 +58,7 @@
                     </table>
                 </div>
                 <!-- END OF MODULES LIST -->
+
                 <!-- START OF FORM TO ADD MODULES -->
                 <div class="col-md-4 col-md-offset-1">
                     <h2 class="text-primary">Add new module</h2>
@@ -74,10 +75,10 @@
                         <div class="form-group">
                             <label for="typesOfClasses">Types of classes</label>
                             <div class="checkbox">
-                                <label><input class="checkbox-inline" type="checkbox" name="typesOfClasses" value="lecture"> Lecture</label>
-                                <label><input class="checkbox-inline" type="checkbox" name="typesOfClasses" value="tutorial"> Tutorial</label>
-                                <label><input class="checkbox-inline" type="checkbox" name="typesOfClasses" value="lab"> Lab</label>
-                                <label><input class="checkbox-inline" type="checkbox" name="typesOfClasses" value="workshop"> Workshop</label>
+                                <label><input class="checkbox-inline" type="checkbox" name="typesOfClasses" value="1"> Lecture</label>
+                                <label><input class="checkbox-inline" type="checkbox" name="typesOfClasses" value="2"> Tutorial</label>
+                                <label><input class="checkbox-inline" type="checkbox" name="typesOfClasses" value="3"> Lab</label>
+                                <label><input class="checkbox-inline" type="checkbox" name="typesOfClasses" value="4"> Workshop</label>
                             </div>
                         </div>
 
@@ -85,13 +86,13 @@
                             <label for="hoursOfClasses">Hours of classes</label>
                             <blockquote>
                                 <label>Lecture:</label>
-                                <input type="number" style="margin-bottom: 5px;" class="form-control input-group col-md-4" step="0.1" min="1" name="lectureHours" id="lectureHours" /><br/>
+                                <input type="number" style="margin-bottom: 5px;" class="form-control input-group col-md-4" step="0.1" min="1" name="lectureHours" value="0" placeholder="0" id="lectureHours" /><br/>
                                 <label>Tutorial:</label>
-                                <input type="number" style="margin-bottom: 5px" class="form-control input-group col-md-4" step="0.1" min="1" name="tutorialHours" /><br/>
+                                <input type="number" style="margin-bottom: 5px" class="form-control input-group col-md-4" step="0.1" min="1" name="tutorialHours" value="0" placeholder="0"  /><br/>
                                 <label>Workshop:</label>
-                                <input type="number" style="margin-bottom: 5px" class="form-control input-group col-md-4" step="0.1" min="1" name="workshopHours" /><br/>
+                                <input type="number" style="margin-bottom: 5px" class="form-control input-group col-md-4" step="0.1" min="1" name="workshopHours" value="0" placeholder="0"  /><br/>
                                 <label>Lab:</label>
-                                <input type="number" style="margin-bottom: 5px" class="form-control input-group col-md-4" step="0.1" min="1" name="labHours" />
+                                <input type="number" style="margin-bottom: 5px" class="form-control input-group col-md-4" step="0.1" min="1" name="labHours" value="0" placeholder="0"  />
                             </blockquote>
                         </div>
                         <div>
@@ -104,7 +105,7 @@
             <!-- END OF ROW -->
         </div>
         <!-- CONTAINER ENDS HERE -->
-        
+
         <!-- A FOOTER -->
         <%@include file="includes/footer.html" %>
     </body>
