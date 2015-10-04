@@ -1,6 +1,7 @@
 package com.nikesh.scheduler.controller;
 
 import com.nikesh.scheduler.dao.LoginDAO;
+import com.nikesh.scheduler.service.LoginService;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
@@ -35,10 +36,10 @@ public class LoginController extends HttpServlet {
         String u = request.getParameter("username");
         String p = request.getParameter("password");
 
-        LoginDAO dao = new LoginDAO();
+        LoginService service = new LoginService();
 
         try {
-            if (dao.validate(u, p)) { // if username and password is correct.
+            if (service.validate(u, p)) { // if username and password is correct.
                 /**
                  * Setting session *
                  */

@@ -5,8 +5,6 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -15,8 +13,6 @@ import java.util.logging.Logger;
 public class DatabaseTool {
     
     private static Connection connection;
-    private PreparedStatement preparedStatement;
-    private ResultSet resultSet;
     
     public DatabaseTool() {
         
@@ -41,17 +37,13 @@ public class DatabaseTool {
     }
     
     public static ResultSet executeQuery(PreparedStatement statement) throws SQLException{
-        ResultSet rs = null;
-        rs = statement.executeQuery();
+        ResultSet rs = statement.executeQuery();
         return rs;
     }
     
     
     public static int updateQuery(PreparedStatement statement) throws SQLException{
-        int status = 0;
-        
-        status = statement.executeUpdate();
-        
+        int status = statement.executeUpdate();        
         return status;
     }
     

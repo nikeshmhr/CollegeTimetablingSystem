@@ -8,6 +8,10 @@
         <servlet-name>LogoutController</servlet-name>
         <servlet-class>com.nikesh.scheduler.controller.LogoutController</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>AddModuleController</servlet-name>
+        <servlet-class>com.nikesh.scheduler.controller.AddModuleController</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>LoginController</servlet-name>
         <url-pattern>/LoginController</url-pattern>
@@ -15,6 +19,10 @@
     <servlet-mapping>
         <servlet-name>LogoutController</servlet-name>
         <url-pattern>/LogoutController</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AddModuleController</servlet-name>
+        <url-pattern>/AddModuleController</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
