@@ -12,4 +12,8 @@ public class Lecture extends ClassType {
         super(1, "Lecture", hour);
     }
     
+    public Lecture(){
+        this(0);
+    }
+    
 }

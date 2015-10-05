@@ -4,33 +4,32 @@
     Author     : Nikesh
 --%>
 
+<%@page import="java.sql.ResultSet"%>
+<%@page import="java.sql.PreparedStatement"%>
+<%@page import="java.sql.Connection"%>
+<%@page import="com.nikesh.scheduler.util.DatabaseTool"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <%@include file="includes/headerInclude.html" %>
-        <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css" type="text/css" />
-        <link rel="stylesheet" href="styles/main.css" type="text/css" />
-        <script type="text/javascript" src="js/jquery.js"></script>
-        <script type="text/javascript" src="bootstrap/js/bootstrap.min.js"></script>
-        <link rel="shortcut icon" href="images/clock-icon.ico" />
         <title>Add Modules</title>
         <script type="text/javascript">
             $(document).ready(function () {
                 /** HIGHLIGHTS THE CURRENTLY ACTIVE NAVIGATION **/
                 $("#addResource").addClass("active");
             });
-            
+
             /** Check to see if everything is fine **/
             function validateAddModule() {
                 var checkedList = getCheckedClasses();
 
                 for (var i = 0; i < checkedList.length; i++) {
                     var checkedValue = checkedList[i];
-                    var checkedHourseValue = document.getElementById("classType"+checkedValue).value;
-                    if(checkedHourseValue <= 0){
-                        document.getElementById("classType"+checkedValue).focus();
+                    var checkedHourseValue = document.getElementById("classType" + checkedValue).value;
+                    if (checkedHourseValue <= 0) {
+                        document.getElementById("classType" + checkedValue).focus();
                         return false;
                     }
                 }
@@ -43,7 +42,7 @@
                 var i = document.getElementsByName("typesOfClasses");
                 var k = 0;
                 for (var j = 0; j < i.length; j++) {
-                    if (i[j].checked == true) {
+                    if (i[j].checked === true) {
                         checked[k++] = i[j].value;
                     }
                 }
@@ -52,9 +51,32 @@
         </script>
     </head>
     <body>
+        <%@include file="includes/functions.jsp" %>
+        <%
+           sessionCheck(request, response);
+        %>
         <!-- CONTAINER STARTS HERE -->
         <div class="container">
             <%@include file="includes/navigation.html" %>
+
+            <span <% if (request.getAttribute("addMessage") != null) {
+                    out.println("class=\"label label-danger\"");
+                }%> >
+                <%
+                    if (request.getAttribute("addMessage") == null) {
+                        out.println("");
+                    } else {
+                        out.println(request.getAttribute("addMessage"));
+                    }
+                %>
+            </span>
+
+            <%
+                Connection c = DatabaseTool.getConnection();
+                PreparedStatement s = c.prepareStatement("SELECT * FROM modules");
+                ResultSet rs = s.executeQuery();
+
+            %>
 
             <div class="row">
                 <!-- TABLE TO SHOW THE LIST OF ALREADY EXISTING MODULES -->
@@ -68,14 +90,29 @@
                             </tr>
                         </thead>
                         <tbody>
+                            <%              
+                                boolean isDataAvailable = false;
+                                while (rs.next()) {
+                                    isDataAvailable = true;
+                                    String moduleCode = rs.getString(1);
+                                    String moduleName = rs.getString(2);
+                            %>
+
                             <tr>
-                                <td>CC3005NI</td>
-                                <td>Software Engineering II</td>
+                                <td><%= (moduleCode)%></td>
+                                <td><%= (moduleName)%></td>
                             </tr>
-                            <tr>
+                            <% }%>
+                            
+                            <% 
+                              if(!isDataAvailable){
+                                  out.println("<tr><td colspan='2' align='center'>There are no modules.</td></tr>");
+                              }  
+                            %>
+                            <!--<tr>
                                 <td>CC3008NI</td>
                                 <td>Current Developments</td>
-                            </tr>
+                            </tr>-->
                         </tbody>
                     </table>
                 </div>

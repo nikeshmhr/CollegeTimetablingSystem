@@ -4,6 +4,9 @@
     Author     : Nikesh
 --%>
 
+<%@page import="com.nikesh.scheduler.dao.RetrieveResources"%>
+<%@page import="java.util.List"%>
+<%@page import="com.nikesh.scheduler.model.Classroom"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -18,9 +21,13 @@
         </script>
     </head>
     <body>
+        <%@include file="includes/functions.jsp" %>
+        <%
+            sessionCheck(request, response);
+        %>
         <div class="container">
             <%@include file="includes/navigation.html" %>
-            
+
             <table class="table table-striped">
                 <h2 class="text-primary" style="text-align: center">Edit Classrooms</h2>
                 <thead>
@@ -33,22 +40,27 @@
                     </tr>
                 </thead>
                 <tbody>
+                    <%
+                        List<Classroom> classrooms = RetrieveResources.getClassrooms();
+                        for (Classroom c : classrooms) {
+                    %>
                     <tr>
-                        <td>TR-102</td>
-                        <td>Keinsington Palace</td>
-                        <td>Lecture</td>
-                        <td>100</td>
+                        <td><%= (c.getRoomCode())%></td>
+                        <td><%= (c.getRoomName())%></td>
+                        <td><%= (c.getRoomType().getTypeName())%></td>
+                        <td><%= (c.getCapacity())%></td>
                         <td>
                             <a href="#"><span class="glyphicon glyphicon-edit" title="Edit"></span></a> 
                             | 
                             <a href="#"><span class="glyphicon glyphicon-remove" title="Delete"></span></a>
                         </td>
                     </tr>
+                    <% } %>
                 </tbody>
             </table>
         </div>
         <!-- END OF CONTAINER -->
-        
+
         <!-- A FOOTER -->
         <%@include file="includes/footer.html" %>
     </body>

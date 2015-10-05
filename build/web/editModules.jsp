@@ -4,6 +4,9 @@
     Author     : Nikesh
 --%>
 
+<%@page import="java.util.List"%>
+<%@page import="com.nikesh.scheduler.dao.RetrieveResources"%>
+<%@page import="com.nikesh.scheduler.model.Module"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -19,6 +22,10 @@
 
     </head>
     <body>
+        <%@include file="includes/functions.jsp" %>
+        <%
+           sessionCheck(request, response);
+        %>
         <div class="container">
             <%@include file="includes/navigation.html" %>
 
@@ -31,16 +38,22 @@
                         <th>Action</th>
                     </tr>
                 </thead>
+
                 <tbody>
+                    <% 
+                        List<Module> modules = RetrieveResources.getModules();
+                        for(Module m : modules){
+                    %>
                     <tr>
-                        <td>CC1210</td>
-                        <td>Introduction to Programming</td>
+                        <td><%= (m.getModuleCode()) %></td>
+                        <td><%= (m.getModuleName()) %></td>
                         <td>
-                            <a href="#"><span class="glyphicon glyphicon-edit" title="Edit"></span></a> 
+                            <a href="#moduleCode=<%= (m.getModuleCode())%> "><span class="glyphicon glyphicon-edit" title="Edit"></span></a> 
                             | 
                             <a href="#"><span class="glyphicon glyphicon-remove" title="Delete"></span></a>
                         </td>
                     </tr>
+                    <% } %>
                 </tbody>
             </table>
 

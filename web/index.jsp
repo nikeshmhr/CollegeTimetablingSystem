@@ -30,8 +30,6 @@
                 if (user != null && !user.toString().equals("")){
                     //System.out.println(user);
                     request.getRequestDispatcher("home.jsp").forward(request, response);
-                } else {
-                    out.println(user);
                 }
             %>
 

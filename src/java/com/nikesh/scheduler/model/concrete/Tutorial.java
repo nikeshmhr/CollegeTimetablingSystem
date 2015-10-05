@@ -17,4 +17,8 @@ public class Tutorial extends ClassType {
         super(2, "Tutorial", hour);
     }
     
+    public Tutorial(){
+        this(0);
+    }
+    
 }

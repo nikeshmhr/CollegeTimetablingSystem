@@ -4,6 +4,9 @@
     Author     : Nikesh
 --%>
 
+<%@page import="com.nikesh.scheduler.dao.RetrieveResources"%>
+<%@page import="java.util.List"%>
+<%@page import="com.nikesh.scheduler.model.Group"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -13,6 +16,12 @@
         <title>Edit Groups</title>
     </head>
     <body>
+        
+        <%@include file="includes/functions.jsp" %>
+        <%
+            sessionCheck(request, response);
+        %>
+        
         <div class="container">
             <%@include file="includes/navigation.html" %>
             
@@ -26,15 +35,20 @@
                     </tr>
                 </thead>
                 <tbody>
+                    <%
+                        List<Group> groups = RetrieveResources.getGroups();
+                        for (Group g : groups) {
+                    %>
                     <tr>
-                        <td>L2C1</td>
-                        <td>40</td>
+                        <td><%= (g.getGroupCode()) %></td>
+                        <td><%= (g.getNoOfStudents()) %></td>
                         <td>
                             <a href="#"><span class="glyphicon glyphicon-edit" title="Edit"></span></a> 
                             | 
                             <a href="#"><span class="glyphicon glyphicon-remove" title="Delete"></span></a>
                         </td>
                     </tr>
+                    <% } %>
                 </tbody>
             </table>
         </div>

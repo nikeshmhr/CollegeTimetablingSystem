@@ -4,6 +4,10 @@
     Author     : Nikesh
 --%>
 
+<%@page import="java.sql.ResultSet"%>
+<%@page import="java.sql.PreparedStatement"%>
+<%@page import="com.nikesh.scheduler.util.DatabaseTool"%>
+<%@page import="java.sql.Connection"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -23,9 +27,35 @@
         </script>
     </head>
     <body>
+
+        <%@include file="includes/functions.jsp" %>
+        <%
+           sessionCheck(request, response);
+        %>
+
         <!-- CONTAINER STARTS HERE -->
         <div class="container">
             <%@include file="includes/navigation.html" %>
+
+            <span 
+                <% if (request.getAttribute("message") != null) {
+                        out.println("class=\"label label-danger\"");
+                    }%> >
+                <%
+                    if (request.getAttribute("message") == null) {
+                        out.println("");
+                    } else {
+                        out.println(request.getAttribute("message"));
+                    }
+                %>
+            </span>
+
+            <%
+                Connection c = DatabaseTool.getConnection();
+                PreparedStatement s = c.prepareStatement("SELECT * FROM groups");
+                ResultSet rs = s.executeQuery();
+
+            %>
 
             <div class="row">
                 <!-- TABLE TO SHOW THE LIST OF ALREADY EXISTING GROUPS -->
@@ -39,14 +69,23 @@
                             </tr>
                         </thead>
                         <tbody>
+                            <%
+                                boolean isDataAvailable = false;
+                                while (rs.next()) {
+                                    isDataAvailable = true;
+                                    String code = rs.getString("groupCode");
+                                    int noOfStudents = rs.getInt("noOfStudents");
+                            %>
                             <tr>
-                                <td>L1C1</td>
-                                <td>32</td>
+                                <td><%= (code) %></td>
+                                <td><%= (noOfStudents) %></td>
                             </tr>
-                            <tr>
-                                <td>L3C4</td>
-                                <td>40</td>
-                            </tr>
+                            <% } %>
+                            <%
+                                if (!isDataAvailable) {
+                                    out.println("<tr><td colspan='4' align='center'>There are no classrooms.</td></tr>");
+                                }
+                            %>
                         </tbody>
                     </table>
                 </div>
@@ -54,7 +93,7 @@
                 <!-- START OF FORM TO ADD GROUPS -->
                 <div class="col-md-4 col-md-offset-1">
                     <h2 class="text-primary">Add new group</h2>
-                    <form action="#" method="post" role="form" onsubmit="return validateAddGroups()">
+                    <form action="AddGroupController" method="post" role="form" onsubmit="return validateAddGroups()">
                         <div class="form-group">
                             <label for="groupCode">Group Code</label>
                             <input type="text" name="groupCode" id="groupCode" class="form-control" maxlength="10" required />

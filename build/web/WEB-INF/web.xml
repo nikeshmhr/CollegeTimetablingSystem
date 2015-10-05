@@ -12,6 +12,18 @@
         <servlet-name>AddModuleController</servlet-name>
         <servlet-class>com.nikesh.scheduler.controller.AddModuleController</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>AddTeacherController</servlet-name>
+        <servlet-class>com.nikesh.scheduler.controller.AddTeacherController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>AddClassroomController</servlet-name>
+        <servlet-class>com.nikesh.scheduler.controller.AddClassroomController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>AddGroupController</servlet-name>
+        <servlet-class>com.nikesh.scheduler.controller.AddGroupController</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>LoginController</servlet-name>
         <url-pattern>/LoginController</url-pattern>
@@ -23,6 +35,18 @@
     <servlet-mapping>
         <servlet-name>AddModuleController</servlet-name>
         <url-pattern>/AddModuleController</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AddTeacherController</servlet-name>
+        <url-pattern>/AddTeacherController</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AddClassroomController</servlet-name>
+        <url-pattern>/AddClassroomController</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AddGroupController</servlet-name>
+        <url-pattern>/AddGroupController</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

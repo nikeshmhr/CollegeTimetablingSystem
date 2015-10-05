@@ -13,13 +13,9 @@
         <title>Scheduler</title>
     </head>
     <body>
+        <%@include file="includes/functions.jsp" %>
         <%
-            String user = (String) session.getAttribute("user");
-            if (user == null || user.equals("")) {
-                request.getRequestDispatcher("index.jsp").forward(request, response);
-            } else {
-                //out.println(user);
-            }
+           sessionCheck(request, response);
         %>
         <div class="container">
             <%@include file="includes/navigation.html" %>

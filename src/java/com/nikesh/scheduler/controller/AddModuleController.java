@@ -30,18 +30,31 @@ public class AddModuleController extends HttpServlet {
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
-     * @throws java.sql.SQLException
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException, SQLException {
+            throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
 
         Module m = getModuleParam(request, response);
 
+        /** Service class for add module functionality **/
         AddModuleService service = new AddModuleService();
-        int modifiedRows = service.addModule(m);
-        out.println(modifiedRows);
+        
+        int modifiedRows = 0;
+        try {
+            modifiedRows = service.addModule(m);
+            if (modifiedRows > 0) {
+                request.setAttribute("addMessage", "Module: " + m.getModuleName() + " added successfully.");
+            } else {
+                request.setAttribute("addMessage", "Module: " + m.getModuleName() + " was not added due to internal error.");
+            }
+            request.getRequestDispatcher("addModules.jsp").forward(request, response);
+        } catch (SQLException ex) {
+            request.setAttribute("addMessage", "Exception: " + ex.getMessage());
+            request.getRequestDispatcher("/addModules.jsp").forward(request, response);
+        }
+        //out.println(modifiedRows);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -56,11 +69,7 @@ public class AddModuleController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        try {
-            processRequest(request, response);
-        } catch (SQLException ex) {
-            System.out.println("Exception: " + ex.getMessage());
-        }
+        processRequest(request, response);
     }
 
     /**
@@ -74,11 +83,7 @@ public class AddModuleController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        try {
-            processRequest(request, response);
-        } catch (SQLException ex) {
-            System.out.println("Exception: " + ex.getMessage());
-        }
+        processRequest(request, response);
     }
 
     /**

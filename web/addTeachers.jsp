@@ -4,6 +4,10 @@
     Author     : Nikesh
 --%>
 
+<%@page import="java.sql.ResultSet"%>
+<%@page import="java.sql.PreparedStatement"%>
+<%@page import="java.sql.Connection"%>
+<%@page import="com.nikesh.scheduler.util.DatabaseTool"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -17,14 +21,51 @@
                 $("#addResource").addClass("active");
             });
             function validateAddTeachers() {
+                var values = document.getElementById("teacherName").value;
+                var regEx = /[^abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ,]/g;
+                var result = values.match(regEx);
 
+                /*var splited = values.split(",");
+                 
+                 for(var i = 0; i < splited.length; i++){
+                 document.write(splited[i] + "<br/>");
+                 }*/
+
+                if (result.length <= 0) { // VALID
+                    return true;
+                }
+                document.getElementById("errorMessage").innerHTML = "Invalid input. Only use alphabets, commas and spaces.";
+                return false;
             }
         </script>
     </head>
     <body>
-        
+        <%@include file="includes/functions.jsp" %>
+        <%
+            sessionCheck(request, response);
+        %>
         <div class="container">
             <%@include file="includes/navigation.html" %>
+
+            <span 
+                <% if (request.getAttribute("message") != null) {
+                        out.println("class=\"label label-danger\"");
+                    }%> >
+                <%
+                    if (request.getAttribute("message") == null) {
+                        out.println("");
+                    } else {
+                        out.println(request.getAttribute("message"));
+                    }
+                %>
+            </span>
+
+            <%
+                Connection c = DatabaseTool.getConnection();
+                PreparedStatement s = c.prepareStatement("SELECT * FROM teachers");
+                ResultSet rs = s.executeQuery();
+
+            %>
 
             <div class="row">
                 <!-- TABLE FOR LIST OF TEACHERS -->
@@ -33,29 +74,45 @@
                         <h2 class="text-primary">List of Teachers</h2>
                         <thead>
                             <tr>
+                                <th>ID</th>
                                 <th>Name</th>
                             </tr>
                         </thead>
                         <tbody>
+                            <%                                
+                                boolean isDataAvailable = false;
+                                while (rs.next()) {
+                                    isDataAvailable = true;
+                                    String teacherId = rs.getString("teacherId");
+                                    String teacherName = rs.getString("teacherName");
+                            %>
                             <tr>
-                                <td>Prakash Shrestha</td>
+                                <td><%= (teacherId)%></td>
+                                <td><%= (teacherName)%></td>
                             </tr>
-                            <tr>
-                                <td>Abhinav Dahal</td>
-                            </tr>
+                            <% } %>
+                            <%
+                                if (!isDataAvailable) {
+                                    out.println("<tr><td colspan='2' align='center'>There are no teachers.</td></tr>");
+                                }
+                            %>
                         </tbody>
                     </table>
                 </div>
                 <!-- END OF TABLE -->
-                
+
                 <!-- FORM TO ADD TEACHERS -->
                 <div class="col-md-4 col-md-offset-1">
                     <h2 class="text-primary">Add teachers</h2>
-                    <small style="font-size: 80%" class="text-danger">NOTE: Use comma seperate names to add multiple teachers at once.</small>
-                    <form action="#" method="post" role="form" onsubmit="return validateAddTeachers()">
+                    <small style="font-size: 80%" class="text-danger">NOTE: Use comma separate names and corresponding ids to add multiple teachers at once.</small>
+                    <form action="AddTeacherController" method="post" role="form" onsubmit="return validateAddTeachers();">
                         <div class="form-group">
                             <label for="teacherName">Name(s)</label>
-                            <input type="text" name="teacherName" id="teacherName" class="form-control" maxlength="200" required />
+                            <input type="text" name="teacherName" id="teacherName" class="form-control" maxlength="500" required />
+                        </div>
+                        <div class="form-group">
+                            <label for="teacherId">Id(s)</label>
+                            <input type="text" name="teacherId" id="teacherId" class="form-control" maxlength="500" required /><span class="text-danger" id="errorMessage"></span>
                         </div>
                         <div class="">
                             <input type="submit" name="addTeacher" value="Add" class="btn btn-success" />
@@ -67,7 +124,7 @@
             <!-- END OF ROW -->
         </div>
         <!-- END OF CONTAINER -->
-        
+
         <!-- A FOOTER -->
         <%@include file="includes/footer.html" %>
     </body>

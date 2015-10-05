@@ -17,4 +17,8 @@ public class Lab extends ClassType {
         super(3, "Lab", hours);
     }
     
+    public Lab(){
+        this(0);
+    }
+    
 }

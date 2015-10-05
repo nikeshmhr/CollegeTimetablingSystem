@@ -4,6 +4,12 @@
     Author     : Nikesh
 --%>
 
+<%@page import="com.nikesh.scheduler.factory.ClassTypeFactory"%>
+<%@page import="com.nikesh.scheduler.abstractor.ClassType"%>
+<%@page import="java.sql.ResultSet"%>
+<%@page import="java.sql.PreparedStatement"%>
+<%@page import="com.nikesh.scheduler.util.DatabaseTool"%>
+<%@page import="java.sql.Connection"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -23,10 +29,35 @@
         </script>
     </head>
     <body>
+        <%@include file="includes/functions.jsp" %>
+        <%
+           sessionCheck(request, response);
+        %>
+        
         <!-- CONTAINER STARTS HERE -->
         <div class="container">
             <%@include file="includes/navigation.html" %>
 
+            <span 
+                <% if (request.getAttribute("message") != null) {
+                        out.println("class=\"label label-danger\"");
+                    }%> >
+                <%
+                    if (request.getAttribute("message") == null) {
+                        out.println("");
+                    } else {
+                        out.println(request.getAttribute("message"));
+                    }
+                %>
+            </span>
+            
+            <%
+                Connection c = DatabaseTool.getConnection();
+                PreparedStatement s = c.prepareStatement("SELECT * FROM classrooms");
+                ResultSet rs = s.executeQuery();
+
+            %>
+            
             <div class="row">
                 <!-- TABLE TO SHOW THE LIST OF ALREADY EXISTING CLASSROOMS -->
                 <div class="col-md-5">
@@ -41,18 +72,27 @@
                             </tr>
                         </thead>
                         <tbody>
+                            <%                                
+                                boolean isDataAvailable = false;
+                                while (rs.next()) {
+                                    isDataAvailable = true;
+                                    String roomCode = rs.getString("roomCode");
+                                    String roomName = rs.getString("roomName");
+                                    int roomCapacity = rs.getInt("roomCapacity");
+                                    String roomType = (String)ClassTypeFactory.getClassType(rs.getInt("typeId")).getTypeName();
+                            %>
                             <tr>
-                                <td>TR-10</td>
-                                <td>Westminister Palace</td>
-                                <td>Lecture</td>
-                                <td>100</td>
+                                <td><%= (roomCode)%></td>
+                                <td><%= (roomName)%></td>
+                                <td><%= (roomType)%></td>
+                                <td><%= (roomCapacity)%></td>
                             </tr>
-                            <tr>
-                                <td>TR-12</td>
-                                <td>Buckingham Palace</td>
-                                <td>Lecture</td>
-                                <td>100</td>
-                            </tr>
+                            <% } %>
+                            <%
+                                if (!isDataAvailable) {
+                                    out.println("<tr><td colspan='4' align='center'>There are no classrooms.</td></tr>");
+                                }
+                            %>
                         </tbody>
                     </table>
                 </div>
@@ -60,7 +100,7 @@
                 <!-- START OF FORM TO ADD CLASSROOMS -->
                 <div class="col-md-4 col-md-offset-1">
                     <h2 class="text-primary">Add new classroom</h2>
-                    <form action="#" method="post" role="form" onsubmit="return validateAddClassroom()">
+                    <form action="AddClassroomController" method="post" role="form" onsubmit="return validateAddClassroom()">
                         <div class="form-group">
                             <label for="classroomCode">Code</label>
                             <input type="text" name="classroomCode" id="classroomCode" class="form-control" maxlength="10" required />
@@ -73,15 +113,15 @@
                         <div class="form-group">
                             <label for="typeOfClassroom">Type of classroom</label>
                             <div class="radio">
-                                <label><input class="radio-inline" type="radio" name="typeOfClassroom" value="lecture" checked> Lecture</label>
-                                <label><input class="radio-inline" type="radio" name="typeOfClassroom" value="tutorial"> Tutorial</label>
-                                <label><input class="radio-inline" type="radio" name="typeOfClassroom" value="lab"> Lab</label>
-                                <label><input class="radio-inline" type="radio" name="typeOfClassroom" value="workshop"> Workshop</label>
+                                <label><input class="radio-inline" type="radio" name="typeOfClassroom" value="Lecture" checked> Lecture</label>
+                                <label><input class="radio-inline" type="radio" name="typeOfClassroom" value="Tutorial"> Tutorial</label>
+                                <label><input class="radio-inline" type="radio" name="typeOfClassroom" value="Lab"> Lab</label>
+                                <label><input class="radio-inline" type="radio" name="typeOfClassroom" value="Workshop"> Workshop</label>
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="classroomCapacity">Capacity</label>
-                            <input class="form-control" type="number" name="classroomCapacity" min="10" required />
+                            <input class="form-control" type="number" value="10" name="classroomCapacity" min="10" required />
                         </div>
                         <div>
                             <input type="submit" name="addClassroom" value="Add" class="btn btn-success" />

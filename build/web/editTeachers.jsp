@@ -4,6 +4,9 @@
     Author     : Nikesh
 --%>
 
+<%@page import="com.nikesh.scheduler.dao.RetrieveResources"%>
+<%@page import="java.util.List"%>
+<%@page import="com.nikesh.scheduler.model.Teacher"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -18,6 +21,10 @@
         </script>
     </head>
     <body>
+        <%@include file="includes/functions.jsp" %>
+        <%
+           sessionCheck(request, response);
+        %>
         <div class="container">
             <%@include file="includes/navigation.html" %>
             
@@ -30,14 +37,19 @@
                     </tr>
                 </thead>
                 <tbody>
+                    <% 
+                        List<Teacher> teachers = RetrieveResources.getTeachers();
+                        for(Teacher t : teachers){
+                    %>
                     <tr>
-                        <td>Abhinav Dahal</td>
+                        <td><%= (t.getTeacherName())%></td>
                         <td>
-                            <a href="#"><span class="glyphicon glyphicon-edit" title="Edit"></span></a> 
+                            <a href="#<%= (t.getTeacherId())%>"><span class="glyphicon glyphicon-edit" title="Edit"></span></a> 
                             | 
                             <a href="#"><span class="glyphicon glyphicon-remove" title="Delete"></span></a>
                         </td>
                     </tr>
+                    <% } %>
                 </tbody>
             </table>
         </div>

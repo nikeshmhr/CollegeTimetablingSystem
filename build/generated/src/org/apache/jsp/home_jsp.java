@@ -3,17 +3,37 @@ package org.apache.jsp;
 import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.jsp.*;
+import java.io.IOException;
 
 public final class home_jsp extends org.apache.jasper.runtime.HttpJspBase
     implements org.apache.jasper.runtime.JspSourceDependent {
+
+
+    void sessionCheck(HttpServletRequest request, HttpServletResponse response)throws ServletException, IOException{
+        response.setHeader("Cache-Control", "no-cache"); //Forces caches to obtain a new copy of the page from the origin server
+            response.setHeader("Cache-Control", "no-store"); //Directs caches not to store the page under any circumstance
+            response.setDateHeader("Expires", 0); //Causes the proxy cache to see the page as "stale"
+            response.setHeader("Pragma", "no-cache"); //HTTP 1.0 backward compatibility
+            /**
+             * CHECK IF SESSION EXISTS *
+             */
+            HttpSession session = request.getSession(false);
+            String user = (String) session.getAttribute("user");
+            if (user == null || user.equals("")) {
+                request.getRequestDispatcher("index.jsp").forward(request, response);
+            } else {
+                //out.println(user);
+            }
+    }
 
   private static final JspFactory _jspxFactory = JspFactory.getDefaultFactory();
 
   private static java.util.List<String> _jspx_dependants;
 
   static {
-    _jspx_dependants = new java.util.ArrayList<String>(3);
+    _jspx_dependants = new java.util.ArrayList<String>(4);
     _jspx_dependants.add("/includes/headerInclude.html");
+    _jspx_dependants.add("/includes/functions.jsp");
     _jspx_dependants.add("/includes/navigation.html");
     _jspx_dependants.add("/includes/footer.html");
   }
@@ -60,78 +80,67 @@ public final class home_jsp extends org.apache.jasper.runtime.HttpJspBase
       out.write("<link rel=\"stylesheet\" href=\"styles/main.css\" type=\"text/css\" />\r\n");
       out.write("<script type=\"text/javascript\" src=\"js/jquery.js\"></script>\r\n");
       out.write("<script type=\"text/javascript\" src=\"bootstrap/js/bootstrap.min.js\"></script>\r\n");
-      out.write("<link rel=\"shortcut icon\" href=\"clock-icon.ico\" />");
+      out.write("<link rel=\"shortcut icon\" href=\"images/clock-icon.ico\" />");
       out.write("\n");
       out.write("        <title>Scheduler</title>\n");
       out.write("    </head>\n");
       out.write("    <body>\n");
       out.write("        ");
+      out.write('\n');
+      out.write("\n");
+      out.write("        ");
 
-            String user = (String) session.getAttribute("user");
-            if (user == null || user.equals("")) {
-                request.getRequestDispatcher("index.jsp").forward(request, response);
-            } else {
-                //out.println(user);
-            }
+           sessionCheck(request, response);
         
       out.write("\n");
       out.write("        <div class=\"container\">\n");
       out.write("            ");
-      out.write("<html>\r\n");
-      out.write("    <head>\r\n");
-      out.write("        <link rel=\"stylesheet\" href=\"../bootstrap/css/bootstrap.min.css\" />\r\n");
-      out.write("        <link rel=\"stylesheet\" href=\"../styles/main.css\"/>\r\n");
-      out.write("        <script src=\"../bootstrap/js/bootstrap.min.js\"></script>\r\n");
-      out.write("        <script src=\"../js/jquery.js\"></script>\r\n");
-      out.write("    </head>\r\n");
-      out.write("    <body>\r\n");
-      out.write("        <div class=\"navbar navbar-inverse\">\r\n");
-      out.write("            <div class=\"container-fluid\">\r\n");
-      out.write("                <div class=\"navbar-header\">\r\n");
-      out.write("                    <button type=\"button\" \r\n");
-      out.write("                            class=\"navbar-toggle\"\r\n");
-      out.write("                            data-toggle=\"collapse\" \r\n");
-      out.write("                            data-target=\"#mynavbar-content\">\r\n");
-      out.write("                        <span  class=\"icon-bar\"></span>\r\n");
-      out.write("                        <span  class=\"icon-bar\"></span>\r\n");
-      out.write("                        <span  class=\"icon-bar\"></span>\r\n");
-      out.write("                    </button>\r\n");
-      out.write("                    <a class=\"navbar-brand\" href=\"home.jsp\" title=\"Home\"><span class=\"glyphicon glyphicon-home\"></span></a>\r\n");
-      out.write("                </div>\r\n");
-      out.write("                <div class=\"collapse navbar-collapse\" id=\"mynavbar-content\">\r\n");
-      out.write("                    <ul class=\"nav navbar-nav\">\r\n");
-      out.write("                        <li class=\"dropdown\" id=\"addResource\">\r\n");
-      out.write("                            <a class=\"dropdown-toggle\" data-toggle=\"dropdown\" href=\"#\">Add Resources<span class=\"caret\"></span></a>\r\n");
-      out.write("                            <ul class=\"dropdown-menu\">\r\n");
-      out.write("                                <li><a href=\"addModules.jsp\">Add Modules</a></li>\r\n");
-      out.write("                                <li><a href=\"addTeachers.jsp\">Add Teachers</a></li>\r\n");
-      out.write("                                <li><a href=\"addClassrooms.jsp\">Add Classrooms</a></li>\r\n");
-      out.write("                                <li><a href=\"addGroups.jsp\">Add Groups</a></li>\r\n");
-      out.write("                            </ul>\r\n");
-      out.write("                        </li>\r\n");
-      out.write("                        <li class=\"dropdown\" id=\"editResource\">\r\n");
-      out.write("                            <a class=\"dropdown-toggle\" data-toggle=\"dropdown\" href=\"#\">Edit Resources<span class=\"caret\"></span></a>\r\n");
-      out.write("                            <ul class=\"dropdown-menu\">\r\n");
-      out.write("                                <li><a href=\"editModules.jsp\">Edit Modules</a></li>\r\n");
-      out.write("                                <li><a href=\"editTeachers.jsp\">Edit Teachers</a></li>\r\n");
-      out.write("                                <li><a href=\"editClassrooms.jsp\">Edit Classrooms</a></li>\r\n");
-      out.write("                                <li><a href=\"editGroups.jsp\">Edit Groups</a></li>\r\n");
-      out.write("                            </ul>\r\n");
-      out.write("                        </li>\r\n");
-      out.write("                        <li class=\"dropdown\" id=\"addRelation\">\r\n");
-      out.write("                            <a class=\"dropdown-toggle\" data-toggle=\"dropdown\" href=\"#\">Add Relation<span class=\"caret\"></span></a>\r\n");
-      out.write("                            <ul class=\"dropdown-menu\">\r\n");
-      out.write("                                <li><a href=\"#\">Teacher-Module</a></li>\r\n");
-      out.write("                                <li><a href=\"#\">Group-Module</a></li>\r\n");
-      out.write("                            </ul>\r\n");
-      out.write("                        </li>\r\n");
-      out.write("                    </ul>\r\n");
-      out.write("                    <ul class=\"nav navbar-nav navbar-right\"><li><a href=\"LogoutController\" id=\"logout\">Logout</a></li></ul>\r\n");
-      out.write("                </div>\r\n");
-      out.write("            </div>\r\n");
+      out.write("\r\n");
+      out.write("<div class=\"navbar navbar-inverse\">\r\n");
+      out.write("    <div class=\"container-fluid\">\r\n");
+      out.write("        <div class=\"navbar-header\">\r\n");
+      out.write("            <button type=\"button\" \r\n");
+      out.write("                    class=\"navbar-toggle\"\r\n");
+      out.write("                    data-toggle=\"collapse\" \r\n");
+      out.write("                    data-target=\"#mynavbar-content\">\r\n");
+      out.write("                <span  class=\"icon-bar\"></span>\r\n");
+      out.write("                <span  class=\"icon-bar\"></span>\r\n");
+      out.write("                <span  class=\"icon-bar\"></span>\r\n");
+      out.write("            </button>\r\n");
+      out.write("            <a class=\"navbar-brand\" href=\"home.jsp\" title=\"Home\"><span class=\"glyphicon glyphicon-home\"></span></a>\r\n");
       out.write("        </div>\r\n");
-      out.write("    </body>\r\n");
-      out.write("</html>");
+      out.write("        <div class=\"collapse navbar-collapse\" id=\"mynavbar-content\">\r\n");
+      out.write("            <ul class=\"nav navbar-nav\">\r\n");
+      out.write("                <li class=\"dropdown\" id=\"addResource\">\r\n");
+      out.write("                    <a class=\"dropdown-toggle\" data-toggle=\"dropdown\" href=\"#\">Add Resources<span class=\"caret\"></span></a>\r\n");
+      out.write("                    <ul class=\"dropdown-menu\">\r\n");
+      out.write("                        <li><a href=\"addModules.jsp\">Add Modules</a></li>\r\n");
+      out.write("                        <li><a href=\"addTeachers.jsp\">Add Teachers</a></li>\r\n");
+      out.write("                        <li><a href=\"addClassrooms.jsp\">Add Classrooms</a></li>\r\n");
+      out.write("                        <li><a href=\"addGroups.jsp\">Add Groups</a></li>\r\n");
+      out.write("                    </ul>\r\n");
+      out.write("                </li>\r\n");
+      out.write("                <li class=\"dropdown\" id=\"editResource\">\r\n");
+      out.write("                    <a class=\"dropdown-toggle\" data-toggle=\"dropdown\" href=\"#\">Edit Resources<span class=\"caret\"></span></a>\r\n");
+      out.write("                    <ul class=\"dropdown-menu\">\r\n");
+      out.write("                        <li><a href=\"editModules.jsp\">Edit Modules</a></li>\r\n");
+      out.write("                        <li><a href=\"editTeachers.jsp\">Edit Teachers</a></li>\r\n");
+      out.write("                        <li><a href=\"editClassrooms.jsp\">Edit Classrooms</a></li>\r\n");
+      out.write("                        <li><a href=\"editGroups.jsp\">Edit Groups</a></li>\r\n");
+      out.write("                    </ul>\r\n");
+      out.write("                </li>\r\n");
+      out.write("                <li class=\"dropdown\" id=\"addRelation\">\r\n");
+      out.write("                    <a class=\"dropdown-toggle\" data-toggle=\"dropdown\" href=\"#\">Add Relation<span class=\"caret\"></span></a>\r\n");
+      out.write("                    <ul class=\"dropdown-menu\">\r\n");
+      out.write("                        <li><a href=\"#\">Teacher-Module</a></li>\r\n");
+      out.write("                        <li><a href=\"#\">Group-Module</a></li>\r\n");
+      out.write("                    </ul>\r\n");
+      out.write("                </li>\r\n");
+      out.write("            </ul>\r\n");
+      out.write("            <ul class=\"nav navbar-nav navbar-right\"><li><a href=\"LogoutController\" id=\"logout\">Logout</a></li></ul>\r\n");
+      out.write("        </div>\r\n");
+      out.write("    </div>\r\n");
+      out.write("</div>");
       out.write("\n");
       out.write("            <div class=\"jumbotron\">\n");
       out.write("                <h1>Scheduler</h1>\n");

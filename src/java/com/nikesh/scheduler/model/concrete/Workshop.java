@@ -17,4 +17,8 @@ public class Workshop extends ClassType {
         super(4, "Workshop", hour);
     }
     
+    public Workshop(){
+        this(0);
+    }
+    
 }
