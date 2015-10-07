@@ -25,6 +25,19 @@
         <div class="container">
             <%@include file="includes/navigation.html" %>
             
+            <span 
+                <% if (request.getAttribute("message") != null) {
+                        out.println("class=\"label label-danger\"");
+                    }%> >
+                <%
+                    if (request.getAttribute("message") == null) {
+                        out.println("");
+                    } else {
+                        out.println(request.getAttribute("message"));
+                    }
+                %>
+            </span>
+            
             <table class="table table-striped">
                 <h2 class="text-primary" style="text-align: center">Edit Groups</h2>
                 <thead>
@@ -43,9 +56,9 @@
                         <td><%= (g.getGroupCode()) %></td>
                         <td><%= (g.getNoOfStudents()) %></td>
                         <td>
-                            <a href="#"><span class="glyphicon glyphicon-edit" title="Edit"></span></a> 
+                            <a href="ModifyGroupController?action=edit&id=<%=(g.getGroupCode())%>"><span class="glyphicon glyphicon-edit" title="Edit"></span></a> 
                             | 
-                            <a href="#"><span class="glyphicon glyphicon-remove" title="Delete"></span></a>
+                            <a href="ModifyGroupController?action=delete&id=<%=(g.getGroupCode())%>"><span class="glyphicon glyphicon-remove" title="Delete"></span></a>
                         </td>
                     </tr>
                     <% } %>

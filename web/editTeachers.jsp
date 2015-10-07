@@ -28,6 +28,19 @@
         <div class="container">
             <%@include file="includes/navigation.html" %>
             
+            <span 
+                <% if (request.getAttribute("message") != null) {
+                        out.println("class=\"label label-danger\"");
+                    }%> >
+                <%
+                    if (request.getAttribute("message") == null) {
+                        out.println("");
+                    } else {
+                        out.println(request.getAttribute("message"));
+                    }
+                %>
+            </span>
+            
             <table class="table table-striped">
                 <h2 class="text-primary" style="text-align: center">Edit Teachers</h2>
                 <thead>
@@ -44,9 +57,9 @@
                     <tr>
                         <td><%= (t.getTeacherName())%></td>
                         <td>
-                            <a href="#<%= (t.getTeacherId())%>"><span class="glyphicon glyphicon-edit" title="Edit"></span></a> 
+                            <a href="ModifyTeacherController?action=edit&id=<%= (t.getTeacherId())%>"><span class="glyphicon glyphicon-edit" title="Edit"></span></a> 
                             | 
-                            <a href="#"><span class="glyphicon glyphicon-remove" title="Delete"></span></a>
+                            <a href="ModifyTeacherController?action=delete&id=<%= (t.getTeacherId())%>"><span class="glyphicon glyphicon-remove" title="Delete"></span></a>
                         </td>
                     </tr>
                     <% } %>

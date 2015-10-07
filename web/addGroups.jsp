@@ -83,7 +83,7 @@
                             <% } %>
                             <%
                                 if (!isDataAvailable) {
-                                    out.println("<tr><td colspan='4' align='center'>There are no classrooms.</td></tr>");
+                                    out.println("<tr><td colspan='4' align='center'>There are no groups.</td></tr>");
                                 }
                             %>
                         </tbody>

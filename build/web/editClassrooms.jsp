@@ -21,6 +21,29 @@
         </script>
     </head>
     <body>
+        <!--<button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
+     Launch modal
+     </button>
+        <div class="modal fade" id="myModal">
+          <div class="modal-dialog">
+              <div class="modal-content">
+                 
+                  <div class="modal-header">
+                      <button type="button" class="close" data-dismiss="modal">&times;</button>
+                      <h4 class="modal-title">Welcome Back!</h4>
+                  </div>
+                  
+                  <div class="modal-body">
+                      <h1>Hello Readers!</h1>
+                  </div>
+                  
+                  <div class="modal-footer">
+                      <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                      <button type="button" class="btn btn-primary">Save changes</button>
+                  </div>
+              </div>
+          </div>
+      </div>-->
         <%@include file="includes/functions.jsp" %>
         <%
             sessionCheck(request, response);
@@ -28,6 +51,19 @@
         <div class="container">
             <%@include file="includes/navigation.html" %>
 
+            <span 
+                <% if (request.getAttribute("message") != null) {
+                        out.println("class=\"label label-danger\"");
+                    }%> >
+                <%
+                    if (request.getAttribute("message") == null) {
+                        out.println("");
+                    } else {
+                        out.println(request.getAttribute("message"));
+                    }
+                %>
+            </span>
+            
             <table class="table table-striped">
                 <h2 class="text-primary" style="text-align: center">Edit Classrooms</h2>
                 <thead>
@@ -50,9 +86,9 @@
                         <td><%= (c.getRoomType().getTypeName())%></td>
                         <td><%= (c.getCapacity())%></td>
                         <td>
-                            <a href="#"><span class="glyphicon glyphicon-edit" title="Edit"></span></a> 
+                            <a href="ModifyClassroomController?action=edit&id=<%= (c.getRoomCode()) %>"><span class="glyphicon glyphicon-edit" title="Edit"></span></a> 
                             | 
-                            <a href="#"><span class="glyphicon glyphicon-remove" title="Delete"></span></a>
+                            <a href="ModifyClassroomController?action=delete&id=<%= (c.getRoomCode()) %>"><span class="glyphicon glyphicon-remove" title="Delete"></span></a>
                         </td>
                     </tr>
                     <% } %>
