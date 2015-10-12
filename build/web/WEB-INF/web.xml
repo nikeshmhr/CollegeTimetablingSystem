@@ -40,6 +40,10 @@
         <servlet-name>ModifyModuleController</servlet-name>
         <servlet-class>com.nikesh.scheduler.controller.ModifyModuleController</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>TeacherModuleController</servlet-name>
+        <servlet-class>com.nikesh.scheduler.controller.TeacherModuleController</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>LoginController</servlet-name>
         <url-pattern>/LoginController</url-pattern>
@@ -79,6 +83,10 @@
     <servlet-mapping>
         <servlet-name>ModifyModuleController</servlet-name>
         <url-pattern>/ModifyModuleController</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>TeacherModuleController</servlet-name>
+        <url-pattern>/TeacherModuleController</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
