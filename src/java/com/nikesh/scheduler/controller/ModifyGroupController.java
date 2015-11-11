@@ -30,24 +30,32 @@ public class ModifyGroupController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        
+
         PrintWriter out = response.getWriter();
-        
+
         RequestDispatcher dispatch = request.getRequestDispatcher("editGroups.jsp");
-        
+
         String groupCode = request.getParameter("id");
-        
+
         ModifyGroupService service = new ModifyGroupService();
-        
-        try {
-            service.deleteGroup(groupCode);
-            request.setAttribute("message", "Group: " + groupCode + " deleted successfully.");
-        } catch (SQLException ex) {
-            request.setAttribute("message", ex.getMessage());
-        }finally{
-            dispatch.forward(request, response);
+
+        String action = request.getParameter("action");
+        String groupId = request.getParameter("id");
+
+        if (action.equalsIgnoreCase("edit")) {
+            // Redirect to edit page
+        } else if (action.equalsIgnoreCase("delete")) {
+
+            try {
+                service.deleteGroup(groupCode);
+                request.setAttribute("message", "Group: " + groupCode + " deleted successfully.");
+            } catch (SQLException ex) {
+                request.setAttribute("message", ex.getMessage());
+            }
         }
-        
+
+        dispatch.forward(request, response);
+
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

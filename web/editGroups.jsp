@@ -62,6 +62,12 @@
                         </td>
                     </tr>
                     <% } %>
+                    
+                    <% if(groups == null || groups.isEmpty()){ %> 
+                    <tr>
+                        <td colspan="3" style="text-align: center;">There are no groups.</td>
+                    </tr>
+                    <% } %>
                 </tbody>
             </table>
         </div>

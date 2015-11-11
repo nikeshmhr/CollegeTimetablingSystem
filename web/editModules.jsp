@@ -67,6 +67,12 @@
                         </td>
                     </tr>
                     <% } %>
+                    
+                    <% if(modules == null || modules.isEmpty()){%>
+                    <tr>
+                        <td colspan="3" style="text-align: center">There are no modules.</td>
+                    </tr>
+                    <% } %>
                 </tbody>
             </table>
 

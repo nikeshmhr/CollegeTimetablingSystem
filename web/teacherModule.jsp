@@ -35,7 +35,8 @@
         <div class="container">
             <%@include file="includes/navigation.html" %>
 
-            <span 
+            <!-- DISPLAYS ANY MESSAGE PASSED WITH 'message' ATTRIBUTE -->
+            <span
                 <% if (request.getAttribute("message") != null) {
                         out.println("class=\"label label-danger\"");
                     }%> >
@@ -94,10 +95,10 @@
                             <select name="moduleId" required class="form-control" multiple="multiple">
                                 <%
                                     List<Module> modules = RetrieveResources.getModules();
-                                    for(Module module : modules){
+                                    for (Module module : modules) {
                                 %>
-                                    <option value="<%= (module.getModuleCode()) %>"><%= (module.getModuleName()) %></option>
-                                <% } %>
+                                <option value="<%= (module.getModuleCode())%>"><%= (module.getModuleName())%></option>
+                                <% }%>
                             </select>
                         </div>
                         <div>

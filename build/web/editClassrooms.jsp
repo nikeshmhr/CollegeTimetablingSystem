@@ -92,6 +92,12 @@
                         </td>
                     </tr>
                     <% } %>
+                    
+                    <% if(classrooms == null || classrooms.isEmpty()){%> 
+                    <tr>
+                        <td colspan="5" style="text-align:center">There are no classrooms.</td>
+                    </tr>
+                    <%}%>
                 </tbody>
             </table>
         </div>
