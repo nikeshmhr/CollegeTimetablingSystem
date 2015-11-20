@@ -3,6 +3,7 @@
     Created on : Oct 7, 2015, 7:03:37 AM
     Author     : Nikesh
 --%>
+<%@page import="com.nikesh.scheduler.abstractor.ClassType"%>
 <%@page import="com.nikesh.scheduler.model.Module"%>
 <%@page import="java.util.List"%>
 <%@page import="com.nikesh.scheduler.model.Teacher"%>
@@ -31,9 +32,12 @@
             sessionCheck(request, response);
         %>
 
+
         <!-- CONTAINER STARTS HERE -->
         <div class="container">
             <%@include file="includes/navigation.html" %>
+
+            <h1 class="text-success">Teacher Module Relation</h1>
 
             <!-- DISPLAYS ANY MESSAGE PASSED WITH 'message' ATTRIBUTE -->
             <span
@@ -92,13 +96,27 @@
 
                         <div class="form-group">
                             <label for="modulesList">Select Modules: </label>
-                            <select name="moduleId" required class="form-control" multiple="multiple">
+                            <select name="moduleId" size="10" required class="form-control" multiple="multiple">
                                 <%
                                     List<Module> modules = RetrieveResources.getModules();
+                                    if(modules == null || modules.isEmpty()){
+                                        out.println("<option disabled=''>No modules.</option>");
+                                    }
                                     for (Module module : modules) {
                                 %>
-                                <option value="<%= (module.getModuleCode())%>"><%= (module.getModuleName())%></option>
-                                <% }%>
+                                <optgroup label="<%= (module.getModuleName() + " (" + module.getModuleCode() + ")")%>">
+                                    <%
+                                        List<ClassType> classTypes = RetrieveResources.getClassTypesForModule(module.getModuleCode());
+                                        for (ClassType type : classTypes) {
+                                    %>
+                                    <option value="<%= module.getModuleCode() + "_" + type.getTypeId()%>"><%= type.getTypeName() + " (" + type.getClassHours() + ")"%></option>
+                                    <%
+                                        }
+                                    %>
+                                </optgroup>
+                                <%
+                                    }
+                                %>
                             </select>
                         </div>
                         <div>

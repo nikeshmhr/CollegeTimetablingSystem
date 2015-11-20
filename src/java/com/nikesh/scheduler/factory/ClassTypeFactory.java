@@ -44,4 +44,28 @@ public class ClassTypeFactory {
         return null;
     }
     
+    /* MIGHT NOT NEED THIS METHOD 
+    public static String getTypeName(int typeId){
+        String typeName = "";
+        
+        switch(typeId){
+            case 1:
+                typeName = "Lecture";
+                break;
+                
+            case 2:
+                typeName = "Tutorial";
+                break;
+                
+            case 3:
+                typeName = "Lab";
+                break;
+                
+            case 4:
+                typeName = "Workshop";
+                break;
+        }
+        return typeName;
+    }
+    */
 }

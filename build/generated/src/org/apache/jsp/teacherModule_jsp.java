@@ -3,6 +3,7 @@ package org.apache.jsp;
 import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.jsp.*;
+import com.nikesh.scheduler.abstractor.ClassType;
 import com.nikesh.scheduler.model.Module;
 import java.util.List;
 import com.nikesh.scheduler.model.Teacher;
@@ -13,21 +14,21 @@ public final class teacherModule_jsp extends org.apache.jasper.runtime.HttpJspBa
     implements org.apache.jasper.runtime.JspSourceDependent {
 
 
-    void sessionCheck(HttpServletRequest request, HttpServletResponse response)throws ServletException, IOException{
+    void sessionCheck(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setHeader("Cache-Control", "no-cache"); //Forces caches to obtain a new copy of the page from the origin server
-            response.setHeader("Cache-Control", "no-store"); //Directs caches not to store the page under any circumstance
-            response.setDateHeader("Expires", 0); //Causes the proxy cache to see the page as "stale"
-            response.setHeader("Pragma", "no-cache"); //HTTP 1.0 backward compatibility
-            /**
-             * CHECK IF SESSION EXISTS *
-             */
-            HttpSession session = request.getSession(false);
-            String user = (String) session.getAttribute("user");
-            if (user == null || user.equals("")) {
-                request.getRequestDispatcher("index.jsp").forward(request, response);
-            } else {
-                //out.println(user);
-            }
+        response.setHeader("Cache-Control", "no-store"); //Directs caches not to store the page under any circumstance
+        response.setDateHeader("Expires", 0); //Causes the proxy cache to see the page as "stale"
+        response.setHeader("Pragma", "no-cache"); //HTTP 1.0 backward compatibility
+        /**
+         * CHECK IF SESSION EXISTS *
+         */
+        HttpSession session = request.getSession(false);
+        String user = (String) session.getAttribute("user");
+        if (user == null || user.equals("")) {
+            request.getRequestDispatcher("index.jsp").forward(request, response);
+        } else {
+            //out.println(user);
+        }
     }
 
   private static final JspFactory _jspxFactory = JspFactory.getDefaultFactory();
@@ -72,6 +73,7 @@ public final class teacherModule_jsp extends org.apache.jasper.runtime.HttpJspBa
       _jspx_out = out;
       _jspx_resourceInjector = (org.glassfish.jsp.api.ResourceInjector) application.getAttribute("com.sun.appserv.jsp.resource.injector");
 
+      out.write("\n");
       out.write("\n");
       out.write("\n");
       out.write("\n");
@@ -140,12 +142,12 @@ public final class teacherModule_jsp extends org.apache.jasper.runtime.HttpJspBa
       out.write("                    </ul>\r\n");
       out.write("                </li>\r\n");
       out.write("                <li class=\"dropdown\" id=\"editResource\">\r\n");
-      out.write("                    <a class=\"dropdown-toggle\" data-toggle=\"dropdown\" href=\"#\">Edit Resources<span class=\"caret\"></span></a>\r\n");
+      out.write("                    <a class=\"dropdown-toggle\" data-toggle=\"dropdown\" href=\"#\">Modify Resources<span class=\"caret\"></span></a>\r\n");
       out.write("                    <ul class=\"dropdown-menu\">\r\n");
-      out.write("                        <li><a href=\"editModules.jsp\">Edit Modules</a></li>\r\n");
-      out.write("                        <li><a href=\"editTeachers.jsp\">Edit Teachers</a></li>\r\n");
-      out.write("                        <li><a href=\"editClassrooms.jsp\">Edit Classrooms</a></li>\r\n");
-      out.write("                        <li><a href=\"editGroups.jsp\">Edit Groups</a></li>\r\n");
+      out.write("                        <li><a href=\"editModules.jsp\">Modify Modules</a></li>\r\n");
+      out.write("                        <li><a href=\"editTeachers.jsp\">Modify Teachers</a></li>\r\n");
+      out.write("                        <li><a href=\"editClassrooms.jsp\">Modify Classrooms</a></li>\r\n");
+      out.write("                        <li><a href=\"editGroups.jsp\">Modify Groups</a></li>\r\n");
       out.write("                    </ul>\r\n");
       out.write("                </li>\r\n");
       out.write("                <li class=\"dropdown\" id=\"addRelation\">\r\n");
@@ -162,7 +164,8 @@ public final class teacherModule_jsp extends org.apache.jasper.runtime.HttpJspBa
       out.write("</div>");
       out.write("\n");
       out.write("\n");
-      out.write("            <span \n");
+      out.write("            <!-- DISPLAYS ANY MESSAGE PASSED WITH 'message' ATTRIBUTE -->\n");
+      out.write("            <span\n");
       out.write("                ");
  if (request.getAttribute("message") != null) {
                         out.println("class=\"label label-danger\"");
@@ -231,21 +234,36 @@ public final class teacherModule_jsp extends org.apache.jasper.runtime.HttpJspBa
       out.write("\n");
       out.write("                        <div class=\"form-group\">\n");
       out.write("                            <label for=\"modulesList\">Select Modules: </label>\n");
-      out.write("                            <select name=\"moduleId\" required class=\"form-control\" multiple=\"multiple\">\n");
+      out.write("                            <select name=\"moduleId\" size=\"6\" required class=\"form-control\" multiple=\"multiple\">\n");
       out.write("                                ");
 
                                     List<Module> modules = RetrieveResources.getModules();
-                                    for(Module module : modules){
+                                    for (Module module : modules) {
                                 
       out.write("\n");
+      out.write("                                <optgroup label=\"");
+      out.print( (module.getModuleName() + " (" + module.getModuleCode() + ")"));
+      out.write("\">\n");
+      out.write("                                    ");
+
+                                        List<ClassType> classTypes = RetrieveResources.getClassTypesForModule(module.getModuleCode());
+                                        for (ClassType type : classTypes) {
+                                    
+      out.write("\n");
       out.write("                                    <option value=\"");
-      out.print( (module.getModuleCode()) );
+      out.print( module.getModuleCode() + "_" + type.getTypeId());
       out.write('"');
       out.write('>');
-      out.print( (module.getModuleName()) );
+      out.print( type.getTypeName() + " (" + type.getClassHours() +")" );
       out.write("</option>\n");
+      out.write("                                    ");
+
+                                        }
+                                    
+      out.write("\n");
+      out.write("                                </optgroup>\n");
       out.write("                                ");
- } 
+ }
       out.write("\n");
       out.write("                            </select>\n");
       out.write("                        </div>\n");

@@ -136,5 +136,23 @@ public class RetrieveResources {
         
         return modules;
     }
+    
+    public static List<ClassType> getClassTypesForModule(String moduleId) throws SQLException{
+        List<ClassType> classTypes = new ArrayList<ClassType>();
+        
+        connection = DatabaseTool.getConnection();
+        
+        PreparedStatement statement = connection.prepareStatement("SELECT * FROM module_classes WHERE moduleCode=?");
+        statement.setString(1, moduleId);
+        ResultSet rs = statement.executeQuery();
+        while(rs.next()){
+            int typeId = rs.getInt("typeId");
+            ClassType type = ClassTypeFactory.getClassType(typeId);
+            type.setClassHours(rs.getDouble("classHours"));
+            classTypes.add(type);
+        }
+        
+        return classTypes;
+    }
 
 }
