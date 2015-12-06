@@ -48,7 +48,7 @@ public class RetrieveResources {
         }
         return listOfModules;
     }
-    
+
     public static List<Teacher> getTeachers() throws SQLException {
         List<Teacher> teachers = new ArrayList<Teacher>();
 
@@ -61,6 +61,20 @@ public class RetrieveResources {
         }
 
         return teachers;
+    }
+
+    public static String getTeacherName(String teacherId) throws SQLException {
+        String teacherName = "";
+
+        connection = DatabaseTool.getConnection();
+        PreparedStatement statement = connection.prepareStatement("SELECT teacherName FROM teachers WHERE teacherId=?");
+        statement.setString(1, teacherId);
+
+        ResultSet rs = DatabaseTool.executeQuery(statement);
+
+        teacherName = rs.getString("teacherName");
+
+        return teacherName;
     }
 
     public static List<Classroom> getClassrooms() throws SQLException {
@@ -80,79 +94,115 @@ public class RetrieveResources {
 
     public static List<Group> getGroups() throws SQLException {
         List<Group> groups = new ArrayList<Group>();
-        
+
         connection = DatabaseTool.getConnection();
         PreparedStatement statement = connection.prepareStatement("SELECT * FROM groups");
         ResultSet rs = DatabaseTool.executeQuery(statement);
-        while(rs.next()){
+        while (rs.next()) {
             Group g = new Group(rs.getString("groupCode"), rs.getInt("noOfStudents"));
             groups.add(g);
         }
-        
+
         return groups;
-        
+
     }
-    
-    public static List<TeacherModule> getTeacherModules() throws SQLException {
-        List<TeacherModule> teacherModules = new ArrayList<TeacherModule>();
-        
+
+    /**
+     * Existing Identifier means the combination of module and class type that
+     * are already reserved
+     *
+     * @return
+     */
+    public static List<String> getExistingIdentifier() throws SQLException {
+        ArrayList<String> existingIdentifier = new ArrayList<String>();
+
         connection = DatabaseTool.getConnection();
-        PreparedStatement statement = connection.prepareStatement("SELECT * FROM teacher_modules");
+        PreparedStatement statement = connection.prepareStatement("SELECT identifier FROM teacher_modules");
         ResultSet rs = DatabaseTool.executeQuery(statement);
-        while(rs.next()){
-            TeacherModule teacherModule = new TeacherModule();
-            Teacher teacher = new Teacher();
-            List<Module> listOfModules = new ArrayList<Module>();
-            
-            String teacherId = rs.getString("teacherId");
-            
-            /** Extracting info about teacher **/
-            statement = connection.prepareStatement("SELECT * FROM teachers WHERE teacherId=?");
-            statement.setString(1, teacherId);
-            ResultSet teachersRs = statement.executeQuery();
-            while(teachersRs.next()){
-                teacher.setTeacherId(teachersRs.getString("teacherId"));
-                teacher.setTeacherName(teachersRs.getString("teacherName"));
-            }
-            
-            /** Extractig modules for specific teacher **/
-            
+        while (rs.next()) {
+            String identifier = rs.getString("identifier");
+            existingIdentifier.add(identifier);
         }
-        
-        return teacherModules;
+
+        return existingIdentifier;
     }
+    /*
+     public static List<TeacherModule> getTeacherModules() throws SQLException {
+     List<TeacherModule> teacherModules = new ArrayList<TeacherModule>();
+        
+     connection = DatabaseTool.getConnection();
+     PreparedStatement statement = connection.prepareStatement("SELECT * FROM teacher_modules");
+     ResultSet rs = DatabaseTool.executeQuery(statement);
+     while(rs.next()){
+     TeacherModule teacherModule = new TeacherModule();
+     Teacher teacher = new Teacher();
+     List<Module> listOfModules = new ArrayList<Module>();
+            
+     String teacherId = rs.getString("teacherId");
+            
+     // Extracting info about teacher 
+     statement = connection.prepareStatement("SELECT * FROM teachers WHERE teacherId=?");
+     statement.setString(1, teacherId);
+     ResultSet teachersRs = statement.executeQuery();
+     while(teachersRs.next()){
+     teacher.setTeacherId(teachersRs.getString("teacherId"));
+     teacher.setTeacherName(teachersRs.getString("teacherName"));
+     }
+            
+     // Extractig modules for specific teacher
+            
+     }
+        
+     return teacherModules;
+     }
     
-    public static List<Module> getModulesFromTeacherId(String teacherId) throws SQLException{
-        List<Module> modules = new ArrayList<Module>();
+     public static List<Module> getModulesFromTeacherId(String teacherId) throws SQLException{
+     List<Module> modules = new ArrayList<Module>();
         
-        connection = DatabaseTool.getConnection();
+     connection = DatabaseTool.getConnection();
         
-        PreparedStatement statement = connection.prepareStatement("SELECT moduleCode FROM teacher_modules WHERE teacherId=?");
-        statement.setString(1, teacherId);
-        ResultSet rs = statement.executeQuery();
-        while(rs.next()){
-            Module m = new Module();
-        }
+     PreparedStatement statement = connection.prepareStatement("SELECT moduleCode FROM teacher_modules WHERE teacherId=?");
+     statement.setString(1, teacherId);
+     ResultSet rs = statement.executeQuery();
+     while(rs.next()){
+     Module m = new Module();
+     }
         
-        return modules;
-    }
-    
-    public static List<ClassType> getClassTypesForModule(String moduleId) throws SQLException{
+     return modules;
+     }
+     */
+
+    public static List<ClassType> getClassTypesForModule(String moduleId) throws SQLException {
         List<ClassType> classTypes = new ArrayList<ClassType>();
-        
+
         connection = DatabaseTool.getConnection();
-        
+
         PreparedStatement statement = connection.prepareStatement("SELECT * FROM module_classes WHERE moduleCode=?");
         statement.setString(1, moduleId);
         ResultSet rs = statement.executeQuery();
-        while(rs.next()){
+        while (rs.next()) {
             int typeId = rs.getInt("typeId");
             ClassType type = ClassTypeFactory.getClassType(typeId);
             type.setClassHours(rs.getDouble("classHours"));
             classTypes.add(type);
         }
-        
+
         return classTypes;
     }
 
+    public static String getModuleName(String moduleCode) throws SQLException {
+        String moduleName = "";
+
+        connection = DatabaseTool.getConnection();
+        
+        PreparedStatement statement = connection.prepareStatement("SELECT moduleName FROM modules WHERE moduleCode=?");
+        statement.setString(1, moduleCode);
+        
+        ResultSet rs = DatabaseTool.executeQuery(statement);
+        
+        moduleName = rs.getString("moduleName");
+        
+        
+        return moduleName;
+    }
 }

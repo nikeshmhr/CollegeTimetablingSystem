@@ -20,9 +20,9 @@ public class Teacher {
         this(null, null);
     }
 
-    public Teacher(String name) {
+    /*public Teacher(String name) {
         this(null, name);
-    }
+    }*/
 
     public String getTeacherId() {
         return teacherId;

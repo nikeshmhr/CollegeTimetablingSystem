@@ -3,6 +3,17 @@ package org.apache.jsp;
 import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.jsp.*;
+import com.nikesh.scheduler.model.ModuleAndItsType;
+import com.nikesh.scheduler.model.TeacherModule;
+import com.nikesh.scheduler.factory.ClassTypeFactory;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Connection;
+import com.nikesh.scheduler.util.DatabaseTool;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.HashMap;
+import java.util.Map;
 import com.nikesh.scheduler.abstractor.ClassType;
 import com.nikesh.scheduler.model.Module;
 import java.util.List;
@@ -80,6 +91,17 @@ public final class teacherModule_jsp extends org.apache.jasper.runtime.HttpJspBa
       out.write("\n");
       out.write("\n");
       out.write("\n");
+      out.write("\n");
+      out.write("\n");
+      out.write("\n");
+      out.write("\n");
+      out.write("\n");
+      out.write("\n");
+      out.write("\n");
+      out.write("\n");
+      out.write("\n");
+      out.write("\n");
+      out.write("\n");
       out.write("<!DOCTYPE html>\n");
       out.write("<html>\n");
       out.write("    <head>\n");
@@ -110,6 +132,19 @@ public final class teacherModule_jsp extends org.apache.jasper.runtime.HttpJspBa
       out.write("        ");
 
             sessionCheck(request, response);
+        
+      out.write("\n");
+      out.write("\n");
+      out.write("\n");
+      out.write("        ");
+
+            /**
+             * LIST OF classes that was sent from this page before *
+             */
+            List<String> selectedClasses = new ArrayList<String>();
+            selectedClasses = (ArrayList) request.getAttribute("selectedClasses");
+
+            //out.println(selectedClasses);
         
       out.write("\n");
       out.write("\n");
@@ -164,6 +199,8 @@ public final class teacherModule_jsp extends org.apache.jasper.runtime.HttpJspBa
       out.write("</div>");
       out.write("\n");
       out.write("\n");
+      out.write("            <h1 class=\"h1 text-success\" style=\"text-align: center;\">Teacher Module Relation</h1>\n");
+      out.write("\n");
       out.write("            <!-- DISPLAYS ANY MESSAGE PASSED WITH 'message' ATTRIBUTE -->\n");
       out.write("            <span\n");
       out.write("                ");
@@ -182,6 +219,39 @@ public final class teacherModule_jsp extends org.apache.jasper.runtime.HttpJspBa
       out.write("\n");
       out.write("            </span>\n");
       out.write("\n");
+      out.write("            ");
+
+                Connection connection = DatabaseTool.getConnection();
+                PreparedStatement s = connection.prepareStatement("SELECT * FROM teacher_modules");
+                ResultSet rs = s.executeQuery();
+                List<TeacherModule> listOfTeacherModule = new ArrayList<TeacherModule>();
+                boolean isDataAvailable = false;
+                while(rs.next()){
+                    TeacherModule tM = new TeacherModule();
+                    
+                    Teacher t = new Teacher();
+                    t.setTeacherId(rs.getString("teacherId"));
+                    
+                    ModuleAndItsType moduleAndItsType = new ModuleAndItsType();
+                    
+                    Module m = new Module();
+                    m.setModuleCode(rs.getString("moduleCode"));
+                    ClassType classType = ClassTypeFactory.getClassType(rs.getInt("typeId"));
+                    String identifier = rs.getString("identifier");
+                    
+                    moduleAndItsType.setIdentifier(identifier);
+                    moduleAndItsType.setModule(m);
+                    moduleAndItsType.setTypeOfClass(classType);
+                    
+                    isDataAvailable = true;
+                    
+                    out.println("HI");
+                    
+                    listOfTeacherModule.add(tM);
+                }
+            
+      out.write("\n");
+      out.write("\n");
       out.write("            <div class=\"row\">\n");
       out.write("                <!-- TABLE TO SHOW THE LIST OF ALREADY EXISTING CLASSROOMS -->\n");
       out.write("                <div class=\"col-md-5\">\n");
@@ -191,17 +261,38 @@ public final class teacherModule_jsp extends org.apache.jasper.runtime.HttpJspBa
       out.write("                            <tr>\n");
       out.write("                                <th>Teacher ID</th>\n");
       out.write("                                <th>Teacher Name</th>\n");
-      out.write("                                <th>Module Name</th>\n");
+      out.write("                                <th>Module Name (Type)</th>\n");
+      out.write("                                <th>Action</th>\n");
       out.write("                            </tr>\n");
       out.write("                        </thead>\n");
       out.write("                        <tbody>\n");
+      out.write("                            ");
+                                
+                                for(TeacherModule teacherModule : listOfTeacherModule){                                    
+                                    /*String teacherId = "";//teacherModule.getTeacher().getTeacherId();
+                                    String teacherName = RetrieveResources.getTeacherName(teacherId);
+                                    String moduleCode = teacherModule.getListOfModulesAndItsType().get(0).getModule().getModuleCode();
+                                    String moduleName = RetrieveResources.getModuleName(moduleCode);
+                                    int typeId = teacherModule.getListOfModulesAndItsType().get(0).getTypeOfClass().getTypeId();
+                                    ClassType type = ClassTypeFactory.getClassType(typeId);
+                                    moduleName = moduleName + " (" + type.getTypeName() + ")";                                    
+                                    String identifier = teacherModule.getListOfModulesAndItsType().get(0).getIdentifier();*/
+                            
+      out.write("\n");
       out.write("                            <tr>\n");
-      out.write("                                <td>T123</td>\n");
-      out.write("                                <td>Nikesh</td>\n");
-      out.write("                                <td>\n");
-      out.write("                                    values\n");
-      out.write("                                </td>\n");
+      out.write("                                \n");
       out.write("                            </tr>\n");
+      out.write("                            ");
+ } 
+      out.write("\n");
+      out.write("                            \n");
+      out.write("                            ");
+ 
+                              if(!isDataAvailable){
+                                  out.println("<tr><td colspan='4' align='center'>There are no teacher module relation.</td></tr>");
+                              }  
+                            
+      out.write("\n");
       out.write("                        </tbody>\n");
       out.write("                    </table>\n");
       out.write("                </div>\n");
@@ -234,10 +325,14 @@ public final class teacherModule_jsp extends org.apache.jasper.runtime.HttpJspBa
       out.write("\n");
       out.write("                        <div class=\"form-group\">\n");
       out.write("                            <label for=\"modulesList\">Select Modules: </label>\n");
-      out.write("                            <select name=\"moduleId\" size=\"6\" required class=\"form-control\" multiple=\"multiple\">\n");
+      out.write("                            <select name=\"moduleId\" size=\"10\" required class=\"form-control\" multiple=\"multiple\">\n");
       out.write("                                ");
 
                                     List<Module> modules = RetrieveResources.getModules();
+                                    if (modules == null || modules.isEmpty()) {
+                                        out.println("<option disabled=''>No modules.</option>");
+                                    }
+                                    List<String> existingRelation = RetrieveResources.getExistingIdentifier();
                                     for (Module module : modules) {
                                 
       out.write("\n");
@@ -247,28 +342,42 @@ public final class teacherModule_jsp extends org.apache.jasper.runtime.HttpJspBa
       out.write("                                    ");
 
                                         List<ClassType> classTypes = RetrieveResources.getClassTypesForModule(module.getModuleCode());
+                                        String relationString = "";
                                         for (ClassType type : classTypes) {
+                                            relationString = module.getModuleCode() + "_" + type.getTypeId();
+                                            if (!existingRelation.contains(relationString)) {
+
                                     
       out.write("\n");
       out.write("                                    <option value=\"");
-      out.print( module.getModuleCode() + "_" + type.getTypeId());
+      out.print( relationString);
       out.write('"');
       out.write('>');
-      out.print( type.getTypeName() + " (" + type.getClassHours() +")" );
+      out.print( type.getTypeName() + " (" + type.getClassHours() + ")");
       out.write("</option>\n");
       out.write("                                    ");
 
+                                            }
                                         }
                                     
       out.write("\n");
       out.write("                                </optgroup>\n");
       out.write("                                ");
- }
+
+                                    }
+                                
       out.write("\n");
       out.write("                            </select>\n");
       out.write("                        </div>\n");
       out.write("                        <div>\n");
+      out.write("                            ");
+ if (!modules.isEmpty()
+                                        || modules != null) {
+      out.write("\n");
       out.write("                            <input type=\"submit\" name=\"createRelation\" value=\"Create\" class=\"btn btn-success\" />\n");
+      out.write("                            ");
+ }
+      out.write("\n");
       out.write("                        </div>\n");
       out.write("                    </form>\n");
       out.write("                </div>\n");

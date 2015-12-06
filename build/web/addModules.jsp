@@ -54,7 +54,7 @@
         <%@include file="includes/functions.jsp" %>
         <%
            sessionCheck(request, response);
-        %>
+        %>      
         <!-- CONTAINER STARTS HERE -->
         <div class="container">
             <%@include file="includes/navigation.html" %>

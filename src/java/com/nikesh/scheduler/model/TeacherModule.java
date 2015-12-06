@@ -1,5 +1,6 @@
 package com.nikesh.scheduler.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -9,15 +10,15 @@ import java.util.List;
 public class TeacherModule {
 
     private Teacher teacher;
-    private List<Module> listOfModules;
+    private List<ModuleAndItsType> listOfModulesAndItsType;
 
     public TeacherModule() {
-
+        this(null, new ArrayList<ModuleAndItsType>());
     }
 
-    public TeacherModule(Teacher teacher, List<Module> modules) {
+    public TeacherModule(Teacher teacher, List<ModuleAndItsType> listOfMAIT) {
         this.teacher = teacher;
-        this.listOfModules = modules;
+        this.listOfModulesAndItsType = listOfMAIT;
     }
 
     public Teacher getTeacher() {
@@ -28,12 +29,12 @@ public class TeacherModule {
         this.teacher = teacher;
     }
 
-    public List<Module> getListOfModules() {
-        return listOfModules;
+    public List<ModuleAndItsType> getListOfModulesAndItsType() {
+        return listOfModulesAndItsType;
     }
 
-    public void setListOfModules(List<Module> listOfModules) {
-        this.listOfModules = listOfModules;
+    public void setListOfModulesAndItsType(List<ModuleAndItsType> listOfModulesAndItsType) {
+        this.listOfModulesAndItsType = listOfModulesAndItsType;
     }
 
 }
