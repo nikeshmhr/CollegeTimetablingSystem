@@ -1,20 +1,25 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package com.nikesh.scheduler.controller;
 
-import com.nikesh.scheduler.service.LoginService;
+import com.nikesh.scheduler.dao.TeacherModuleDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 /**
  *
  * @author Nikesh
  */
-public class LoginController extends HttpServlet {
+public class DeleteTeacherModuleController extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -29,28 +34,26 @@ public class LoginController extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
-
-        String u = request.getParameter("username");
-        String p = request.getParameter("password");
-
-        LoginService service = new LoginService();
-
+        
+        System.out.println("HELLO");
+        
+        RequestDispatcher dispatch = request.getRequestDispatcher("teacherModule.jsp");
+        
+        /** Storing data from the view **/
+        String identifier = request.getParameter("id");
+        
+        TeacherModuleDAO teacherModuleDAO = new TeacherModuleDAO();
+        
         try {
-            if (service.validate(u, p)) { // if username and password is correct.
-                /**
-                 * Setting session *
-                 */
-                HttpSession session = request.getSession();
-                session.setAttribute("user", u);
-                session.setMaxInactiveInterval(24 * 60 * 60);
-                request.getRequestDispatcher("home.jsp").forward(request, response);
-            } else { // if incorrect add message and forward request and response to the index.jsp page.
-                request.setAttribute("message", "Username or password incorrect.");
-                request.getRequestDispatcher("index.jsp").forward(request, response);
+            if(teacherModuleDAO.deleteTeacherModuleRelation(identifier)){
+                request.setAttribute("message", "Relation deleted successfully.");
+            }else{
+                request.setAttribute("message", "Could not delete relation.");
             }
         } catch (SQLException ex) {
-            request.setAttribute("message", "Login failed.");
-            request.getRequestDispatcher("index.jsp").forward(request, response);
+            request.setAttribute("message", "Error while deleting relation.");
+        } finally{
+            dispatch.forward(request, response);
         }
     }
 

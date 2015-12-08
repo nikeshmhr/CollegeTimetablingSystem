@@ -80,37 +80,35 @@
                 ResultSet rs = s.executeQuery();
                 List<TeacherModule> listOfTeacherModule = new ArrayList<TeacherModule>();
                 boolean isDataAvailable = false;
-                while(rs.next()){
+                while (rs.next()) {
                     TeacherModule tM = new TeacherModule();
-                    
+
                     Teacher t = new Teacher();
                     t.setTeacherId(rs.getString("teacherId"));
-                    
+
                     ModuleAndItsType moduleAndItsType = new ModuleAndItsType();
-                    
+
                     Module m = new Module();
                     m.setModuleCode(rs.getString("moduleCode"));
                     ClassType classType = ClassTypeFactory.getClassType(rs.getInt("typeId"));
                     String identifier = rs.getString("identifier");
-                    
+
                     moduleAndItsType.setIdentifier(identifier);
                     moduleAndItsType.setModule(m);
                     moduleAndItsType.setTypeOfClass(classType);
-                    
+
                     isDataAvailable = true;
-                    
-                    out.println("HI");
-                    
+
                     tM.setTeacher(t);
                     tM.getListOfModulesAndItsType().add(moduleAndItsType);
-                    
+
                     listOfTeacherModule.add(tM);
                 }
             %>
 
             <div class="row">
                 <!-- TABLE TO SHOW THE LIST OF ALREADY EXISTING CLASSROOMS -->
-                <div class="col-md-5">
+                <div class="col-md-6">
                     <table class="table table-striped table-hover table-bordered table-responsive">
                         <h2 class="text-primary">Existing Relations</h2>
                         <thead>
@@ -122,29 +120,34 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <%                                
-                                for(TeacherModule teacherModule : listOfTeacherModule){                                    
+                            <%
+                                for (TeacherModule teacherModule : listOfTeacherModule) {
+
                                     String teacherId = teacherModule.getTeacher().getTeacherId();
                                     String teacherName = RetrieveResources.getTeacherName(teacherId);
+                                    //List<Teacher> listOfTeachers = RetrieveResources.getTeachers();
                                     String moduleCode = teacherModule.getListOfModulesAndItsType().get(0).getModule().getModuleCode();
                                     String moduleName = RetrieveResources.getModuleName(moduleCode);
                                     int typeId = teacherModule.getListOfModulesAndItsType().get(0).getTypeOfClass().getTypeId();
                                     ClassType type = ClassTypeFactory.getClassType(typeId);
-                                    moduleName = moduleName + " (" + type.getTypeName() + ")";                                    
+                                    moduleName = moduleName + " (" + type.getTypeName() + ")";
                                     String identifier = teacherModule.getListOfModulesAndItsType().get(0).getIdentifier();
+
+                                        //System.out.println("EXCEPTION FROM teacherModule.jsp " + exe.getMessage());
+
                             %>
                             <tr>
-                                <td><%= (teacherId) %></td>
-                                <td><%= (teacherName) %></td>
-                                <td><%= (moduleName) %></td>
-                                <td><a href="DeleteTeacherModuleController&id=<%= (identifier)%>"><span class="glyphicon glyphicon-remove" title="Delete"></span></a></td>
+                                <td><%= (teacherId)%></td>
+                                <td><%= (teacherName)%></td>
+                                <td><%= (moduleName)%></td>
+                                <td><a href="DeleteTeacherModuleController?id=<%= (identifier)%>"><span class="glyphicon glyphicon-remove" title="Delete"></span></a></td>
                             </tr>
                             <% } %>
-                            
-                            <% 
-                              if(!isDataAvailable){
-                                  out.println("<tr><td colspan='4' align='center'>There are no teacher module relation.</td></tr>");
-                              }  
+
+                            <%
+                                if (!isDataAvailable) {
+                                    out.println("<tr><td colspan='4' align='center'>There are no teacher module relation.</td></tr>");
+                                }
                             %>
                         </tbody>
                     </table>

@@ -28,7 +28,7 @@ public class DatabaseTool {
     private static void setConnection(){
         try {
             Class.forName("com.mysql.jdbc.Driver");
-            connection = DriverManager.getConnection("jdbc:mysql://localhost/scheduler", "user", "nikesh");
+            connection = DriverManager.getConnection("jdbc:mysql://localhost/scheduler", "root", "");
         } catch (ClassNotFoundException ex) {
             System.err.println(ex.getMessage());
         } catch (SQLException ex) {

@@ -1,0 +1,49 @@
+SMAP
+editModules_jsp.java
+JSP
+*S JSP
+*F
++ 0 editModules.jsp
+editModules.jsp
++ 1 headerInclude.html
+includes/headerInclude.html
++ 2 functions.jsp
+includes/functions.jsp
++ 3 navigation.html
+includes/navigation.html
++ 4 footer.html
+includes/footer.html
+*L
+5,11:74
+1#1,5:85
+15#0,11:90
+1#2:101
+3,17:15
+25#0,2:102
+27,2:105
+28,3:107
+1#3,46:110
+30#0,4:156
+33,3:160
+35,2:163
+37,6:166
+42,15:172
+57,3:188
+59,2:191
+61,2:193,3
+63:199
+64:200,3
+65:203
+66:204,3
+67,3:207
+70:210,3
+71,17:213
+88:230,3
+89:233
+90:234,3
+91,3:237
+94:240,3
+95,7:243
+1#4,3:250
+101#0,4:253
+*E

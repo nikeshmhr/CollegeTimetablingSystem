@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.text.DecimalFormat;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -36,23 +37,43 @@ public class AddModuleController extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
 
+        String dispatchLink = "";
+        String operation = request.getParameter("operation");
+
+        if (operation.equalsIgnoreCase("update")) {
+            dispatchLink = "editModule.jsp";
+        } else {
+            dispatchLink = "addModule.jsp";
+        }
+
         Module m = getModuleParam(request, response);
 
-        /** Service class for add module functionality **/
+        /**
+         * Service class for add module functionality *
+         */
         AddModuleService service = new AddModuleService();
-        
+
         int modifiedRows = 0;
         try {
-            modifiedRows = service.addModule(m);
-            if (modifiedRows > 0) {
-                request.setAttribute("addMessage", "Module: " + m.getModuleName() + " added successfully.");
-            } else {
-                request.setAttribute("addMessage", "Module: " + m.getModuleName() + " was not added due to internal error.");
+            if (!operation.equalsIgnoreCase("update")) {
+                modifiedRows = service.addModule(m);
+                if (modifiedRows > 0) {
+                    request.setAttribute("addMessage", "Module: " + m.getModuleName() + " added successfully.");
+                } else {
+                    request.setAttribute("addMessage", "Module: " + m.getModuleName() + " was not added due to internal error.");
+                }
+            } else if (operation.equalsIgnoreCase("update")) {
+                modifiedRows = service.updateModule(m);
+                if(modifiedRows > 0){
+                    request.setAttribute("message", "Module updated successfully.");
+                }else{
+                    request.setAttribute("message", "Module was not updated.");
+                }
             }
-            request.getRequestDispatcher("addModules.jsp").forward(request, response);
+            request.getRequestDispatcher(dispatchLink).forward(request, response);
         } catch (SQLException ex) {
             request.setAttribute("addMessage", "Exception: " + ex.getMessage());
-            request.getRequestDispatcher("/addModules.jsp").forward(request, response);
+            request.getRequestDispatcher(dispatchLink).forward(request, response);
         }
         //out.println(modifiedRows);
     }

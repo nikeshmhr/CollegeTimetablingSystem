@@ -226,27 +226,30 @@ public final class teacherModule_jsp extends org.apache.jasper.runtime.HttpJspBa
                 ResultSet rs = s.executeQuery();
                 List<TeacherModule> listOfTeacherModule = new ArrayList<TeacherModule>();
                 boolean isDataAvailable = false;
-                while(rs.next()){
+                while (rs.next()) {
                     TeacherModule tM = new TeacherModule();
-                    
+
                     Teacher t = new Teacher();
                     t.setTeacherId(rs.getString("teacherId"));
-                    
+
                     ModuleAndItsType moduleAndItsType = new ModuleAndItsType();
-                    
+
                     Module m = new Module();
                     m.setModuleCode(rs.getString("moduleCode"));
                     ClassType classType = ClassTypeFactory.getClassType(rs.getInt("typeId"));
                     String identifier = rs.getString("identifier");
-                    
+
                     moduleAndItsType.setIdentifier(identifier);
                     moduleAndItsType.setModule(m);
                     moduleAndItsType.setTypeOfClass(classType);
-                    
+
                     isDataAvailable = true;
-                    
+
                     out.println("HI");
-                    
+
+                    tM.setTeacher(t);
+                    tM.getListOfModulesAndItsType().add(moduleAndItsType);
+
                     listOfTeacherModule.add(tM);
                 }
             
@@ -267,30 +270,46 @@ public final class teacherModule_jsp extends org.apache.jasper.runtime.HttpJspBa
       out.write("                        </thead>\n");
       out.write("                        <tbody>\n");
       out.write("                            ");
-                                
-                                for(TeacherModule teacherModule : listOfTeacherModule){                                    
-                                    /*String teacherId = "";//teacherModule.getTeacher().getTeacherId();
-                                    String teacherName = RetrieveResources.getTeacherName(teacherId);
+
+                                for (TeacherModule teacherModule : listOfTeacherModule) {
+
+                                    String teacherId = teacherModule.getTeacher().getTeacherId();
+                                    String teacherName = "";//RetrieveResources.getTeacherName(teacherId);
+                                    List<Teacher> listOfTeachers = RetrieveResources.getTeachers();
                                     String moduleCode = teacherModule.getListOfModulesAndItsType().get(0).getModule().getModuleCode();
-                                    String moduleName = RetrieveResources.getModuleName(moduleCode);
+                                    String moduleName = "";//RetrieveResources.getModuleName(moduleCode);
                                     int typeId = teacherModule.getListOfModulesAndItsType().get(0).getTypeOfClass().getTypeId();
                                     ClassType type = ClassTypeFactory.getClassType(typeId);
-                                    moduleName = moduleName + " (" + type.getTypeName() + ")";                                    
-                                    String identifier = teacherModule.getListOfModulesAndItsType().get(0).getIdentifier();*/
+                                    moduleName = moduleName + " (" + type.getTypeName() + ")";
+                                    String identifier = teacherModule.getListOfModulesAndItsType().get(0).getIdentifier();
+
+                                        //System.out.println("EXCEPTION FROM teacherModule.jsp " + exe.getMessage());
+
                             
       out.write("\n");
       out.write("                            <tr>\n");
-      out.write("                                \n");
+      out.write("                                <td>");
+      out.print( (teacherId));
+      out.write("</td>\n");
+      out.write("                                <td>");
+      out.print( (teacherName));
+      out.write("</td>\n");
+      out.write("                                <td>");
+      out.print( (moduleName));
+      out.write("</td>\n");
+      out.write("                                <td><a href=\"DeleteTeacherModuleController&id=");
+      out.print( (identifier));
+      out.write("\"><span class=\"glyphicon glyphicon-remove\" title=\"Delete\"></span></a></td>\n");
       out.write("                            </tr>\n");
       out.write("                            ");
  } 
       out.write("\n");
-      out.write("                            \n");
+      out.write("\n");
       out.write("                            ");
- 
-                              if(!isDataAvailable){
-                                  out.println("<tr><td colspan='4' align='center'>There are no teacher module relation.</td></tr>");
-                              }  
+
+                                if (!isDataAvailable) {
+                                    out.println("<tr><td colspan='4' align='center'>There are no teacher module relation.</td></tr>");
+                                }
                             
       out.write("\n");
       out.write("                        </tbody>\n");

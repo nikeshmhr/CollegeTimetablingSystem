@@ -36,7 +36,7 @@
                 return true;
             }
 
-            /** Returns value of all the checked items **/
+            /** Returns value of all the checked items (currently) **/
             function getCheckedClasses() {
                 var checked = Array();
                 var i = document.getElementsByName("typesOfClasses");
@@ -135,9 +135,9 @@
                             <label for="classTypes">Types of classes</label>
                             <div class="checkbox">
                                 <label><input class="checkbox-inline" type="checkbox" name="typesOfClasses" value="1" checked onclick="getCheckedClasses();" required="true"> Lecture</label>
-                                <label><input class="checkbox-inline" type="checkbox" name="typesOfClasses" value="2" oncheck="getCheckedClasses();"> Tutorial</label>
+                                <label><input class="checkbox-inline" type="checkbox" name="typesOfClasses" value="2" onclick="getCheckedClasses();"> Tutorial</label>
                                 <label><input class="checkbox-inline" type="checkbox" name="typesOfClasses" value="3" onclick="getCheckedClasses();"> Lab</label>
-                                <label><input class="checkbox-inline" type="checkbox" name="typesOfClasses" value="4" onclick="getCheckedClasses();"> Workshop</label>
+                                <label><input class="checkbox-inline" type="checkbox" name="typesOfClasses" value="4" onclick="alert(getCheckedClasses());"> Workshop</label>
                             </div>
                         </div>
 

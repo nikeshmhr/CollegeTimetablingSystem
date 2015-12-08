@@ -69,14 +69,14 @@ public final class index_jsp extends org.apache.jasper.runtime.HttpJspBase
       out.write("            <!--<div class=\"col-md-3\">\n");
       out.write("                &nbsp;\n");
       out.write("            </div>-->\n");
-      out.write("\n");
+      out.write("            \n");
       out.write("            ");
 
                 response.setHeader("Cache-Control", "no-cache"); //Forces caches to obtain a new copy of the page from the origin server
                 response.setHeader("Cache-Control", "no-store"); //Directs caches not to store the page under any circumstance
                 response.setDateHeader("Expires", 0); //Causes the proxy cache to see the page as "stale"
                 response.setHeader("Pragma", "no-cache"); //HTTP 1.0 backward compatibility
-                
+
                 Object user = session.getAttribute("user");
                 if (user != null && !user.toString().equals("")){
                     //System.out.println(user);
@@ -87,7 +87,7 @@ public final class index_jsp extends org.apache.jasper.runtime.HttpJspBase
       out.write("\n");
       out.write("\n");
       out.write("            ");
-
+                
                 String message = "";
                 message = (String) request.getAttribute("message");
                 if (message == null) {
@@ -98,7 +98,7 @@ public final class index_jsp extends org.apache.jasper.runtime.HttpJspBase
       out.write("\n");
       out.write("            <!-- LOGIN FROM STARTS FROM HERE -->\n");
       out.write("            <div class=\"col-md-5 well col-md-offset-3 col-sm-5 col-sm-offset-3\" style=\"margin-top: 2%\">\n");
-      out.write("                <form action=\"LoginController\" method=\"post\" role=\"form\" style=\"padding: 20px;\">\n");
+      out.write("                <form action=\"Login\" method=\"post\" role=\"form\" style=\"padding: 20px;\">\n");
       out.write("\n");
       out.write("                    <h1 class=\"caption\" style=\"text-align: center\">Login</h1>\n");
       out.write("                    <div class=\"row\">\n");

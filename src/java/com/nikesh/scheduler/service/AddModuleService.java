@@ -19,5 +19,9 @@ public class AddModuleService {
     public int addModule(Module module) throws SQLException{
         return dao.addModule(module);
     }
+
+    public int updateModule(Module m) throws SQLException {
+        return dao.updateModule(m);
+    }
     
 }

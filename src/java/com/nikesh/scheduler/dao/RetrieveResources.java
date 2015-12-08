@@ -14,6 +14,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -54,7 +56,7 @@ public class RetrieveResources {
 
         connection = DatabaseTool.getConnection();
         PreparedStatement statement = connection.prepareStatement("SELECT * FROM teachers");
-        ResultSet rs = DatabaseTool.executeQuery(statement);
+        ResultSet rs = statement.executeQuery();
         while (rs.next()) {
             Teacher t = new Teacher(rs.getString("teacherId"), rs.getString("teacherName"));
             teachers.add(t);
@@ -70,10 +72,11 @@ public class RetrieveResources {
         PreparedStatement statement = connection.prepareStatement("SELECT teacherName FROM teachers WHERE teacherId=?");
         statement.setString(1, teacherId);
 
-        ResultSet rs = DatabaseTool.executeQuery(statement);
-
-        teacherName = rs.getString("teacherName");
-
+        ResultSet rs = statement.executeQuery();
+        while (rs.next()) {
+            teacherName = rs.getString("teacherName");
+            break;
+        }
         return teacherName;
     }
 
@@ -194,15 +197,17 @@ public class RetrieveResources {
         String moduleName = "";
 
         connection = DatabaseTool.getConnection();
-        
+
         PreparedStatement statement = connection.prepareStatement("SELECT moduleName FROM modules WHERE moduleCode=?");
         statement.setString(1, moduleCode);
-        
-        ResultSet rs = DatabaseTool.executeQuery(statement);
-        
-        moduleName = rs.getString("moduleName");
-        
-        
+
+        ResultSet resultSet = statement.executeQuery();
+
+        while (resultSet.next()) {
+            moduleName = resultSet.getString("moduleName");
+            break;
+        }
+
         return moduleName;
     }
 }
