@@ -5,6 +5,7 @@ import com.nikesh.scheduler.factory.ClassTypeFactory;
 import com.nikesh.scheduler.model.Classroom;
 import com.nikesh.scheduler.model.Group;
 import com.nikesh.scheduler.model.Module;
+import com.nikesh.scheduler.model.ModuleAndItsType;
 import com.nikesh.scheduler.model.Teacher;
 import com.nikesh.scheduler.model.TeacherModule;
 import com.nikesh.scheduler.util.DatabaseTool;
@@ -129,36 +130,40 @@ public class RetrieveResources {
 
         return existingIdentifier;
     }
+
+    public static List<TeacherModule> getTeacherModules() throws SQLException {
+        Connection connection = DatabaseTool.getConnection();
+        
+        List<TeacherModule> listOfTeacherModule = new ArrayList<TeacherModule>();
+        
+        PreparedStatement s = connection.prepareStatement("SELECT * FROM teacher_modules ORDER BY moduleCode, teacherId");
+        ResultSet rs = s.executeQuery();
+        
+        while (rs.next()) {
+            TeacherModule tM = new TeacherModule();
+
+            Teacher t = new Teacher();
+            t.setTeacherId(rs.getString("teacherId"));
+
+            ModuleAndItsType moduleAndItsType = new ModuleAndItsType();
+
+            Module m = new Module();
+            m.setModuleCode(rs.getString("moduleCode"));
+            ClassType classType = ClassTypeFactory.getClassType(rs.getInt("typeId"));
+            String identifier = rs.getString("identifier");
+
+            moduleAndItsType.setIdentifier(identifier);
+            moduleAndItsType.setModule(m);
+            moduleAndItsType.setTypeOfClass(classType);
+
+            tM.setTeacher(t);
+            tM.getListOfModulesAndItsType().add(moduleAndItsType);
+
+            listOfTeacherModule.add(tM);
+        }
+        return listOfTeacherModule;
+    }
     /*
-     public static List<TeacherModule> getTeacherModules() throws SQLException {
-     List<TeacherModule> teacherModules = new ArrayList<TeacherModule>();
-        
-     connection = DatabaseTool.getConnection();
-     PreparedStatement statement = connection.prepareStatement("SELECT * FROM teacher_modules");
-     ResultSet rs = DatabaseTool.executeQuery(statement);
-     while(rs.next()){
-     TeacherModule teacherModule = new TeacherModule();
-     Teacher teacher = new Teacher();
-     List<Module> listOfModules = new ArrayList<Module>();
-            
-     String teacherId = rs.getString("teacherId");
-            
-     // Extracting info about teacher 
-     statement = connection.prepareStatement("SELECT * FROM teachers WHERE teacherId=?");
-     statement.setString(1, teacherId);
-     ResultSet teachersRs = statement.executeQuery();
-     while(teachersRs.next()){
-     teacher.setTeacherId(teachersRs.getString("teacherId"));
-     teacher.setTeacherName(teachersRs.getString("teacherName"));
-     }
-            
-     // Extractig modules for specific teacher
-            
-     }
-        
-     return teacherModules;
-     }
-    
      public static List<Module> getModulesFromTeacherId(String teacherId) throws SQLException{
      List<Module> modules = new ArrayList<Module>();
         

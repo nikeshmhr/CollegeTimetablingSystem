@@ -75,40 +75,18 @@
             </span>
 
             <%
-                Connection connection = DatabaseTool.getConnection();
-                PreparedStatement s = connection.prepareStatement("SELECT * FROM teacher_modules");
-                ResultSet rs = s.executeQuery();
-                List<TeacherModule> listOfTeacherModule = new ArrayList<TeacherModule>();
+                
+                List<TeacherModule> listOfTeacherModule = RetrieveResources.getTeacherModules();
                 boolean isDataAvailable = false;
-                while (rs.next()) {
-                    TeacherModule tM = new TeacherModule();
-
-                    Teacher t = new Teacher();
-                    t.setTeacherId(rs.getString("teacherId"));
-
-                    ModuleAndItsType moduleAndItsType = new ModuleAndItsType();
-
-                    Module m = new Module();
-                    m.setModuleCode(rs.getString("moduleCode"));
-                    ClassType classType = ClassTypeFactory.getClassType(rs.getInt("typeId"));
-                    String identifier = rs.getString("identifier");
-
-                    moduleAndItsType.setIdentifier(identifier);
-                    moduleAndItsType.setModule(m);
-                    moduleAndItsType.setTypeOfClass(classType);
-
+                
+                if(!listOfTeacherModule.isEmpty()){
                     isDataAvailable = true;
-
-                    tM.setTeacher(t);
-                    tM.getListOfModulesAndItsType().add(moduleAndItsType);
-
-                    listOfTeacherModule.add(tM);
                 }
             %>
 
             <div class="row">
                 <!-- TABLE TO SHOW THE LIST OF ALREADY EXISTING CLASSROOMS -->
-                <div class="col-md-6">
+                <div class="col-md-7">
                     <table class="table table-striped table-hover table-bordered table-responsive">
                         <h2 class="text-primary">Existing Relations</h2>
                         <thead>

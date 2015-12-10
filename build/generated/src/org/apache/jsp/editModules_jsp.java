@@ -3,6 +3,8 @@ package org.apache.jsp;
 import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.jsp.*;
+import com.nikesh.scheduler.abstractor.ClassType;
+import java.util.Set;
 import java.util.List;
 import com.nikesh.scheduler.dao.RetrieveResources;
 import com.nikesh.scheduler.model.Module;
@@ -71,6 +73,8 @@ public final class editModules_jsp extends org.apache.jasper.runtime.HttpJspBase
       _jspx_out = out;
       _jspx_resourceInjector = (org.glassfish.jsp.api.ResourceInjector) application.getAttribute("com.sun.appserv.jsp.resource.injector");
 
+      out.write("\n");
+      out.write("\n");
       out.write("\n");
       out.write("\n");
       out.write("\n");
@@ -198,7 +202,7 @@ public final class editModules_jsp extends org.apache.jasper.runtime.HttpJspBase
       out.write("</td>\n");
       out.write("                        <td>\n");
       out.write("                            <a href=\"#");
-      out.print( (m.getModuleCode()) );
+      out.print( (m.getModuleCode()));
       out.write("\" data-toggle=\"modal\"><span class=\"glyphicon glyphicon-edit\" title=\"Edit\"></span></a> \n");
       out.write("                            | \n");
       out.write("                            <a href=\"ModifyModuleController?action=delete&id=");
@@ -208,21 +212,69 @@ public final class editModules_jsp extends org.apache.jasper.runtime.HttpJspBase
       out.write("                    </tr>\n");
       out.write("\n");
       out.write("                <div class=\"modal fade\" tabindex=\"-1\" role=\"dialog\" id=\"");
-      out.print( (m.getModuleCode()) );
+      out.print( (m.getModuleCode()));
       out.write("\">\n");
       out.write("                    <div class=\"modal-dialog\">\n");
       out.write("                        <div class=\"modal-content\">\n");
-      out.write("                            <div class=\"modal-header\">\n");
-      out.write("                                <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>\n");
-      out.write("                                <h4 class=\"modal-title\">Modal title</h4>\n");
-      out.write("                            </div>\n");
-      out.write("                            <div class=\"modal-body\">\n");
-      out.write("                                \n");
-      out.write("                            </div>\n");
-      out.write("                            <div class=\"modal-footer\">\n");
-      out.write("                                <button type=\"button\" class=\"btn btn-default\" data-dismiss=\"modal\">Close</button>\n");
-      out.write("                                <input type=\"submit\" value=\"Save changes\" class=\"btn btn-primary\" />\n");
-      out.write("                            </div>\n");
+      out.write("                            <form action=\"AddModuleController\" method=\"post\">\n");
+      out.write("                                <div class=\"modal-header\">\n");
+      out.write("                                    <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>\n");
+      out.write("                                    <h4 class=\"modal-title\">Edit Module</h4>\n");
+      out.write("                                </div>\n");
+      out.write("\n");
+      out.write("                                <div class=\"modal-body\">\n");
+      out.write("                                    <div class=\"form-group\">\n");
+      out.write("                                        <input type=\"hidden\" name=\"moduleCode\" id=\"moduleCode\" class=\"form-control\" maxlength=\"10\" value=\"");
+      out.print( (m.getModuleCode()));
+      out.write("\" required />\n");
+      out.write("                                    </div>\n");
+      out.write("\n");
+      out.write("                                    <div class=\"form-group\">\n");
+      out.write("                                        <label for=\"moduleName\">Module Name</label>\n");
+      out.write("                                        <input type=\"text\" name=\"moduleName\" id=\"moduleName\" class=\"form-control\" maxlength=\"50\" value=\"");
+      out.print( (m.getModuleName()));
+      out.write("\" required />\n");
+      out.write("                                    </div>\n");
+      out.write("                                    <div class=\"form-group form-inline\">\n");
+      out.write("                                        <label for=\"hoursOfClasses\">Hours of classes</label>\n");
+      out.write("                                        <blockquote>\n");
+      out.write("                                            ");
+
+                                                Set<ClassType> typeOfClasses = m.getTypeOfClasses();
+                                                for (ClassType type : typeOfClasses) {
+                                            
+      out.write("\n");
+      out.write("                                            <label>");
+      out.print( (type.getTypeName()));
+      out.write(":</label>\n");
+      out.write("                                            <input type=\"number\" style=\"margin-bottom: 5px;\" class=\"form-control input-group col-md-4\" step=\"0.1\" min=\"1\" name=\"");
+      out.print( (type.getTypeName().toLowerCase()) + "Hours");
+      out.write("\" placeholder=\"0\" value=\"");
+      out.print( (type.getClassHours()));
+      out.write("\" /><br/>\n");
+      out.write("                                            ");
+
+                                                }
+                                            
+      out.write("\n");
+      out.write("\n");
+      out.write("                                            <!-- <label>Lecture:</label>\n");
+      out.write("                                            <input type=\"number\" style=\"margin-bottom: 5px;\" class=\"form-control input-group col-md-4\" step=\"0.1\" min=\"1\" name=\"lectureHours\" placeholder=\"0\" id=\"classType1\" /><br/>\n");
+      out.write("                                            <label>Tutorial:</label>\n");
+      out.write("                                            <input type=\"number\" style=\"margin-bottom: 5px\" class=\"form-control input-group col-md-4\" step=\"0.1\" min=\"1\" name=\"tutorialHours\" placeholder=\"0\" id=\"classType2\" /><br/>\n");
+      out.write("                                            <label>Lab:</label>\n");
+      out.write("                                            <input type=\"number\" style=\"margin-bottom: 5px\" class=\"form-control input-group col-md-4\" step=\"0.1\" min=\"1\" name=\"labHours\" placeholder=\"0\" id=\"classType2\"  /><br/>\n");
+      out.write("                                            <label>Workshop:</label>\n");
+      out.write("                                            <input type=\"number\" style=\"margin-bottom: 5px\" class=\"form-control input-group col-md-4\" step=\"0.1\" min=\"1\" name=\"workshopHours\" placeholder=\"0\" id=\"classType4\" />-->\n");
+      out.write("                                        </blockquote>\n");
+      out.write("                                    </div>\n");
+      out.write("                                </div>\n");
+      out.write("                                <div class=\"modal-footer\">\n");
+      out.write("                                    <input type=\"hidden\" name=\"operation\" value=\"update\" />\n");
+      out.write("                                    <button type=\"button\" class=\"btn btn-danger\" data-dismiss=\"modal\">Close</button>\n");
+      out.write("                                    <input type=\"submit\" value=\"Save changes\" class=\"btn btn-success\" />\n");
+      out.write("                                </div>\n");
+      out.write("                            </form>\n");
       out.write("                        </div>\n");
       out.write("                    </div>\n");
       out.write("                </div>\n");

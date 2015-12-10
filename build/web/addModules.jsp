@@ -4,6 +4,11 @@
     Author     : Nikesh
 --%>
 
+<%@page import="com.nikesh.scheduler.dao.RetrieveResources"%>
+<%@page import="java.util.List"%>
+<%@page import="com.nikesh.scheduler.model.Module"%>
+<%@page import="java.util.Set"%>
+<%@page import="com.nikesh.scheduler.abstractor.ClassType"%>
 <%@page import="java.sql.ResultSet"%>
 <%@page import="java.sql.PreparedStatement"%>
 <%@page import="java.sql.Connection"%>
@@ -53,7 +58,7 @@
     <body>
         <%@include file="includes/functions.jsp" %>
         <%
-           sessionCheck(request, response);
+            sessionCheck(request, response);
         %>      
         <!-- CONTAINER STARTS HERE -->
         <div class="container">
@@ -72,15 +77,14 @@
             </span>
 
             <%
-                Connection c = DatabaseTool.getConnection();
-                PreparedStatement s = c.prepareStatement("SELECT * FROM modules");
-                ResultSet rs = s.executeQuery();
+                List<Module> modules = RetrieveResources.getModules();
+
 
             %>
 
             <div class="row">
                 <!-- TABLE TO SHOW THE LIST OF ALREADY EXISTING MODULES -->
-                <div class="col-md-5">
+                <div class="col-md-6">
                     <table class="table table-striped table-hover table-bordered table-responsive">
                         <h2 class="text-primary">List of Modules</h2>
                         <thead>
@@ -90,24 +94,29 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <%              
-                                boolean isDataAvailable = false;
-                                while (rs.next()) {
-                                    isDataAvailable = true;
-                                    String moduleCode = rs.getString(1);
-                                    String moduleName = rs.getString(2);
+                            <%                                
+                                boolean isEmpty = modules.isEmpty();
+                                for (Module m : modules) {
+                                    String moduleCode = m.getModuleCode();
+                                    String moduleName = m.getModuleName();
                             %>
-
                             <tr>
+                                <%
+                                    Set<ClassType> classTypes = m.getTypeOfClasses();
+                                    String infoString = "";
+                                    for (ClassType t : classTypes) {
+                                        infoString += t.getTypeName() + " (" + t.getClassHours() + ") ";
+                                    }
+                                %>
                                 <td><%= (moduleCode)%></td>
-                                <td><%= (moduleName)%></td>
+                                <td><%= (moduleName)%> <span class="text-primary" style="font-style: italic;font-size:90%"><%= (infoString) %></span></td>
                             </tr>
                             <% }%>
-                            
-                            <% 
-                              if(!isDataAvailable){
-                                  out.println("<tr><td colspan='2' align='center'>There are no modules.</td></tr>");
-                              }  
+
+                            <%
+                                if (isEmpty) {
+                                    out.println("<tr><td colspan='2' align='center'>There are no modules.</td></tr>");
+                                }
                             %>
                             <!--<tr>
                                 <td>CC3008NI</td>
@@ -137,7 +146,7 @@
                                 <label><input class="checkbox-inline" type="checkbox" name="typesOfClasses" value="1" checked onclick="getCheckedClasses();" required="true"> Lecture</label>
                                 <label><input class="checkbox-inline" type="checkbox" name="typesOfClasses" value="2" onclick="getCheckedClasses();"> Tutorial</label>
                                 <label><input class="checkbox-inline" type="checkbox" name="typesOfClasses" value="3" onclick="getCheckedClasses();"> Lab</label>
-                                <label><input class="checkbox-inline" type="checkbox" name="typesOfClasses" value="4" onclick="alert(getCheckedClasses());"> Workshop</label>
+                                <label><input class="checkbox-inline" type="checkbox" name="typesOfClasses" value="4" onclick="getCheckedClasses();"> Workshop</label>
                             </div>
                         </div>
 

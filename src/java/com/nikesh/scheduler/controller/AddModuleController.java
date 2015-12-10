@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -40,13 +41,15 @@ public class AddModuleController extends HttpServlet {
         String dispatchLink = "";
         String operation = request.getParameter("operation");
 
-        if (operation.equalsIgnoreCase("update")) {
-            dispatchLink = "editModule.jsp";
+        Module m = null;
+        
+        if (operation != null) {
+            if(operation.equals("update")){
+                dispatchLink = "editModules.jsp";
+            }            
         } else {
-            dispatchLink = "addModule.jsp";
+            dispatchLink = "addModules.jsp";
         }
-
-        Module m = getModuleParam(request, response);
 
         /**
          * Service class for add module functionality *
@@ -55,7 +58,8 @@ public class AddModuleController extends HttpServlet {
 
         int modifiedRows = 0;
         try {
-            if (!operation.equalsIgnoreCase("update")) {
+            if (operation == null || operation.isEmpty()) {
+                m = getModuleParam(request, response);
                 modifiedRows = service.addModule(m);
                 if (modifiedRows > 0) {
                     request.setAttribute("addMessage", "Module: " + m.getModuleName() + " added successfully.");
@@ -63,10 +67,11 @@ public class AddModuleController extends HttpServlet {
                     request.setAttribute("addMessage", "Module: " + m.getModuleName() + " was not added due to internal error.");
                 }
             } else if (operation.equalsIgnoreCase("update")) {
+                m = getModuleParamUpdate(request, response);
                 modifiedRows = service.updateModule(m);
-                if(modifiedRows > 0){
+                if (modifiedRows > 0) {
                     request.setAttribute("message", "Module updated successfully.");
-                }else{
+                } else {
                     request.setAttribute("message", "Module was not updated.");
                 }
             }
@@ -122,46 +127,85 @@ public class AddModuleController extends HttpServlet {
         m.setModuleCode(request.getParameter("moduleCode"));
         m.setModuleName(request.getParameter("moduleName"));
 
-        DecimalFormat dfm = new DecimalFormat("#.##");
-
         String[] typesOfClasses = request.getParameterValues("typesOfClasses");
         for (String type : typesOfClasses) {
-            int classTypeInt = Integer.parseInt(type);
-
-            ClassType classType = null;
-
-            double hours = 0;
-
-            switch (classTypeInt) {
-                case 1: // lecture
-                    hours = Double.parseDouble(request.getParameter("lectureHours"));
-                    hours = Double.parseDouble(dfm.format(hours));
-                    classType = new Lecture(hours);
-                    break;
-
-                case 2: // tutorial
-                    hours = Double.parseDouble(request.getParameter("tutorialHours"));
-                    hours = Double.parseDouble(dfm.format(hours));
-                    classType = new Tutorial(hours);
-                    break;
-
-                case 3: // lab
-                    hours = Double.parseDouble(request.getParameter("labHours"));
-                    hours = Double.parseDouble(dfm.format(hours));
-                    classType = new Lab(hours);
-                    break;
-
-                case 4: // workshop
-                    hours = Double.parseDouble(request.getParameter("workshopHours"));
-                    hours = Double.parseDouble(dfm.format(hours));
-                    classType = new Workshop(hours);
-                    break;
-            }
+            ClassType classType = extractClassType(type, request, response);
             m.getTypeOfClasses().add(classType);
         }
         /*out.println(m.getTypeOfClasses());
          out.println("<br/>");*/
         return m;
+    }
+    
+    private Module getModuleParamUpdate(HttpServletRequest request, HttpServletResponse response){
+        Module m = new Module();
+        m.setModuleCode(request.getParameter("moduleCode"));
+        m.setModuleName(request.getParameter("moduleName"));
+        
+        ArrayList<String> typesOfClasses = new ArrayList<String>();
+        
+        if(request.getParameter("lectureHours") != null){
+            typesOfClasses.add("1");
+        }
+        if(request.getParameter("tutorialHours") != null){
+            typesOfClasses.add("2");
+        }
+        if(request.getParameter("labHours") != null){
+            typesOfClasses.add("3");
+        }
+        if(request.getParameter("workshopHours") != null){
+            typesOfClasses.add("4");
+        }
+        
+        //System.out.println("PARAMETER EXISTS: "+ request.getParameter("testParameter"));
+        
+        for(String type : typesOfClasses){    // 4 possible types of class
+            ClassType classType = extractClassType(type, request, response);
+            m.getTypeOfClasses().add(classType);
+        }
+        return m;
+    }
+
+    private ClassType extractClassType(String type, HttpServletRequest request, HttpServletResponse response) {
+        int classTypeInt = Integer.parseInt(type);
+
+        DecimalFormat dfm = new DecimalFormat("#.##");
+        
+        ClassType classType = null;
+
+        double hours = 0;
+
+        switch (classTypeInt) {
+            case 1: // lecture
+                hours = Double.parseDouble(request.getParameter("lectureHours"));
+                System.out.println("LEC: "+ hours);
+                hours = Double.parseDouble(dfm.format(hours));
+                classType = new Lecture(hours);
+                break;
+
+            case 2: // tutorial
+                hours = Double.parseDouble(request.getParameter("tutorialHours"));
+                System.out.println("TUT: "+ hours);
+                hours = Double.parseDouble(dfm.format(hours));
+                classType = new Tutorial(hours);
+                break;
+
+            case 3: // lab
+                hours = Double.parseDouble(request.getParameter("labHours"));
+                System.out.println("LAB: "+ hours);
+                hours = Double.parseDouble(dfm.format(hours));
+                classType = new Lab(hours);
+                break;
+
+            case 4: // workshop
+                hours = Double.parseDouble(request.getParameter("workshopHours"));
+                System.out.println("WORK: "+ hours);
+                hours = Double.parseDouble(dfm.format(hours));
+                classType = new Workshop(hours);
+                break;
+        }
+        //System.out.println("HOURS TEST: " + hours);
+        return classType;
     }
 
 }

@@ -66,16 +66,35 @@ public class AddModuleDAO {
         }
         
         Set<ClassType> classes = m.getTypeOfClasses();
-        for (ClassType c : classes) {
-            statement = connection.prepareCall("UPDATE module_classes SET ");
-            statement.setInt(1, c.getTypeId());
-            statement.setString(2, module.getModuleCode());
-            statement.setDouble(3, c.getClassHours());
-            rowsModified = DatabaseTool.updateQuery(statement);
-            if(rowsModified == 0){
+        
+        String moduleCode = m.getModuleCode();
+        for(ClassType type : classes){
+            int typeId = type.getTypeId();
+            double classHours = type.getClassHours();
+            //System.out.println("Type: " + type.getTypeName() + " " + type.getClassHours() + " " + type.getTypeId());
+            connection = DatabaseTool.getConnection();
+            PreparedStatement s = connection.prepareStatement("UPDATE module_classes SET classHours=? WHERE typeId=? AND moduleCode=?");
+            s.setDouble(1, classHours);
+            s.setInt(2, typeId);
+            s.setString(3, moduleCode);
+            
+            updatedRows = s.executeUpdate();
+            if(updatedRows == 0){
                 return 0;
             }
         }
+        
+        /*
+        for (ClassType c : classes) {
+            statement = connection.prepareCall("UPDATE module_classes SET ");
+            statement.setInt(1, c.getTypeId());
+            statement.setString(2, m.getModuleCode());
+            statement.setDouble(3, c.getClassHours());
+            updatedRows = DatabaseTool.updateQuery(statement);
+            if(updatedRows == 0){
+                return 0;
+            }
+        }*/
         
         return updatedRows;
     }

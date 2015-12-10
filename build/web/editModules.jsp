@@ -60,8 +60,16 @@
                         for (Module m : modules) {
                     %>
                     <tr>
+                        <%
+                            Set<ClassType> classTypes = m.getTypeOfClasses();
+                            String infoString = "";
+                            for(ClassType t : classTypes){
+                                infoString += t.getTypeName() + " (" + t.getClassHours() + ") ";
+                            }
+                        %>
                         <td><%= (m.getModuleCode())%></td>
-                        <td><%= (m.getModuleName())%></td>
+                        <td><%= (m.getModuleName())%> <span class="text-primary" style="font-style: italic;font-size:90%"><%= (infoString) %></span></td>
+                        
                         <td>
                             <a href="#<%= (m.getModuleCode())%>" data-toggle="modal"><span class="glyphicon glyphicon-edit" title="Edit"></span></a> 
                             | 
@@ -72,11 +80,12 @@
                 <div class="modal fade" tabindex="-1" role="dialog" id="<%= (m.getModuleCode())%>">
                     <div class="modal-dialog">
                         <div class="modal-content">
-                            <div class="modal-header">
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                <h4 class="modal-title">Edit Module</h4>
-                            </div>
-                            <form action="" method="post">
+                            <form action="AddModuleController" method="post">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                    <h4 class="modal-title">Edit Module</h4>
+                                </div>
+
                                 <div class="modal-body">
                                     <div class="form-group">
                                         <input type="hidden" name="moduleCode" id="moduleCode" class="form-control" maxlength="10" value="<%= (m.getModuleCode())%>" required />
@@ -94,7 +103,7 @@
                                                 for (ClassType type : typeOfClasses) {
                                             %>
                                             <label><%= (type.getTypeName())%>:</label>
-                                            <input type="number" style="margin-bottom: 5px;" class="form-control input-group col-md-4" step="0.1" min="1" name="<%= (type.getTypeName().toLowerCase()) + "hours"%>" placeholder="0" value="<%= (type.getClassHours()) %>" /><br/>
+                                            <input type="number" style="margin-bottom: 5px;" class="form-control input-group col-md-4" step="0.1" min="1" name="<%= (type.getTypeName().toLowerCase()) + "Hours"%>" placeholder="0" value="<%= (type.getClassHours())%>" /><br/>
                                             <%
                                                 }
                                             %>
@@ -112,8 +121,8 @@
                                 </div>
                                 <div class="modal-footer">
                                     <input type="hidden" name="operation" value="update" />
-                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                    <input type="submit" value="Save changes" class="btn btn-primary" />
+                                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                                    <input type="submit" value="Save changes" class="btn btn-success" />
                                 </div>
                             </form>
                         </div>
