@@ -88,7 +88,9 @@
 
                                 <div class="modal-body">
                                     <div class="form-group">
-                                        <input type="hidden" name="moduleCode" id="moduleCode" class="form-control" maxlength="10" value="<%= (m.getModuleCode())%>" required />
+                                        <label for="moduleCode">Module Code</label>
+                                        <input type="text" id="moduleCode" class="form-control" maxlength="10" value="<%= (m.getModuleCode())%>" disabled="true" required />
+                                        <input type="hidden" name="moduleCode" value="<%= (m.getModuleCode())%>" />
                                     </div>
 
                                     <div class="form-group">
@@ -108,14 +110,6 @@
                                                 }
                                             %>
 
-                                            <!-- <label>Lecture:</label>
-                                            <input type="number" style="margin-bottom: 5px;" class="form-control input-group col-md-4" step="0.1" min="1" name="lectureHours" placeholder="0" id="classType1" /><br/>
-                                            <label>Tutorial:</label>
-                                            <input type="number" style="margin-bottom: 5px" class="form-control input-group col-md-4" step="0.1" min="1" name="tutorialHours" placeholder="0" id="classType2" /><br/>
-                                            <label>Lab:</label>
-                                            <input type="number" style="margin-bottom: 5px" class="form-control input-group col-md-4" step="0.1" min="1" name="labHours" placeholder="0" id="classType2"  /><br/>
-                                            <label>Workshop:</label>
-                                            <input type="number" style="margin-bottom: 5px" class="form-control input-group col-md-4" step="0.1" min="1" name="workshopHours" placeholder="0" id="classType4" />-->
                                         </blockquote>
                                     </div>
                                 </div>

@@ -1,5 +1,6 @@
 package com.nikesh.scheduler.controller;
 
+import com.nikesh.scheduler.model.Group;
 import com.nikesh.scheduler.service.ModifyGroupService;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -35,17 +36,26 @@ public class ModifyGroupController extends HttpServlet {
 
         RequestDispatcher dispatch = request.getRequestDispatcher("editGroups.jsp");
 
-        String groupCode = request.getParameter("id");
+        String groupCode = "";
 
         ModifyGroupService service = new ModifyGroupService();
 
         String action = request.getParameter("action");
-        String groupId = request.getParameter("id");
 
-        if (action.equalsIgnoreCase("edit")) {
-            // Redirect to edit page
+        if (action.equalsIgnoreCase("update")) {
+            try {
+                groupCode = request.getParameter("groupCode");
+                int noOfStudents = Integer.parseInt(request.getParameter("noOfStudents"));
+                
+                Group g = new Group(groupCode, noOfStudents);
+                
+                service.addModifiedGroup(g);
+                request.setAttribute("message", "Group: " + groupCode + " updated successfully.");
+            } catch (SQLException ex) {
+                request.setAttribute("message", ex.getMessage());
+            }            
         } else if (action.equalsIgnoreCase("delete")) {
-
+            groupCode = request.getParameter("id");
             try {
                 service.deleteGroup(groupCode);
                 request.setAttribute("message", "Group: " + groupCode + " deleted successfully.");

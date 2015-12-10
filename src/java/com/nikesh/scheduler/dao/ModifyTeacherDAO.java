@@ -11,28 +11,31 @@ import java.sql.SQLException;
  * @author Nikesh
  */
 public class ModifyTeacherDAO {
-    
+
     private static Connection connection;
-    
-    public ModifyTeacherDAO(){
+
+    public ModifyTeacherDAO() {
         connection = DatabaseTool.getConnection();
     }
-    
-    public int deleteTeacher(String teacherId) throws SQLException{
-        
+
+    public int deleteTeacher(String teacherId) throws SQLException {
+        connection = DatabaseTool.getConnection();
         PreparedStatement statement = connection.prepareStatement("DELETE FROM teachers WHERE teacherId=?");
         statement.setString(1, teacherId);
-        
-        return DatabaseTool.updateQuery(statement);
-        
+
+        return statement.executeUpdate();
+
     }
-    
-    public int addModifiedTeacher(Teacher t) throws SQLException{
+
+    public int addModifiedTeacher(Teacher t) throws SQLException {
+        connection = DatabaseTool.getConnection();
         PreparedStatement statement = connection.prepareStatement("UPDATE teachers SET teacherName=? WHERE teacherId=?");
         statement.setString(1, t.getTeacherName());
         statement.setString(2, t.getTeacherId());
+
+        System.out.println("ModifyTeacherDAO line no 36.");
         
-        return DatabaseTool.updateQuery(statement);
+        return statement.executeUpdate();
     }
-    
+
 }

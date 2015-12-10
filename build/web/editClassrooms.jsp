@@ -21,29 +21,7 @@
         </script>
     </head>
     <body>
-        <!--<button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
-     Launch modal
-     </button>
-        <div class="modal fade" id="myModal">
-          <div class="modal-dialog">
-              <div class="modal-content">
-                 
-                  <div class="modal-header">
-                      <button type="button" class="close" data-dismiss="modal">&times;</button>
-                      <h4 class="modal-title">Welcome Back!</h4>
-                  </div>
-                  
-                  <div class="modal-body">
-                      <h1>Hello Readers!</h1>
-                  </div>
-                  
-                  <div class="modal-footer">
-                      <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                      <button type="button" class="btn btn-primary">Save changes</button>
-                  </div>
-              </div>
-          </div>
-      </div>-->
+
         <%@include file="includes/functions.jsp" %>
         <%
             sessionCheck(request, response);
@@ -63,7 +41,7 @@
                     }
                 %>
             </span>
-            
+
             <table class="table table-striped">
                 <h2 class="text-primary" style="text-align: center">Edit Classrooms</h2>
                 <thead>
@@ -86,18 +64,61 @@
                         <td><%= (c.getRoomType().getTypeName())%></td>
                         <td><%= (c.getCapacity())%></td>
                         <td>
-                            <a href="ModifyClassroomController?action=edit&id=<%= (c.getRoomCode()) %>"><span class="glyphicon glyphicon-edit" title="Edit"></span></a> 
+                            <a href="#<%= (c.getRoomCode())%>" data-toggle="modal"><span class="glyphicon glyphicon-edit" title="Edit"></span></a> 
                             | 
-                            <a href="ModifyClassroomController?action=delete&id=<%= (c.getRoomCode()) %>"><span class="glyphicon glyphicon-remove" title="Delete"></span></a>
+                            <a href="ModifyClassroomController?action=delete&id=<%= (c.getRoomCode())%>"><span class="glyphicon glyphicon-remove" title="Delete"></span></a>
                         </td>
                     </tr>
-                    <% } %>
-                    
-                    <% if(classrooms == null || classrooms.isEmpty()){%> 
-                    <tr>
-                        <td colspan="5" style="text-align:center">There are no classrooms.</td>
-                    </tr>
-                    <%}%>
+                <div class="modal fade" tabindex="-1" role="dialog" id="<%= (c.getRoomCode())%>">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <form action="ModifyClassroomController" method="post">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                    <h4 class="modal-title">Edit Classroom</h4>
+                                </div>
+
+                                <div class="modal-body">
+                                    <div class="form-group">
+                                        <label for="roomCode">Room Code</label>
+                                        <input type="text" id="classroomCode" disabled="true" class="form-control" maxlength="10" value="<%= (c.getRoomCode())%>" />
+                                        <input type="hidden" name="roomCode" value="<%= (c.getRoomCode())%>" />
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="classroomName">Module Name</label>
+                                        <input type="text" name="classroomName" id="classroomName" class="form-control" maxlength="50" value="<%= (c.getRoomName())%>" required />
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="typeOfClassroom">Type of classroom</label>
+                                        <div class="radio">
+                                            <label><input class="radio-inline" type="radio" name="typeOfClassroom" value="Lecture" <% if(c.getRoomType().getTypeName().equalsIgnoreCase("lecture")) out.print("checked"); %>> Lecture</label>
+                                            <label><input class="radio-inline" type="radio" name="typeOfClassroom" value="Tutorial" <% if(c.getRoomType().getTypeName().equalsIgnoreCase("tutorial")) out.print("checked"); %>> Tutorial</label>
+                                            <label><input class="radio-inline" type="radio" name="typeOfClassroom" value="Lab" <% if(c.getRoomType().getTypeName().equalsIgnoreCase("lab")) out.print("checked"); %>> Lab</label>
+                                            <label><input class="radio-inline" type="radio" name="typeOfClassroom" value="Workshop" <% if(c.getRoomType().getTypeName().equalsIgnoreCase("workshop")) out.print("checked"); %>> Workshop</label>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="classroomCapacity">Capacity</label>
+                                        <input class="form-control" type="number" value="<%= (c.getCapacity()) %>" name="classroomCapacity" min="10" required />
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <input type="hidden" name="action" value="update" />
+                                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                                    <input type="submit" value="Save changes" class="btn btn-success" />
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <% } %>
+
+                <% if (classrooms == null || classrooms.isEmpty()) {%> 
+                <tr>
+                    <td colspan="5" style="text-align:center">There are no classrooms.</td>
+                </tr>
+                <%}%>
                 </tbody>
             </table>
         </div>

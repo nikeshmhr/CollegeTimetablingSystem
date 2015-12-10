@@ -1,5 +1,8 @@
 package com.nikesh.scheduler.controller;
 
+import com.nikesh.scheduler.abstractor.ClassType;
+import com.nikesh.scheduler.factory.ClassTypeFactory;
+import com.nikesh.scheduler.model.Classroom;
 import com.nikesh.scheduler.service.ModifyClassroomService;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -35,13 +38,31 @@ public class ModifyClassroomController extends HttpServlet {
         RequestDispatcher dispatch = request.getRequestDispatcher("editClassrooms.jsp");
         
         String action = request.getParameter("action");
-        String roomCode = request.getParameter("id");
+        String roomCode = "";
         
         ModifyClassroomService service = new ModifyClassroomService();
         
-        if(action.equalsIgnoreCase("edit")){
-            out.println("<form><input type='text' name='roomName' /></form>");
+        if(action.equalsIgnoreCase("update")){
+            try {
+                roomCode = request.getParameter("roomCode");
+                String roomName = request.getParameter("classroomName");
+                ClassType type = ClassTypeFactory.getClassType(request.getParameter("typeOfClassroom"));
+                int capacity = Integer.parseInt(request.getParameter("classroomCapacity"));
+                
+                System.out.println(roomCode + " " + roomName + " " + type.getTypeName() + " " + capacity);
+                
+                Classroom room = new Classroom(roomCode, roomName, type, capacity);
+                
+                service.addModifiedClassroom(room);
+                
+                request.setAttribute("message", "Classroom: " + roomCode + " updated successfully");
+            } catch (SQLException ex) {
+                request.setAttribute("message", ex.getMessage());
+            } finally {
+                dispatch.forward(request, response);
+            }
         }else if(action.equalsIgnoreCase("delete")){
+            roomCode = request.getParameter("id");
             try {
                 service.deleteClassroom(roomCode);
                 request.setAttribute("message", "Classroom: " + roomCode + " deleted successfully");

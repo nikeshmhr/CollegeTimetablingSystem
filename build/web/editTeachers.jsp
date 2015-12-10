@@ -23,11 +23,11 @@
     <body>
         <%@include file="includes/functions.jsp" %>
         <%
-           sessionCheck(request, response);
+            sessionCheck(request, response);
         %>
         <div class="container">
             <%@include file="includes/navigation.html" %>
-            
+
             <span 
                 <% if (request.getAttribute("message") != null) {
                         out.println("class=\"label label-danger\"");
@@ -40,40 +40,72 @@
                     }
                 %>
             </span>
-            
+
             <table class="table table-striped">
                 <h2 class="text-primary" style="text-align: center">Edit Teachers</h2>
                 <thead>
                     <tr>
+                        <th>ID</th>
                         <th>Name</th>
                         <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <% 
+                    <%
                         List<Teacher> teachers = RetrieveResources.getTeachers();
-                        for(Teacher t : teachers){
+                        for (Teacher t : teachers) {
                     %>
                     <tr>
+                        <td><%= (t.getTeacherId()) %></td>
                         <td><%= (t.getTeacherName())%></td>
                         <td>
-                            <a href="ModifyTeacherController?action=edit&id=<%= (t.getTeacherId())%>"><span class="glyphicon glyphicon-edit" title="Edit"></span></a> 
+                            <a href="#<%= (t.getTeacherId())%>" data-toggle="modal"><span class="glyphicon glyphicon-edit" title="Edit"></span></a> 
                             | 
                             <a href="ModifyTeacherController?action=delete&id=<%= (t.getTeacherId())%>"><span class="glyphicon glyphicon-remove" title="Delete"></span></a>
                         </td>
                     </tr>
-                    <% } %>
-                    
-                    <% if(teachers == null || teachers.isEmpty()){ %>
-                    <tr>
-                        <td colspan="2" style="text-align: center;">There are no teachers.</td>
-                    </tr>
-                    <% } %>
+                <div class="modal fade" tabindex="-1" role="dialog" id="<%= (t.getTeacherId())%>">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <form action="ModifyTeacherController" method="post">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                    <h4 class="modal-title">Edit Teacher</h4>
+                                </div>
+
+                                <div class="modal-body">
+                                    <div class="form-group">
+                                        <label for="teacherId">ID</label>
+                                        <input type="text" disabled="true" id="teacherId" class="form-control" maxlength="10" value="<%= (t.getTeacherId()) %>" required />
+                                        <input type="hidden" name="teacherId" value="<%= (t.getTeacherId()) %>" />
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="teacherName">Name</label>
+                                        <input type="text" name="teacherName" id="teacherName" class="form-control" maxlength="50" value="<%= (t.getTeacherName())%>" required />
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <input type="hidden" name="action" value="update" />
+                                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                                    <input type="submit" value="Save changes" class="btn btn-success" />
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <% } %>
+
+                <% if (teachers == null || teachers.isEmpty()) { %>
+                <tr>
+                    <td colspan="3" style="text-align: center;">There are no teachers.</td>
+                </tr>
+                <% }%>
                 </tbody>
             </table>
         </div>
         <!-- END OF CONTAINER -->
-        
+
         <!-- A FOOTER -->
         <%@include file="includes/footer.html" %>
     </body>

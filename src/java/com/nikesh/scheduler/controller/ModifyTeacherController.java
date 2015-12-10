@@ -1,5 +1,6 @@
 package com.nikesh.scheduler.controller;
 
+import com.nikesh.scheduler.model.Teacher;
 import com.nikesh.scheduler.service.ModifyTeacherService;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -31,19 +32,34 @@ public class ModifyTeacherController extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         RequestDispatcher dispatch = request.getRequestDispatcher("editTeachers.jsp");
-        
+
         String action = request.getParameter("action");
-        String teacherId = request.getParameter("id");
+        
+        String teacherId = "";
         
         ModifyTeacherService service = new ModifyTeacherService();
+
+        System.out.println("ID: " + teacherId);
         
-        if(action.equalsIgnoreCase("delete")){
+        if (action.equalsIgnoreCase("delete")) {
+            teacherId = request.getParameter("id");
             try {
                 service.deleteTeacher(teacherId);
                 request.setAttribute("message", "Teacher: " + teacherId + " deleted successfully.");
             } catch (SQLException ex) {
                 request.setAttribute("message", ex.getMessage());
-            }finally{
+            } finally {
+                dispatch.forward(request, response);
+            }
+        } else if (action.equalsIgnoreCase("update")) {
+            teacherId = request.getParameter("teacherId");
+            try {
+                Teacher t = new Teacher(teacherId, request.getParameter("teacherName"));
+                service.addModifiedTeacher(t);
+                request.setAttribute("message", "Teacher: " + teacherId + " modified successfully.");
+            } catch (SQLException ex) {
+                request.setAttribute("message", ex.getMessage());
+            } finally {
                 dispatch.forward(request, response);
             }
         }
