@@ -48,6 +48,14 @@
         <servlet-name>DeleteTeacherModuleController</servlet-name>
         <servlet-class>com.nikesh.scheduler.controller.DeleteTeacherModuleController</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>DeleteGroupModuleController</servlet-name>
+        <servlet-class>com.nikesh.scheduler.controller.DeleteGroupModuleController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>GroupModuleController</servlet-name>
+        <servlet-class>com.nikesh.scheduler.controller.GroupModuleController</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>LoginController</servlet-name>
         <url-pattern>/LoginController</url-pattern>
@@ -97,6 +105,14 @@
         <servlet-name>DeleteTeacherModuleController</servlet-name>
         <url-pattern>/DeleteTeacherModuleController</url-pattern>
         <url-pattern>/DeleteTeacherModule</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>DeleteGroupModuleController</servlet-name>
+        <url-pattern>/DeleteGroupModuleController</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>GroupModuleController</servlet-name>
+        <url-pattern>/GroupModuleController</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

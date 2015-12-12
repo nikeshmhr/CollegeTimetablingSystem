@@ -43,17 +43,6 @@
             sessionCheck(request, response);
         %>
 
-
-        <%
-            /**
-             * LIST OF classes that was sent from this page before *
-             */
-            List<String> selectedClasses = new ArrayList<String>();
-            selectedClasses = (ArrayList) request.getAttribute("selectedClasses");
-
-            //out.println(selectedClasses);
-        %>
-
         <!-- CONTAINER STARTS HERE -->
         <div class="container">
             <%@include file="includes/navigation.html" %>
@@ -156,7 +145,7 @@
                                     if (modules == null || modules.isEmpty()) {
                                         out.println("<option disabled=''>No modules.</option>");
                                     }
-                                    List<String> existingRelation = RetrieveResources.getExistingIdentifier();
+                                    List<String> existingRelation = RetrieveResources.getExistingIdentifier("teacher_modules");
                                     for (Module module : modules) {
                                 %>
                                 <optgroup label="<%= (module.getModuleName() + " (" + module.getModuleCode() + ")")%>">

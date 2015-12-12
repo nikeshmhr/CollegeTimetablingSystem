@@ -24,6 +24,10 @@
             $(document).ready(function () {
                 /** HIGHLIGHTS THE CURRENTLY ACTIVE NAVIGATION **/
                 $("#addResource").addClass("active");
+                
+                $("#classType2").hide();
+                $("#classType3").hide();
+                $("#classType4").hide();
             });
 
             /** Check to see if everything is fine **/
@@ -42,16 +46,45 @@
             }
 
             /** Returns value of all the checked items (currently) **/
-            function getCheckedClasses() {
-                var checked = Array();
-                var i = document.getElementsByName("typesOfClasses");
-                var k = 0;
-                for (var j = 0; j < i.length; j++) {
-                    if (i[j].checked === true) {
-                        checked[k++] = i[j].value;
-                    }
+            function getCheckedClasses(obj) {
+                /*var checked = Array();
+                 var i = document.getElementsByName("typesOfClasses");
+                 var k = 0;
+                 for (var j = 0; j < i.length; j++) {
+                 if (i[j].checked === true) {
+                 checked[k++] = i[j].value;
+                 }
+                 }*/
+
+                //var classes = {"classType1", "classType2", "classType3", "classType4"};
+                var item = obj.value;
+                switch (item) {
+                    case "2":
+                        if(obj.checked){
+                            $("#classType2").show();
+                        }else{
+                            $("#classType2").hide();
+                        }
+                        break;
+
+                    case "3":
+                        if(obj.checked){
+                            $("#classType3").show();
+                        }else{
+                            $("#classType3").hide();
+                        }
+                        break;
+
+                    case "4":
+                        if(obj.checked){
+                            $("#classType4").show();
+                        }else{
+                            $("#classType4").hide();
+                        }
+                        break;
                 }
-                return checked;
+
+                //return checked;
             }
         </script>
     </head>
@@ -94,8 +127,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <%                                
-                                boolean isEmpty = modules.isEmpty();
+                            <%                                boolean isEmpty = modules.isEmpty();
                                 for (Module m : modules) {
                                     String moduleCode = m.getModuleCode();
                                     String moduleName = m.getModuleName();
@@ -109,7 +141,7 @@
                                     }
                                 %>
                                 <td><%= (moduleCode)%></td>
-                                <td><%= (moduleName)%> <span class="text-primary" style="font-style: italic;font-size:90%"><%= (infoString) %></span></td>
+                                <td><%= (moduleName)%> <span class="text-primary" style="font-style: italic;font-size:90%"><%= (infoString)%></span></td>
                             </tr>
                             <% }%>
 
@@ -143,24 +175,30 @@
                         <div class="form-group">
                             <label for="classTypes">Types of classes</label>
                             <div class="checkbox">
-                                <label><input class="checkbox-inline" type="checkbox" name="typesOfClasses" value="1" checked onclick="getCheckedClasses();" required="true"> Lecture</label>
-                                <label><input class="checkbox-inline" type="checkbox" name="typesOfClasses" value="2" onclick="getCheckedClasses();"> Tutorial</label>
-                                <label><input class="checkbox-inline" type="checkbox" name="typesOfClasses" value="3" onclick="getCheckedClasses();"> Lab</label>
-                                <label><input class="checkbox-inline" type="checkbox" name="typesOfClasses" value="4" onclick="getCheckedClasses();"> Workshop</label>
+                                <label><input class="checkbox-inline" type="checkbox" name="typesOfClasses" value="1" checked onclick="getCheckedClasses(this);" required="true"> Lecture</label>
+                                <label><input class="checkbox-inline" type="checkbox" name="typesOfClasses" value="2" onclick="getCheckedClasses(this);"> Tutorial</label>
+                                <label><input class="checkbox-inline" type="checkbox" name="typesOfClasses" value="3" onclick="getCheckedClasses(this);"> Lab</label>
+                                <label><input class="checkbox-inline" type="checkbox" name="typesOfClasses" value="4" onclick="getCheckedClasses(this);"> Workshop</label>
                             </div>
                         </div>
 
                         <div class="form-group form-inline">
                             <label for="hoursOfClasses">Hours of classes</label>
                             <blockquote>
-                                <label>Lecture:</label>
-                                <input type="number" style="margin-bottom: 5px;" class="form-control input-group col-md-4" step="0.1" min="1" name="lectureHours" placeholder="0" id="classType1" /><br/>
-                                <label>Tutorial:</label>
-                                <input type="number" style="margin-bottom: 5px" class="form-control input-group col-md-4" step="0.1" min="1" name="tutorialHours" placeholder="0" id="classType2" /><br/>
-                                <label>Lab:</label>
-                                <input type="number" style="margin-bottom: 5px" class="form-control input-group col-md-4" step="0.1" min="1" name="labHours" placeholder="0" id="classType2"  /><br/>
-                                <label>Workshop:</label>
-                                <input type="number" style="margin-bottom: 5px" class="form-control input-group col-md-4" step="0.1" min="1" name="workshopHours" placeholder="0" id="classType4" />
+                                <label id="classType1">Lecture:</label>
+                                <input type="number" style="margin-bottom: 5px;" class="form-control input-group col-md-4" step="0.1" min="1" name="lectureHours" placeholder="0"  />
+                                <div id="classType2">
+                                    <label>Tutorial:</label>
+                                    <input type="number" style="margin-bottom: 5px" class="form-control input-group col-md-4" step="0.1" min="1" name="tutorialHours" placeholder="0"  />
+                                </div>
+                                <div id="classType3">
+                                    <label>Lab:</label>
+                                    <input type="number" style="margin-bottom: 5px" class="form-control input-group col-md-4" step="0.1" min="1" name="labHours" placeholder="0"   />
+                                </div>
+                                <div id="classType4">
+                                    <label>Workshop:</label>
+                                    <input type="number" style="margin-bottom: 5px" class="form-control input-group col-md-4" step="0.1" min="1" name="workshopHours" placeholder="0" />
+                                </div>
                             </blockquote>
                         </div>
                         <div>

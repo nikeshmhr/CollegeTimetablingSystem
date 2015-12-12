@@ -4,6 +4,7 @@ import com.nikesh.scheduler.abstractor.ClassType;
 import com.nikesh.scheduler.factory.ClassTypeFactory;
 import com.nikesh.scheduler.model.Classroom;
 import com.nikesh.scheduler.model.Group;
+import com.nikesh.scheduler.model.GroupModule;
 import com.nikesh.scheduler.model.Module;
 import com.nikesh.scheduler.model.ModuleAndItsType;
 import com.nikesh.scheduler.model.Teacher;
@@ -117,11 +118,19 @@ public class RetrieveResources {
      *
      * @return
      */
-    public static List<String> getExistingIdentifier() throws SQLException {
+    public static List<String> getExistingIdentifier(String item) throws SQLException {
         ArrayList<String> existingIdentifier = new ArrayList<String>();
 
         connection = DatabaseTool.getConnection();
-        PreparedStatement statement = connection.prepareStatement("SELECT identifier FROM teacher_modules");
+        
+        PreparedStatement statement = null;
+        
+        if(item.equalsIgnoreCase("teacher_modules")){
+            statement = connection.prepareStatement("SELECT identifier FROM teacher_modules");
+        }else if(item.equalsIgnoreCase("group_modules")){
+            statement = connection.prepareStatement("SELECT identifier FROM group_module");
+        }
+        
         ResultSet rs = DatabaseTool.executeQuery(statement);
         while (rs.next()) {
             String identifier = rs.getString("identifier");
@@ -163,22 +172,6 @@ public class RetrieveResources {
         }
         return listOfTeacherModule;
     }
-    /*
-     public static List<Module> getModulesFromTeacherId(String teacherId) throws SQLException{
-     List<Module> modules = new ArrayList<Module>();
-        
-     connection = DatabaseTool.getConnection();
-        
-     PreparedStatement statement = connection.prepareStatement("SELECT moduleCode FROM teacher_modules WHERE teacherId=?");
-     statement.setString(1, teacherId);
-     ResultSet rs = statement.executeQuery();
-     while(rs.next()){
-     Module m = new Module();
-     }
-        
-     return modules;
-     }
-     */
 
     public static List<ClassType> getClassTypesForModule(String moduleId) throws SQLException {
         List<ClassType> classTypes = new ArrayList<ClassType>();
@@ -214,5 +207,46 @@ public class RetrieveResources {
         }
 
         return moduleName;
+    }
+    
+    public static List<GroupModule> getGroupModule() throws SQLException{
+        List<GroupModule> groupModules = new ArrayList<GroupModule>();
+        
+        connection = DatabaseTool.getConnection();
+        PreparedStatement statement = connection.prepareStatement("SELECT * FROM group_module ORDER BY groupCode");
+        ResultSet rs = statement.executeQuery();
+        while(rs.next()){
+//            System.out.println(rs.getString("groupCode") + "<br/>" + rs.getString("moduleCode") + "<br/>" + rs.getString("identifier"));
+            String groupCode = rs.getString("groupCode");
+            int noOfStudents = 0;
+            PreparedStatement s = connection.prepareStatement("SELECT noOfStudents FROM groups WHERE groupCode=?");
+            s.setString(1, groupCode);
+            ResultSet result = s.executeQuery();
+            while(result.next()){
+                noOfStudents = result.getInt("noOfStudents");
+                break;
+            }
+            
+            Group group = new Group(groupCode, noOfStudents);
+            String identifier = rs.getString("identifier");
+            Module module = new Module();
+            module.setModuleCode(rs.getString("moduleCode"));
+            module.setModuleName(getModuleName(rs.getString("moduleCode")));
+            
+            List<ModuleAndItsType> moduleAndItsTypes = new ArrayList<ModuleAndItsType>();
+            
+            ModuleAndItsType moduleAndItsType = new ModuleAndItsType();
+            moduleAndItsType.setIdentifier(identifier);
+            moduleAndItsType.setModule(module);
+            moduleAndItsTypes.add(moduleAndItsType);
+            
+            moduleAndItsTypes.add(moduleAndItsType);
+            
+            GroupModule groupModule = new GroupModule(group, moduleAndItsTypes);
+            
+            groupModules.add(groupModule);
+        }
+        
+        return groupModules;
     }
 }
