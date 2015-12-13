@@ -33,7 +33,11 @@
 
             <span 
                 <% if (request.getAttribute("message") != null) {
-                        out.println("class=\"label label-danger\"");
+                        if (request.getAttribute("status") != null && request.getAttribute("status").equals("200")) {
+                            out.println("class=\"label label-success\"");
+                        } else {
+                            out.println("class=\"label label-danger\"");
+                        }
                     }%> >
                 <%
                     if (request.getAttribute("message") == null) {
@@ -63,13 +67,13 @@
                         <%
                             Set<ClassType> classTypes = m.getTypeOfClasses();
                             String infoString = "";
-                            for(ClassType t : classTypes){
+                            for (ClassType t : classTypes) {
                                 infoString += t.getTypeName() + " (" + t.getClassHours() + ") ";
                             }
                         %>
                         <td><%= (m.getModuleCode())%></td>
-                        <td><%= (m.getModuleName())%> <span class="text-primary" style="font-style: italic;font-size:90%"><%= (infoString) %></span></td>
-                        
+                        <td><%= (m.getModuleName())%> <span class="text-primary" style="font-style: italic;font-size:90%"><%= (infoString)%></span></td>
+
                         <td>
                             <a href="#<%= (m.getModuleCode())%>" data-toggle="modal"><span class="glyphicon glyphicon-edit" title="Edit"></span></a> 
                             | 

@@ -41,6 +41,7 @@ public class ModifyModuleController extends HttpServlet {
             try {
                 service.deleteModule(moduleCode);
                 request.setAttribute("message", "Module: " + moduleCode + " deleted successfully.");
+                request.setAttribute("status", "200");
             } catch (SQLException ex) {
                 request.setAttribute("message", ex.getMessage());
             }finally{

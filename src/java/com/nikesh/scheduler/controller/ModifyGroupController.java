@@ -51,6 +51,7 @@ public class ModifyGroupController extends HttpServlet {
                 
                 service.addModifiedGroup(g);
                 request.setAttribute("message", "Group: " + groupCode + " updated successfully.");
+                request.setAttribute("status", "200");
             } catch (SQLException ex) {
                 request.setAttribute("message", ex.getMessage());
             }            
@@ -59,6 +60,7 @@ public class ModifyGroupController extends HttpServlet {
             try {
                 service.deleteGroup(groupCode);
                 request.setAttribute("message", "Group: " + groupCode + " deleted successfully.");
+                request.setAttribute("status", "200");
             } catch (SQLException ex) {
                 request.setAttribute("message", ex.getMessage());
             }

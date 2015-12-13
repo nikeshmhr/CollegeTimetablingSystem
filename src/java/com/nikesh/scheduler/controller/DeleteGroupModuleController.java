@@ -41,6 +41,7 @@ public class DeleteGroupModuleController extends HttpServlet {
         try {
             groupModuleDAO.deleteGroupModule(identifier);
             request.setAttribute("message", "Relation deleted sucessfully");
+            request.setAttribute("status", "200");
         } catch (SQLException ex) {
             request.setAttribute("message", ex.getMessage());
         } finally {

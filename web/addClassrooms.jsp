@@ -22,25 +22,29 @@
                 /** HIGHLIGHTS THE CURRENTLY ACTIVE NAVIGATION **/
                 $("#addResource").addClass("active");
             });
-            
-            function validateAddClassroom(){
-                
+
+            function validateAddClassroom() {
+
             }
         </script>
     </head>
     <body>
         <%@include file="includes/functions.jsp" %>
         <%
-           sessionCheck(request, response);
+            sessionCheck(request, response);
         %>
-        
+
         <!-- CONTAINER STARTS HERE -->
         <div class="container">
             <%@include file="includes/navigation.html" %>
 
             <span 
                 <% if (request.getAttribute("message") != null) {
-                        out.println("class=\"label label-danger\"");
+                        if (request.getAttribute("status") != null && request.getAttribute("status").equals("200")) {
+                            out.println("class=\"label label-success\"");
+                        } else {
+                            out.println("class=\"label label-danger\"");
+                        }
                     }%> >
                 <%
                     if (request.getAttribute("message") == null) {
@@ -50,14 +54,14 @@
                     }
                 %>
             </span>
-            
+
             <%
                 Connection c = DatabaseTool.getConnection();
                 PreparedStatement s = c.prepareStatement("SELECT * FROM classrooms");
                 ResultSet rs = s.executeQuery();
 
             %>
-            
+
             <div class="row">
                 <!-- TABLE TO SHOW THE LIST OF ALREADY EXISTING CLASSROOMS -->
                 <div class="col-md-5">
@@ -72,14 +76,13 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <%                                
-                                boolean isDataAvailable = false;
+                            <%                                boolean isDataAvailable = false;
                                 while (rs.next()) {
                                     isDataAvailable = true;
                                     String roomCode = rs.getString("roomCode");
                                     String roomName = rs.getString("roomName");
                                     int roomCapacity = rs.getInt("roomCapacity");
-                                    String roomType = (String)ClassTypeFactory.getClassType(rs.getInt("typeId")).getTypeName();
+                                    String roomType = (String) ClassTypeFactory.getClassType(rs.getInt("typeId")).getTypeName();
                             %>
                             <tr>
                                 <td><%= (roomCode)%></td>

@@ -24,7 +24,7 @@
             $(document).ready(function () {
                 /** HIGHLIGHTS THE CURRENTLY ACTIVE NAVIGATION **/
                 $("#addResource").addClass("active");
-                
+
                 $("#classType2").hide();
                 $("#classType3").hide();
                 $("#classType4").hide();
@@ -60,25 +60,25 @@
                 var item = obj.value;
                 switch (item) {
                     case "2":
-                        if(obj.checked){
+                        if (obj.checked) {
                             $("#classType2").show();
-                        }else{
+                        } else {
                             $("#classType2").hide();
                         }
                         break;
 
                     case "3":
-                        if(obj.checked){
+                        if (obj.checked) {
                             $("#classType3").show();
-                        }else{
+                        } else {
                             $("#classType3").hide();
                         }
                         break;
 
                     case "4":
-                        if(obj.checked){
+                        if (obj.checked) {
                             $("#classType4").show();
-                        }else{
+                        } else {
                             $("#classType4").hide();
                         }
                         break;
@@ -98,7 +98,11 @@
             <%@include file="includes/navigation.html" %>
 
             <span <% if (request.getAttribute("addMessage") != null) {
-                    out.println("class=\"label label-danger\"");
+                    if (request.getAttribute("status") != null && request.getAttribute("status").equals("200")) {
+                        out.println("class=\"label label-success\"");
+                    } else {  
+                        out.println("class=\"label label-danger\"");
+                    }
                 }%> >
                 <%
                     if (request.getAttribute("addMessage") == null) {

@@ -47,6 +47,7 @@ public class DeleteTeacherModuleController extends HttpServlet {
         try {
             if(teacherModuleDAO.deleteTeacherModuleRelation(identifier)){
                 request.setAttribute("message", "Relation deleted successfully.");
+                request.setAttribute("status", "200");
             }else{
                 request.setAttribute("message", "Could not delete relation.");
             }

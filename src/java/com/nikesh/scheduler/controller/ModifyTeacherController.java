@@ -46,6 +46,7 @@ public class ModifyTeacherController extends HttpServlet {
             try {
                 service.deleteTeacher(teacherId);
                 request.setAttribute("message", "Teacher: " + teacherId + " deleted successfully.");
+                request.setAttribute("status", "200");
             } catch (SQLException ex) {
                 request.setAttribute("message", ex.getMessage());
             } finally {
@@ -57,6 +58,7 @@ public class ModifyTeacherController extends HttpServlet {
                 Teacher t = new Teacher(teacherId, request.getParameter("teacherName"));
                 service.addModifiedTeacher(t);
                 request.setAttribute("message", "Teacher: " + teacherId + " modified successfully.");
+                request.setAttribute("status", "200");
             } catch (SQLException ex) {
                 request.setAttribute("message", ex.getMessage());
             } finally {

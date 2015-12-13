@@ -30,7 +30,7 @@
 
         <%@include file="includes/functions.jsp" %>
         <%
-           sessionCheck(request, response);
+            sessionCheck(request, response);
         %>
 
         <!-- CONTAINER STARTS HERE -->
@@ -39,7 +39,11 @@
 
             <span 
                 <% if (request.getAttribute("message") != null) {
-                        out.println("class=\"label label-danger\"");
+                        if (request.getAttribute("status") != null && request.getAttribute("status").equals("200")) {
+                            out.println("class=\"label label-success\"");
+                        } else {
+                            out.println("class=\"label label-danger\"");
+                        }
                     }%> >
                 <%
                     if (request.getAttribute("message") == null) {
@@ -69,16 +73,15 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <%
-                                boolean isDataAvailable = false;
+                            <%                                boolean isDataAvailable = false;
                                 while (rs.next()) {
                                     isDataAvailable = true;
                                     String code = rs.getString("groupCode");
                                     int noOfStudents = rs.getInt("noOfStudents");
                             %>
                             <tr>
-                                <td><%= (code) %></td>
-                                <td><%= (noOfStudents) %></td>
+                                <td><%= (code)%></td>
+                                <td><%= (noOfStudents)%></td>
                             </tr>
                             <% } %>
                             <%

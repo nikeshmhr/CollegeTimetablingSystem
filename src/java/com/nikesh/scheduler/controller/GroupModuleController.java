@@ -83,8 +83,16 @@ public class GroupModuleController extends HttpServlet {
         try {
             groupModuleDAO.addGroupModule(groupModule);
             request.setAttribute("message", "Relation created successfully.");
+            request.setAttribute("status", "200");
         } catch (SQLException ex) {
-            request.setAttribute("message", ex.getMessage());
+            if (ex.toString().contains("Duplicate")) {
+                if (ex.toString().contains("PRIMARY")) {
+                    //System.out.println("PRIMARY KEY");
+                    request.setAttribute("message", "Relation already exists.");
+                }
+            } else {
+                request.setAttribute("message", ex.getMessage());
+            }            
         }
         request.getRequestDispatcher("/groupModule.jsp").forward(request, response);
     }

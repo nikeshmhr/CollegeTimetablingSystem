@@ -59,60 +59,73 @@
     <servlet-mapping>
         <servlet-name>LoginController</servlet-name>
         <url-pattern>/LoginController</url-pattern>
-        <url-pattern>/Login</url-pattern>
+        <url-pattern>/login</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>LogoutController</servlet-name>
         <url-pattern>/LogoutController</url-pattern>
+        <url-pattern>/logout</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>AddModuleController</servlet-name>
         <url-pattern>/AddModuleController</url-pattern>
+        <url-pattern>/addmodule</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>AddTeacherController</servlet-name>
         <url-pattern>/AddTeacherController</url-pattern>
+        <url-pattern>/addteacher</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>AddClassroomController</servlet-name>
         <url-pattern>/AddClassroomController</url-pattern>
+        <url-pattern>/addclassroom</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>AddGroupController</servlet-name>
         <url-pattern>/AddGroupController</url-pattern>
+        <url-pattern>/addgroup</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>ModifyClassroomController</servlet-name>
         <url-pattern>/ModifyClassroomController</url-pattern>
+        <url-pattern>/modifyclassroom</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>ModifyGroupController</servlet-name>
         <url-pattern>/ModifyGroupController</url-pattern>
+        <url-pattern>/modifygroup</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>ModifyTeacherController</servlet-name>
         <url-pattern>/ModifyTeacherController</url-pattern>
+        <url-pattern>/modifyteacher</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>ModifyModuleController</servlet-name>
         <url-pattern>/ModifyModuleController</url-pattern>
+        <url-pattern>/modifymodule</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>TeacherModuleController</servlet-name>
         <url-pattern>/TeacherModuleController</url-pattern>
+        <url-pattern>/teachermodule</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>DeleteTeacherModuleController</servlet-name>
         <url-pattern>/DeleteTeacherModuleController</url-pattern>
         <url-pattern>/DeleteTeacherModule</url-pattern>
+        <url-pattern>/deleteteachermodule</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>DeleteGroupModuleController</servlet-name>
         <url-pattern>/DeleteGroupModuleController</url-pattern>
+        <url-pattern>/deletegroupmodule</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>GroupModuleController</servlet-name>
         <url-pattern>/GroupModuleController</url-pattern>
+        <url-pattern>/groupmodule</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

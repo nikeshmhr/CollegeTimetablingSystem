@@ -56,6 +56,7 @@ public class ModifyClassroomController extends HttpServlet {
                 service.addModifiedClassroom(room);
                 
                 request.setAttribute("message", "Classroom: " + roomCode + " updated successfully");
+                request.setAttribute("status", "200");
             } catch (SQLException ex) {
                 request.setAttribute("message", ex.getMessage());
             } finally {
@@ -66,6 +67,7 @@ public class ModifyClassroomController extends HttpServlet {
             try {
                 service.deleteClassroom(roomCode);
                 request.setAttribute("message", "Classroom: " + roomCode + " deleted successfully");
+                request.setAttribute("status", "200");
             } catch (SQLException ex) {
                 request.setAttribute("message", ex.getMessage());
             }finally{

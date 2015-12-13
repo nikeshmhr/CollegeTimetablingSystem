@@ -44,9 +44,22 @@ public class AddClassroomController extends HttpServlet {
             int rowsModified = service.addClassroom(classRoom);
             if (rowsModified > 0) {
                 request.setAttribute("message", "Classroom: " + classRoom.getRoomName() + " added successfully.");
+                request.setAttribute("status", "200");
+            } else {
+                request.setAttribute("message", "Classroom was not added due to internal error.");
             }
         } catch (SQLException ex) {
-            request.setAttribute("message", ex.getMessage());
+            if (ex.toString().contains("Duplicate")) {
+                if (ex.toString().contains("PRIMARY")) {
+                    //System.out.println("PRIMARY KEY");
+                    request.setAttribute("message", "Classroom with same ID already exists.");
+                } else {
+                    //System.out.println("DUPLICATE NAME");
+                    request.setAttribute("message", "Classroom with same name already exists.");
+                }
+            } else {
+                request.setAttribute("message", ex.getMessage());
+            }
         } finally {
             dispatch.forward(request, response);
         }

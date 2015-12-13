@@ -31,7 +31,11 @@
 
             <span 
                 <% if (request.getAttribute("message") != null) {
-                        out.println("class=\"label label-danger\"");
+                        if (request.getAttribute("status") != null && request.getAttribute("status").equals("200")) {
+                            out.println("class=\"label label-success\"");
+                        } else {
+                            out.println("class=\"label label-danger\"");
+                        }
                     }%> >
                 <%
                     if (request.getAttribute("message") == null) {
@@ -92,15 +96,23 @@
                                     <div class="form-group">
                                         <label for="typeOfClassroom">Type of classroom</label>
                                         <div class="radio">
-                                            <label><input class="radio-inline" type="radio" name="typeOfClassroom" value="Lecture" <% if(c.getRoomType().getTypeName().equalsIgnoreCase("lecture")) out.print("checked"); %>> Lecture</label>
-                                            <label><input class="radio-inline" type="radio" name="typeOfClassroom" value="Tutorial" <% if(c.getRoomType().getTypeName().equalsIgnoreCase("tutorial")) out.print("checked"); %>> Tutorial</label>
-                                            <label><input class="radio-inline" type="radio" name="typeOfClassroom" value="Lab" <% if(c.getRoomType().getTypeName().equalsIgnoreCase("lab")) out.print("checked"); %>> Lab</label>
-                                            <label><input class="radio-inline" type="radio" name="typeOfClassroom" value="Workshop" <% if(c.getRoomType().getTypeName().equalsIgnoreCase("workshop")) out.print("checked"); %>> Workshop</label>
+                                            <label><input class="radio-inline" type="radio" name="typeOfClassroom" value="Lecture" <% if (c.getRoomType().getTypeName().equalsIgnoreCase("lecture")) {
+                                                    out.print("checked");
+                                                } %>> Lecture</label>
+                                            <label><input class="radio-inline" type="radio" name="typeOfClassroom" value="Tutorial" <% if (c.getRoomType().getTypeName().equalsIgnoreCase("tutorial")) {
+                                                    out.print("checked");
+                                                } %>> Tutorial</label>
+                                            <label><input class="radio-inline" type="radio" name="typeOfClassroom" value="Lab" <% if (c.getRoomType().getTypeName().equalsIgnoreCase("lab")) {
+                                                    out.print("checked");
+                                                } %>> Lab</label>
+                                            <label><input class="radio-inline" type="radio" name="typeOfClassroom" value="Workshop" <% if (c.getRoomType().getTypeName().equalsIgnoreCase("workshop")) {
+                                                    out.print("checked");
+                                                }%>> Workshop</label>
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label for="classroomCapacity">Capacity</label>
-                                        <input class="form-control" type="number" value="<%= (c.getCapacity()) %>" name="classroomCapacity" min="10" required />
+                                        <input class="form-control" type="number" value="<%= (c.getCapacity())%>" name="classroomCapacity" min="10" required />
                                     </div>
                                 </div>
                                 <div class="modal-footer">

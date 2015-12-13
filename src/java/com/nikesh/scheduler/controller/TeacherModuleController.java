@@ -94,6 +94,7 @@ public class TeacherModuleController extends HttpServlet {
             int rowsModified = teacherModuleDAO.addTeacherModule(teacherModule);
 
             request.setAttribute("message", "Relation created sucessfully.");
+            request.setAttribute("status", "200");
 
         } catch (SQLException ex) {
             request.setAttribute("message", ex.getMessage());

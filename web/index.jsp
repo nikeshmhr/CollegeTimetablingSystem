@@ -45,7 +45,7 @@
 
             <!-- LOGIN FROM STARTS FROM HERE -->
             <div class="col-md-5 well col-md-offset-3 col-sm-5 col-sm-offset-3" style="margin-top: 2%">
-                <form action="Login" method="post" role="form" style="padding: 20px;">
+                <form action="login" method="post" role="form" style="padding: 20px;">
 
                     <h1 class="caption" style="text-align: center">Login</h1>
                     <div class="row">

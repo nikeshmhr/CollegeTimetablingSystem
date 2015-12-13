@@ -52,7 +52,11 @@
             <!-- DISPLAYS ANY MESSAGE PASSED WITH 'message' ATTRIBUTE -->
             <span
                 <% if (request.getAttribute("message") != null) {
-                        out.println("class=\"label label-danger\"");
+                        if (request.getAttribute("status") != null && request.getAttribute("status").equals("200")) {
+                            out.println("class=\"label label-success\"");
+                        } else {
+                            out.println("class=\"label label-danger\"");
+                        }
                     }%> >
                 <%
                     if (request.getAttribute("message") == null) {
@@ -64,11 +68,10 @@
             </span>
 
             <%
-                
                 List<TeacherModule> listOfTeacherModule = RetrieveResources.getTeacherModules();
                 boolean isDataAvailable = false;
-                
-                if(!listOfTeacherModule.isEmpty()){
+
+                if (!listOfTeacherModule.isEmpty()) {
                     isDataAvailable = true;
                 }
             %>

@@ -49,7 +49,11 @@
 
             <span 
                 <% if (request.getAttribute("message") != null) {
-                        out.println("class=\"label label-danger\"");
+                        if (request.getAttribute("status") != null && request.getAttribute("status").equals("200")) {
+                            out.println("class=\"label label-success\"");
+                        } else {
+                            out.println("class=\"label label-danger\"");
+                        }
                     }%> >
                 <%
                     if (request.getAttribute("message") == null) {
@@ -79,8 +83,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <%                                
-                                boolean isDataAvailable = false;
+                            <%                                boolean isDataAvailable = false;
                                 while (rs.next()) {
                                     isDataAvailable = true;
                                     String teacherId = rs.getString("teacherId");

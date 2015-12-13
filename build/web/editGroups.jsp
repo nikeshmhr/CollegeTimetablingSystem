@@ -27,7 +27,11 @@
 
             <span 
                 <% if (request.getAttribute("message") != null) {
-                        out.println("class=\"label label-danger\"");
+                        if (request.getAttribute("status") != null && request.getAttribute("status").equals("200")) {
+                            out.println("class=\"label label-success\"");
+                        } else {
+                            out.println("class=\"label label-danger\"");
+                        }
                     }%> >
                 <%
                     if (request.getAttribute("message") == null) {
@@ -78,7 +82,7 @@
                                     </div>
                                     <div class="form-group">
                                         <label for="noOfStudents">No. of Students</label>
-                                        <input type="number" name="noOfStudents" id="noOfStudents" class="form-control" min="10" max="50" value="<%= (g.getNoOfStudents()) %>" required />
+                                        <input type="number" name="noOfStudents" id="noOfStudents" class="form-control" min="10" max="50" value="<%= (g.getNoOfStudents())%>" required />
                                     </div>
                                 </div>
                                 <div class="modal-footer">

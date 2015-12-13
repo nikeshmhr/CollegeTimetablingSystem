@@ -30,7 +30,11 @@
 
             <span 
                 <% if (request.getAttribute("message") != null) {
-                        out.println("class=\"label label-danger\"");
+                        if (request.getAttribute("status") != null && request.getAttribute("status").equals("200")) {
+                            out.println("class=\"label label-success\"");
+                        } else {
+                            out.println("class=\"label label-danger\"");
+                        }
                     }%> >
                 <%
                     if (request.getAttribute("message") == null) {
@@ -56,7 +60,7 @@
                         for (Teacher t : teachers) {
                     %>
                     <tr>
-                        <td><%= (t.getTeacherId()) %></td>
+                        <td><%= (t.getTeacherId())%></td>
                         <td><%= (t.getTeacherName())%></td>
                         <td>
                             <a href="#<%= (t.getTeacherId())%>" data-toggle="modal"><span class="glyphicon glyphicon-edit" title="Edit"></span></a> 
@@ -76,8 +80,8 @@
                                 <div class="modal-body">
                                     <div class="form-group">
                                         <label for="teacherId">ID</label>
-                                        <input type="text" disabled="true" id="teacherId" class="form-control" maxlength="10" value="<%= (t.getTeacherId()) %>" required />
-                                        <input type="hidden" name="teacherId" value="<%= (t.getTeacherId()) %>" />
+                                        <input type="text" disabled="true" id="teacherId" class="form-control" maxlength="10" value="<%= (t.getTeacherId())%>" required />
+                                        <input type="hidden" name="teacherId" value="<%= (t.getTeacherId())%>" />
                                     </div>
 
                                     <div class="form-group">

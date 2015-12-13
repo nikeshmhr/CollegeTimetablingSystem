@@ -48,10 +48,18 @@ public class AddTeacherController extends HttpServlet {
             boolean isInserted = service.addTeachers(teachers);
             if (isInserted) {
                 request.setAttribute("message", "Teacher(s) added successfully.");
+                request.setAttribute("status", "200");
             }
         } catch (SQLException ex) {
-            System.err.println("Exception: " + ex.getMessage());
-            request.setAttribute("message", ex.getMessage());
+            //System.err.println("Exception: " + ex.getMessage());
+            if (ex.toString().contains("Duplicate")) {
+                if (ex.toString().contains("PRIMARY")) {
+                    //System.out.println("PRIMARY KEY");
+                    request.setAttribute("message", "Teacher with same ID already exists.");
+                }
+            } else {
+                request.setAttribute("message", ex.getMessage());
+            }
         } finally {
             dispatch.forward(request, response);
         }

@@ -34,7 +34,7 @@ public class AddGroupController extends HttpServlet {
         PrintWriter out = response.getWriter();
 
         RequestDispatcher dispatch = request.getRequestDispatcher("addGroups.jsp");
-        
+
         Group group = getGroupFormData(request, response);
 
         AddGroupService service = new AddGroupService();
@@ -43,9 +43,17 @@ public class AddGroupController extends HttpServlet {
             int rowsModified = service.addGroup(group);
             if (rowsModified > 0) {
                 request.setAttribute("message", "Group: " + group.getGroupCode() + " added successfully.");
+                request.setAttribute("status", "200");
             }
         } catch (SQLException ex) {
-            request.setAttribute("message", ex.getMessage());
+            if (ex.toString().contains("Duplicate")) {
+                if (ex.toString().contains("PRIMARY")) {
+                    //System.out.println("PRIMARY KEY");
+                    request.setAttribute("message", "Group with same ID already exists.");
+                }
+            } else {
+                request.setAttribute("message", ex.getMessage());
+            }
         } finally {
             dispatch.forward(request, response);
         }
