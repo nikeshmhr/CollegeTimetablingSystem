@@ -20,7 +20,7 @@ public class LoginDAO {
 
     public boolean validate(String username, String password) throws SQLException {
         boolean status = false;
-        PreparedStatement st = connection.prepareStatement("SELECT * FROM login_info WHERE username=? AND password=?");
+        PreparedStatement st = connection.prepareStatement("SELECT * FROM login_info WHERE username=? AND password=MD5(?)");
         st.setString(1, username);
         st.setString(2, password);
         ResultSet rs = DatabaseTool.executeQuery(st);

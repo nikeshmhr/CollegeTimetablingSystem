@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 08, 2015 at 01:27 PM
+-- Generation Time: Dec 12, 2015 at 08:48 AM
 -- Server version: 5.5.32
 -- PHP Version: 5.4.16
 
@@ -36,14 +36,6 @@ CREATE TABLE IF NOT EXISTS `classrooms` (
   PRIMARY KEY (`roomCode`),
   KEY `typeId` (`typeId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `classrooms`
---
-
-INSERT INTO `classrooms` (`roomCode`, `roomName`, `roomCapacity`, `typeId`) VALUES
-('LT-01', 'Bukingham Palace', 100, 1),
-('LT-02', 'Kensington Palace', 100, 1);
 
 -- --------------------------------------------------------
 
@@ -79,12 +71,20 @@ CREATE TABLE IF NOT EXISTS `groups` (
   PRIMARY KEY (`groupCode`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+-- --------------------------------------------------------
+
 --
--- Dumping data for table `groups`
+-- Table structure for table `group_module`
 --
 
-INSERT INTO `groups` (`groupCode`, `noOfStudents`) VALUES
-('L3C1', 30);
+CREATE TABLE IF NOT EXISTS `group_module` (
+  `groupCode` varchar(10) NOT NULL,
+  `moduleCode` varchar(10) NOT NULL,
+  `identifier` varchar(20) NOT NULL,
+  PRIMARY KEY (`groupCode`,`moduleCode`),
+  KEY `groupCode` (`groupCode`,`moduleCode`),
+  KEY `moduleCode` (`moduleCode`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -119,14 +119,6 @@ CREATE TABLE IF NOT EXISTS `modules` (
   UNIQUE KEY `moduleName` (`moduleName`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- Dumping data for table `modules`
---
-
-INSERT INTO `modules` (`moduleCode`, `moduleName`) VALUES
-('CC1002NI', 'Further Programming'),
-('CC1001NI', 'Intorudction To Programming');
-
 -- --------------------------------------------------------
 
 --
@@ -142,18 +134,6 @@ CREATE TABLE IF NOT EXISTS `module_classes` (
   KEY `moduleCode` (`moduleCode`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- Dumping data for table `module_classes`
---
-
-INSERT INTO `module_classes` (`typeId`, `moduleCode`, `classHours`) VALUES
-(1, 'CC1001NI', '2.00'),
-(1, 'CC1002NI', '2.00'),
-(2, 'CC1001NI', '1.50'),
-(2, 'CC1002NI', '1.50'),
-(3, 'CC1001NI', '1.50'),
-(3, 'CC1002NI', '1.50');
-
 -- --------------------------------------------------------
 
 --
@@ -165,13 +145,6 @@ CREATE TABLE IF NOT EXISTS `teachers` (
   `teacherName` varchar(50) NOT NULL,
   PRIMARY KEY (`teacherId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `teachers`
---
-
-INSERT INTO `teachers` (`teacherId`, `teacherName`) VALUES
-('TH101', 'Nikesh Maharjan');
 
 -- --------------------------------------------------------
 
@@ -200,6 +173,13 @@ CREATE TABLE IF NOT EXISTS `teacher_modules` (
 --
 ALTER TABLE `classrooms`
   ADD CONSTRAINT `classrooms_ibfk_1` FOREIGN KEY (`typeId`) REFERENCES `class_types` (`typeId`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `group_module`
+--
+ALTER TABLE `group_module`
+  ADD CONSTRAINT `group_module_ibfk_1` FOREIGN KEY (`groupCode`) REFERENCES `groups` (`groupCode`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `group_module_ibfk_2` FOREIGN KEY (`moduleCode`) REFERENCES `modules` (`moduleCode`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `module_classes`
