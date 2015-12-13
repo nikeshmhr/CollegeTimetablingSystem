@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 12, 2015 at 08:48 AM
+-- Generation Time: Dec 13, 2015 at 03:53 PM
 -- Server version: 5.5.32
 -- PHP Version: 5.4.16
 
@@ -34,6 +34,7 @@ CREATE TABLE IF NOT EXISTS `classrooms` (
   `roomCapacity` int(11) NOT NULL,
   `typeId` int(11) NOT NULL,
   PRIMARY KEY (`roomCode`),
+  UNIQUE KEY `roomName` (`roomName`),
   KEY `typeId` (`typeId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -104,7 +105,7 @@ CREATE TABLE IF NOT EXISTS `login_info` (
 --
 
 INSERT INTO `login_info` (`id`, `username`, `password`) VALUES
-(1, 'nikesh', 'maharjan123');
+(1, 'nikesh', '5d4f5c1332542272f4d9381ec152af6c');
 
 -- --------------------------------------------------------
 
