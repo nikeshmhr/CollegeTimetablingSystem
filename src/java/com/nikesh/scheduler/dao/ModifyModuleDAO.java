@@ -24,12 +24,12 @@ public class ModifyModuleDAO {
         return DatabaseTool.updateQuery(statement);
     }
     
-    public int addModifiedModule(Module module) throws SQLException{
+    /*public int addModifiedModule(Module module) throws SQLException{
         PreparedStatement statement = connection.prepareStatement("UPDATE modules SET moduleName=? WHERE moduleCode=?");
         statement.setString(1, module.getModuleName());
         statement.setString(2, module.getModuleCode());
         
         return DatabaseTool.updateQuery(statement);
-    }
+    }*/
     
 }
