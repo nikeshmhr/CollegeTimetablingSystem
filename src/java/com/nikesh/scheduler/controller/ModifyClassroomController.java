@@ -34,47 +34,55 @@ public class ModifyClassroomController extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
-        
+
         RequestDispatcher dispatch = request.getRequestDispatcher("editClassrooms.jsp");
-        
+
         String action = request.getParameter("action");
         String roomCode = "";
-        
-        ModifyClassroomService service = new ModifyClassroomService();
-        
-        if(action.equalsIgnoreCase("update")){
-            try {
-                roomCode = request.getParameter("roomCode");
-                String roomName = request.getParameter("classroomName");
-                ClassType type = ClassTypeFactory.getClassType(request.getParameter("typeOfClassroom"));
-                int capacity = Integer.parseInt(request.getParameter("classroomCapacity"));
-                
-                System.out.println(roomCode + " " + roomName + " " + type.getTypeName() + " " + capacity);
-                
-                Classroom room = new Classroom(roomCode, roomName, type, capacity);
-                
-                service.addModifiedClassroom(room);
-                
-                request.setAttribute("message", "Classroom: " + roomCode + " updated successfully");
-                request.setAttribute("status", "200");
-            } catch (SQLException ex) {
-                request.setAttribute("message", ex.getMessage());
-            } finally {
-                dispatch.forward(request, response);
+
+        ModifyClassroomService service;
+        try {
+            service = new ModifyClassroomService();
+
+            if (action.equalsIgnoreCase("update")) {
+                try {
+                    roomCode = request.getParameter("roomCode");
+                    String roomName = request.getParameter("classroomName");
+                    ClassType type = ClassTypeFactory.getClassType(request.getParameter("typeOfClassroom"));
+                    int capacity = Integer.parseInt(request.getParameter("classroomCapacity"));
+
+                    System.out.println(roomCode + " " + roomName + " " + type.getTypeName() + " " + capacity);
+
+                    Classroom room = new Classroom(roomCode, roomName, type, capacity);
+
+                    service.addModifiedClassroom(room);
+
+                    request.setAttribute("message", "Classroom: " + roomCode + " updated successfully");
+                    request.setAttribute("status", "200");
+                } catch (SQLException ex) {
+                    request.setAttribute("message", ex.getMessage());
+                } finally {
+                    dispatch.forward(request, response);
+                }
+            } else if (action.equalsIgnoreCase("delete")) {
+                roomCode = request.getParameter("id");
+                try {
+                    service.deleteClassroom(roomCode);
+                    request.setAttribute("message", "Classroom: " + roomCode + " deleted successfully");
+                    request.setAttribute("status", "200");
+                } catch (SQLException ex) {
+                    request.setAttribute("message", ex.getMessage());
+                } finally {
+                    dispatch.forward(request, response);
+                }
             }
-        }else if(action.equalsIgnoreCase("delete")){
-            roomCode = request.getParameter("id");
-            try {
-                service.deleteClassroom(roomCode);
-                request.setAttribute("message", "Classroom: " + roomCode + " deleted successfully");
-                request.setAttribute("status", "200");
-            } catch (SQLException ex) {
-                request.setAttribute("message", ex.getMessage());
-            }finally{
-                dispatch.forward(request, response);
-            }
+        } catch (SQLException ex) {
+            request.setAttribute("message", ex.getMessage());
+            dispatch.forward(request, response);
+        } catch (ClassNotFoundException ex) {
+            request.setAttribute("message", ex.getMessage());
+            dispatch.forward(request, response);
         }
-        
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

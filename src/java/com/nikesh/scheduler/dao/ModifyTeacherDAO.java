@@ -14,11 +14,11 @@ public class ModifyTeacherDAO {
 
     private static Connection connection;
 
-    public ModifyTeacherDAO() {
+    public ModifyTeacherDAO() throws SQLException, ClassNotFoundException {
         connection = DatabaseTool.getConnection();
     }
 
-    public int deleteTeacher(String teacherId) throws SQLException {
+    public int deleteTeacher(String teacherId) throws SQLException, ClassNotFoundException {
         connection = DatabaseTool.getConnection();
         PreparedStatement statement = connection.prepareStatement("DELETE FROM teachers WHERE teacherId=?");
         statement.setString(1, teacherId);
@@ -27,7 +27,7 @@ public class ModifyTeacherDAO {
 
     }
 
-    public int addModifiedTeacher(Teacher t) throws SQLException {
+    public int addModifiedTeacher(Teacher t) throws SQLException, ClassNotFoundException {
         connection = DatabaseTool.getConnection();
         PreparedStatement statement = connection.prepareStatement("UPDATE teachers SET teacherName=? WHERE teacherId=?");
         statement.setString(1, t.getTeacherName());

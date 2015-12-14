@@ -14,12 +14,14 @@ public class AddGroupDAO {
     
     private static Connection connection;
     
-    public AddGroupDAO(){
+    public AddGroupDAO() throws SQLException, ClassNotFoundException{
         connection = DatabaseTool.getConnection();
     }
     
-    public int addGroup(Group g) throws SQLException{
+    public int addGroup(Group g) throws SQLException, ClassNotFoundException{
         int rowsInserted = 0;
+        
+        connection = DatabaseTool.getConnection();
         
         PreparedStatement statement = connection.prepareStatement("INSERT INTO groups VALUES(?, ?)");
         statement.setString(1, g.getGroupCode());

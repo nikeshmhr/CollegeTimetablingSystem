@@ -31,23 +31,33 @@ public class ModifyModuleController extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         RequestDispatcher dispatch = request.getRequestDispatcher("editModules.jsp");
-        
+
         String action = request.getParameter("action");
         String moduleCode = request.getParameter("id");
-        
-        ModifyModuleService service = new ModifyModuleService();
-        
-        if(action.equalsIgnoreCase("delete")){
-            try {
-                service.deleteModule(moduleCode);
-                request.setAttribute("message", "Module: " + moduleCode + " deleted successfully.");
-                request.setAttribute("status", "200");
-            } catch (SQLException ex) {
-                request.setAttribute("message", ex.getMessage());
-            }finally{
-                dispatch.forward(request, response);
-            }            
+
+        ModifyModuleService service;
+        try {
+            service = new ModifyModuleService();
+
+            if (action.equalsIgnoreCase("delete")) {
+                try {
+                    service.deleteModule(moduleCode);
+                    request.setAttribute("message", "Module: " + moduleCode + " deleted successfully.");
+                    request.setAttribute("status", "200");
+                } catch (SQLException ex) {
+                    request.setAttribute("message", ex.getMessage());
+                } finally {
+                    dispatch.forward(request, response);
+                }
+            }
+        } catch (SQLException ex) {
+            request.setAttribute("message", ex.getMessage());
+            dispatch.forward(request, response);
+        } catch (ClassNotFoundException ex) {
+            request.setAttribute("message", ex.getMessage());
+            dispatch.forward(request, response);
         }
+
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

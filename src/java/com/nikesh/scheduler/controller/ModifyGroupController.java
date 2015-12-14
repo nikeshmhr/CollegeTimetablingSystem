@@ -38,35 +38,44 @@ public class ModifyGroupController extends HttpServlet {
 
         String groupCode = "";
 
-        ModifyGroupService service = new ModifyGroupService();
+        ModifyGroupService service;
+        try {
+            service = new ModifyGroupService();
 
-        String action = request.getParameter("action");
+            String action = request.getParameter("action");
 
-        if (action.equalsIgnoreCase("update")) {
-            try {
-                groupCode = request.getParameter("groupCode");
-                int noOfStudents = Integer.parseInt(request.getParameter("noOfStudents"));
-                
-                Group g = new Group(groupCode, noOfStudents);
-                
-                service.addModifiedGroup(g);
-                request.setAttribute("message", "Group: " + groupCode + " updated successfully.");
-                request.setAttribute("status", "200");
-            } catch (SQLException ex) {
-                request.setAttribute("message", ex.getMessage());
-            }            
-        } else if (action.equalsIgnoreCase("delete")) {
-            groupCode = request.getParameter("id");
-            try {
-                service.deleteGroup(groupCode);
-                request.setAttribute("message", "Group: " + groupCode + " deleted successfully.");
-                request.setAttribute("status", "200");
-            } catch (SQLException ex) {
-                request.setAttribute("message", ex.getMessage());
+            if (action.equalsIgnoreCase("update")) {
+                try {
+                    groupCode = request.getParameter("groupCode");
+                    int noOfStudents = Integer.parseInt(request.getParameter("noOfStudents"));
+
+                    Group g = new Group(groupCode, noOfStudents);
+
+                    service.addModifiedGroup(g);
+                    request.setAttribute("message", "Group: " + groupCode + " updated successfully.");
+                    request.setAttribute("status", "200");
+                } catch (SQLException ex) {
+                    request.setAttribute("message", ex.getMessage());
+                }
+            } else if (action.equalsIgnoreCase("delete")) {
+                groupCode = request.getParameter("id");
+                try {
+                    service.deleteGroup(groupCode);
+                    request.setAttribute("message", "Group: " + groupCode + " deleted successfully.");
+                    request.setAttribute("status", "200");
+                } catch (SQLException ex) {
+                    request.setAttribute("message", ex.getMessage());
+                }
             }
-        }
 
-        dispatch.forward(request, response);
+            dispatch.forward(request, response);
+        } catch (SQLException ex) {
+            request.setAttribute("message", ex.getMessage());
+            dispatch.forward(request, response);
+        } catch (ClassNotFoundException ex) {
+            request.setAttribute("message", ex.getMessage());
+            dispatch.forward(request, response);
+        }
 
     }
 

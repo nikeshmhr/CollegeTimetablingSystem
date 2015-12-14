@@ -21,11 +21,11 @@ public class GroupModuleDAO {
 
     private static Connection connection;
 
-    public GroupModuleDAO() {
+    public GroupModuleDAO() throws SQLException, ClassNotFoundException {
         connection = DatabaseTool.getConnection();
     }
 
-    public int addGroupModule(GroupModule groupModule) throws SQLException {
+    public int addGroupModule(GroupModule groupModule) throws SQLException, ClassNotFoundException {
         int rowsModified = 0;
 
         connection = DatabaseTool.getConnection();
@@ -49,7 +49,7 @@ public class GroupModuleDAO {
         return rowsModified;
     }
     
-    public int deleteGroupModule(String identifier) throws SQLException {
+    public int deleteGroupModule(String identifier) throws SQLException, ClassNotFoundException {
         int rowsDeleted = 0;
         
         connection = DatabaseTool.getConnection();

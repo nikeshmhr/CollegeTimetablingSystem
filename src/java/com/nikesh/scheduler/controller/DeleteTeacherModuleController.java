@@ -9,6 +9,8 @@ import com.nikesh.scheduler.dao.TeacherModuleDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -34,28 +36,39 @@ public class DeleteTeacherModuleController extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
-        
+
         System.out.println("HELLO");
-        
+
         RequestDispatcher dispatch = request.getRequestDispatcher("teacherModule.jsp");
-        
-        /** Storing data from the view **/
+
+        /**
+         * Storing data from the view *
+         */
         String identifier = request.getParameter("id");
-        
-        TeacherModuleDAO teacherModuleDAO = new TeacherModuleDAO();
-        
+
+        TeacherModuleDAO teacherModuleDAO;
         try {
-            if(teacherModuleDAO.deleteTeacherModuleRelation(identifier)){
-                request.setAttribute("message", "Relation deleted successfully.");
-                request.setAttribute("status", "200");
-            }else{
-                request.setAttribute("message", "Could not delete relation.");
+            teacherModuleDAO = new TeacherModuleDAO();
+            try {
+                if (teacherModuleDAO.deleteTeacherModuleRelation(identifier)) {
+                    request.setAttribute("message", "Relation deleted successfully.");
+                    request.setAttribute("status", "200");
+                } else {
+                    request.setAttribute("message", "Could not delete relation.");
+                }
+            } catch (SQLException ex) {
+                request.setAttribute("message", "Error while deleting relation.");
+            } finally {
+                dispatch.forward(request, response);
             }
         } catch (SQLException ex) {
-            request.setAttribute("message", "Error while deleting relation.");
-        } finally{
+            request.setAttribute("message", ex.getMessage());
+            dispatch.forward(request, response);
+        } catch (ClassNotFoundException ex) {
+            request.setAttribute("message", ex.getMessage());
             dispatch.forward(request, response);
         }
+
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

@@ -14,11 +14,12 @@ public class ModifyModuleDAO {
     
     private static Connection connection;
     
-    public ModifyModuleDAO(){
+    public ModifyModuleDAO() throws SQLException, ClassNotFoundException{
         connection = DatabaseTool.getConnection();
     }
     
-    public int deleteModule(String moduleId) throws SQLException{
+    public int deleteModule(String moduleId) throws SQLException, ClassNotFoundException{
+        connection = DatabaseTool.getConnection();
         PreparedStatement statement = connection.prepareStatement("DELETE FROM modules WHERE moduleCode=?");
         statement.setString(1, moduleId);
         return DatabaseTool.updateQuery(statement);

@@ -12,15 +12,15 @@ public class ModifyClassroomService {
     
     private ModifyClassroomDAO dao;
     
-    public ModifyClassroomService(){
+    public ModifyClassroomService() throws SQLException, ClassNotFoundException{
         dao = new ModifyClassroomDAO();
     }
     
-    public int deleteClassroom(String code) throws SQLException{
+    public int deleteClassroom(String code) throws SQLException, ClassNotFoundException{
         return dao.deleteClassroom(code);
     }
     
-    public int addModifiedClassroom(Classroom room) throws SQLException{
+    public int addModifiedClassroom(Classroom room) throws SQLException, ClassNotFoundException{
         return dao.addModifiedClassroom(room);
     }
     

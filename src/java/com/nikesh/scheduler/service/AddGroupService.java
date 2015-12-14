@@ -12,11 +12,11 @@ public class AddGroupService {
     
     private AddGroupDAO dao;
     
-    public AddGroupService(){
+    public AddGroupService() throws SQLException, ClassNotFoundException{
         dao = new AddGroupDAO();
     }
     
-    public int addGroup(Group group) throws SQLException{
+    public int addGroup(Group group) throws SQLException, ClassNotFoundException{
         return dao.addGroup(group);
     }
     

@@ -12,11 +12,11 @@ public class ModifyModuleService {
     
     private ModifyModuleDAO dao;
     
-    public ModifyModuleService(){
+    public ModifyModuleService() throws SQLException, ClassNotFoundException{
         dao = new ModifyModuleDAO();
     }
     
-    public int deleteModule(String moduleCode) throws SQLException{
+    public int deleteModule(String moduleCode) throws SQLException, ClassNotFoundException{
         return dao.deleteModule(moduleCode);
     }
     

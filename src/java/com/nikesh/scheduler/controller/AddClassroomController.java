@@ -39,28 +39,38 @@ public class AddClassroomController extends HttpServlet {
 
         Classroom classRoom = getClassroomFormData(request, response);
 
-        AddClassroomService service = new AddClassroomService();
+        AddClassroomService service;
         try {
-            int rowsModified = service.addClassroom(classRoom);
-            if (rowsModified > 0) {
-                request.setAttribute("message", "Classroom: " + classRoom.getRoomName() + " added successfully.");
-                request.setAttribute("status", "200");
-            } else {
-                request.setAttribute("message", "Classroom was not added due to internal error.");
+            service = new AddClassroomService();
+
+            try {
+                int rowsModified = service.addClassroom(classRoom);
+                if (rowsModified > 0) {
+                    request.setAttribute("message", "Classroom: " + classRoom.getRoomName() + " added successfully.");
+                    request.setAttribute("status", "200");
+                } else {
+                    request.setAttribute("message", "Classroom was not added due to internal error.");
+                }
+            } catch (SQLException ex) {
+                if (ex.toString().contains("Duplicate")) {
+                    if (ex.toString().contains("PRIMARY")) {
+                        //System.out.println("PRIMARY KEY");
+                        request.setAttribute("message", "Classroom with same ID already exists.");
+                    } else {
+                        //System.out.println("DUPLICATE NAME");
+                        request.setAttribute("message", "Classroom with same name already exists.");
+                    }
+                } else {
+                    request.setAttribute("message", ex.getMessage());
+                }
+            } finally {
+                dispatch.forward(request, response);
             }
         } catch (SQLException ex) {
-            if (ex.toString().contains("Duplicate")) {
-                if (ex.toString().contains("PRIMARY")) {
-                    //System.out.println("PRIMARY KEY");
-                    request.setAttribute("message", "Classroom with same ID already exists.");
-                } else {
-                    //System.out.println("DUPLICATE NAME");
-                    request.setAttribute("message", "Classroom with same name already exists.");
-                }
-            } else {
-                request.setAttribute("message", ex.getMessage());
-            }
-        } finally {
+            request.setAttribute("message", ex.getMessage());
+            dispatch.forward(request, response);
+        } catch (ClassNotFoundException ex) {
+            request.setAttribute("message", ex.getMessage());
             dispatch.forward(request, response);
         }
     }

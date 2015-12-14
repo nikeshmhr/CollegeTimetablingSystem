@@ -16,11 +16,11 @@ public class AddModuleDAO {
 
     private static Connection connection;
 
-    public AddModuleDAO() {
+    public AddModuleDAO() throws SQLException, ClassNotFoundException {
         connection = DatabaseTool.getConnection();
     }
 
-    public int addModule(Module module) throws SQLException {
+    public int addModule(Module module) throws SQLException, ClassNotFoundException {
         int rowsModified = 0;
 
         connection = DatabaseTool.getConnection();
@@ -50,7 +50,7 @@ public class AddModuleDAO {
         return rowsModified;
     }
 
-    public int updateModule(Module m) throws SQLException {
+    public int updateModule(Module m) throws SQLException, ClassNotFoundException {
         int updatedRows = 0;
         
         connection = DatabaseTool.getConnection();

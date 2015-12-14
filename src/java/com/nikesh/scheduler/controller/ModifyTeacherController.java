@@ -3,7 +3,6 @@ package com.nikesh.scheduler.controller;
 import com.nikesh.scheduler.model.Teacher;
 import com.nikesh.scheduler.service.ModifyTeacherService;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -34,37 +33,45 @@ public class ModifyTeacherController extends HttpServlet {
         RequestDispatcher dispatch = request.getRequestDispatcher("editTeachers.jsp");
 
         String action = request.getParameter("action");
-        
-        String teacherId = "";
-        
-        ModifyTeacherService service = new ModifyTeacherService();
 
-        System.out.println("ID: " + teacherId);
-        
-        if (action.equalsIgnoreCase("delete")) {
-            teacherId = request.getParameter("id");
-            try {
-                service.deleteTeacher(teacherId);
-                request.setAttribute("message", "Teacher: " + teacherId + " deleted successfully.");
-                request.setAttribute("status", "200");
-            } catch (SQLException ex) {
-                request.setAttribute("message", ex.getMessage());
-            } finally {
-                dispatch.forward(request, response);
+        String teacherId = "";
+
+        ModifyTeacherService service;
+        try {
+            service = new ModifyTeacherService();
+
+            if (action.equalsIgnoreCase("delete")) {
+                teacherId = request.getParameter("id");
+                try {
+                    service.deleteTeacher(teacherId);
+                    request.setAttribute("message", "Teacher: " + teacherId + " deleted successfully.");
+                    request.setAttribute("status", "200");
+                } catch (SQLException ex) {
+                    request.setAttribute("message", ex.getMessage());
+                } finally {
+                    dispatch.forward(request, response);
+                }
+            } else if (action.equalsIgnoreCase("update")) {
+                teacherId = request.getParameter("teacherId");
+                try {
+                    Teacher t = new Teacher(teacherId, request.getParameter("teacherName"));
+                    service.addModifiedTeacher(t);
+                    request.setAttribute("message", "Teacher: " + teacherId + " modified successfully.");
+                    request.setAttribute("status", "200");
+                } catch (SQLException ex) {
+                    request.setAttribute("message", ex.getMessage());
+                } finally {
+                    dispatch.forward(request, response);
+                }
             }
-        } else if (action.equalsIgnoreCase("update")) {
-            teacherId = request.getParameter("teacherId");
-            try {
-                Teacher t = new Teacher(teacherId, request.getParameter("teacherName"));
-                service.addModifiedTeacher(t);
-                request.setAttribute("message", "Teacher: " + teacherId + " modified successfully.");
-                request.setAttribute("status", "200");
-            } catch (SQLException ex) {
-                request.setAttribute("message", ex.getMessage());
-            } finally {
-                dispatch.forward(request, response);
-            }
+        } catch (SQLException ex) {
+            request.setAttribute("message", ex.getMessage());
+            dispatch.forward(request, response);
+        } catch (ClassNotFoundException ex) {
+            request.setAttribute("message", ex.getMessage());
+            dispatch.forward(request, response);
         }
+
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

@@ -11,11 +11,11 @@ public class LoginService {
     
     private LoginDAO dao;
     
-    public LoginService(){
+    public LoginService() throws SQLException, ClassNotFoundException{
         dao = new LoginDAO();
     }
     
-    public boolean validate(String username, String password) throws SQLException {
+    public boolean validate(String username, String password) throws SQLException, ClassNotFoundException {
         return dao.validate(username, password);
     }
     

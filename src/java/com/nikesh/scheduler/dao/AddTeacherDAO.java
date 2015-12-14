@@ -15,12 +15,14 @@ public class AddTeacherDAO {
     
     private static Connection connection;
     
-    public AddTeacherDAO(){
+    public AddTeacherDAO() throws SQLException, ClassNotFoundException{
         connection = DatabaseTool.getConnection();
     }
     
-    public boolean addTeachers(Set<Teacher> teachers) throws SQLException{
+    public boolean addTeachers(Set<Teacher> teachers) throws SQLException, ClassNotFoundException{
         boolean flag = false;
+        
+        connection = DatabaseTool.getConnection();
         
         PreparedStatement statement;
         

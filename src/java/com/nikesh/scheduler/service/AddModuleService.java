@@ -12,15 +12,15 @@ public class AddModuleService {
     
     private AddModuleDAO dao;
     
-    public AddModuleService(){
+    public AddModuleService() throws SQLException, ClassNotFoundException{
         dao = new AddModuleDAO();
     }
     
-    public int addModule(Module module) throws SQLException{
+    public int addModule(Module module) throws SQLException, ClassNotFoundException{
         return dao.addModule(module);
     }
 
-    public int updateModule(Module m) throws SQLException {
+    public int updateModule(Module m) throws SQLException, ClassNotFoundException {
         return dao.updateModule(m);
     }
     

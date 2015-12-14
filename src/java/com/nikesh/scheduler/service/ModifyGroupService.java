@@ -12,15 +12,15 @@ public class ModifyGroupService {
     
     private ModifyGroupDAO dao;
     
-    public ModifyGroupService(){
+    public ModifyGroupService() throws SQLException, ClassNotFoundException{
         dao = new ModifyGroupDAO();
     }
     
-    public int deleteGroup(String groupCode) throws SQLException{
+    public int deleteGroup(String groupCode) throws SQLException, ClassNotFoundException{
         return dao.deleteGroup(groupCode);
     }
     
-    public int addModifiedGroup(Group g) throws SQLException{
+    public int addModifiedGroup(Group g) throws SQLException, ClassNotFoundException{
         return dao.addModifiedGroup(g);
     }
     

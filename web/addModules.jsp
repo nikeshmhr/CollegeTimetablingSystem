@@ -190,7 +190,7 @@
                             <label for="hoursOfClasses">Hours of classes</label>
                             <blockquote>
                                 <label id="classType1">Lecture:</label>
-                                <input type="number" style="margin-bottom: 5px;" class="form-control input-group col-md-4" step="0.1" min="1" name="lectureHours" placeholder="0"  />
+                                <input type="number" style="margin-bottom: 5px;" class="form-control input-group col-md-4" step="0.1" min="1" name="lectureHours" placeholder="0" required  />
                                 <div id="classType2">
                                     <label>Tutorial:</label>
                                     <input type="number" style="margin-bottom: 5px" class="form-control input-group col-md-4" step="0.1" min="1" name="tutorialHours" placeholder="0"  />

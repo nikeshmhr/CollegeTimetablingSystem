@@ -54,47 +54,56 @@ public class GroupModuleController extends HttpServlet {
         out.println(groupCode + "<br/>");
         out.println(modulesAsList);
 
-        GroupModuleDAO groupModuleDAO = new GroupModuleDAO();
-
-        List<ModuleAndItsType> listOfM = new ArrayList<ModuleAndItsType>();
-        GroupModule groupModule = new GroupModule();
-
-        Group g = new Group();
-        g.setGroupCode(groupCode);
-        
-        groupModule.setGroup(g);
-
-        for (String module : modulesAsList) {
-
-            Module m = new Module();
-            ModuleAndItsType moduleAndItsType = new ModuleAndItsType();
-            m.setModuleCode(module);
-            try {
-                m.setModuleName(RetrieveResources.getModuleName(module));
-            } catch (SQLException ex) {
-                Logger.getLogger(GroupModuleController.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            moduleAndItsType.setModule(m);
-            moduleAndItsType.setIdentifier(g.getGroupCode() + m.getModuleCode());
-
-            listOfM.add(moduleAndItsType);
-        }
-        groupModule.setListOfModulesAndItsType(listOfM);
+        GroupModuleDAO groupModuleDAO;
         try {
-            groupModuleDAO.addGroupModule(groupModule);
-            request.setAttribute("message", "Relation created successfully.");
-            request.setAttribute("status", "200");
-        } catch (SQLException ex) {
-            if (ex.toString().contains("Duplicate")) {
-                if (ex.toString().contains("PRIMARY")) {
-                    //System.out.println("PRIMARY KEY");
-                    request.setAttribute("message", "Relation already exists.");
+            groupModuleDAO = new GroupModuleDAO();
+
+            List<ModuleAndItsType> listOfM = new ArrayList<ModuleAndItsType>();
+            GroupModule groupModule = new GroupModule();
+
+            Group g = new Group();
+            g.setGroupCode(groupCode);
+
+            groupModule.setGroup(g);
+
+            for (String module : modulesAsList) {
+
+                Module m = new Module();
+                ModuleAndItsType moduleAndItsType = new ModuleAndItsType();
+                m.setModuleCode(module);
+                try {
+                    m.setModuleName(RetrieveResources.getModuleName(module));
+                } catch (SQLException ex) {
+                    Logger.getLogger(GroupModuleController.class.getName()).log(Level.SEVERE, null, ex);
                 }
-            } else {
-                request.setAttribute("message", ex.getMessage());
-            }            
+                moduleAndItsType.setModule(m);
+                moduleAndItsType.setIdentifier(g.getGroupCode() + m.getModuleCode());
+
+                listOfM.add(moduleAndItsType);
+            }
+            groupModule.setListOfModulesAndItsType(listOfM);
+            try {
+                groupModuleDAO.addGroupModule(groupModule);
+                request.setAttribute("message", "Relation created successfully.");
+                request.setAttribute("status", "200");
+            } catch (SQLException ex) {
+                if (ex.toString().contains("Duplicate")) {
+                    if (ex.toString().contains("PRIMARY")) {
+                        //System.out.println("PRIMARY KEY");
+                        request.setAttribute("message", "Relation already exists.");
+                    }
+                } else {
+                    request.setAttribute("message", ex.getMessage());
+                }
+            }
+            request.getRequestDispatcher("/groupModule.jsp").forward(request, response);
+        } catch (SQLException ex) {
+            request.setAttribute("message", ex.getMessage());
+            request.getRequestDispatcher("/groupModule.jsp").forward(request, response);
+        } catch (ClassNotFoundException ex) {
+            request.setAttribute("message", ex.getMessage());
+            request.getRequestDispatcher("/groupModule.jsp").forward(request, response);
         }
-        request.getRequestDispatcher("/groupModule.jsp").forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

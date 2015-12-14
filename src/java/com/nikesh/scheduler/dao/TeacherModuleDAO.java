@@ -17,11 +17,11 @@ public class TeacherModuleDAO {
 
     private static Connection connection;
 
-    public TeacherModuleDAO() {
+    public TeacherModuleDAO() throws SQLException, ClassNotFoundException {
         connection = DatabaseTool.getConnection();
     }
 
-    public int addTeacherModule(TeacherModule teacherModule) throws SQLException {
+    public int addTeacherModule(TeacherModule teacherModule) throws SQLException, ClassNotFoundException {
         int rowsModified = 0;
 
         connection = DatabaseTool.getConnection();
@@ -41,7 +41,7 @@ public class TeacherModuleDAO {
         return rowsModified;
     }
 
-    public boolean deleteTeacherModuleRelation(String identifier) throws SQLException {
+    public boolean deleteTeacherModuleRelation(String identifier) throws SQLException, ClassNotFoundException {
         boolean deleted = false;
 
         connection = DatabaseTool.getConnection();

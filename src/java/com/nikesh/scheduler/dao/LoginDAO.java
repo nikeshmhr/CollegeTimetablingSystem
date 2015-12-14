@@ -14,12 +14,15 @@ public class LoginDAO {
 
     private static Connection connection;
 
-    public LoginDAO() {
+    public LoginDAO() throws SQLException, ClassNotFoundException {
         connection = DatabaseTool.getConnection();
     }
 
-    public boolean validate(String username, String password) throws SQLException {
+    public boolean validate(String username, String password) throws SQLException, ClassNotFoundException {
         boolean status = false;
+        
+        connection = DatabaseTool.getConnection();
+        
         PreparedStatement st = connection.prepareStatement("SELECT * FROM login_info WHERE username=? AND password=MD5(?)");
         st.setString(1, username);
         st.setString(2, password);

@@ -12,6 +12,8 @@ import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -89,19 +91,28 @@ public class TeacherModuleController extends HttpServlet {
             teacherModule.getListOfModulesAndItsType().add(moduleAndItsType);
         }
 
-        TeacherModuleDAO teacherModuleDAO = new TeacherModuleDAO();
+        TeacherModuleDAO teacherModuleDAO;
         try {
-            int rowsModified = teacherModuleDAO.addTeacherModule(teacherModule);
+            teacherModuleDAO = new TeacherModuleDAO();
 
-            request.setAttribute("message", "Relation created sucessfully.");
-            request.setAttribute("status", "200");
+            try {
+                int rowsModified = teacherModuleDAO.addTeacherModule(teacherModule);
 
+                request.setAttribute("message", "Relation created sucessfully.");
+                request.setAttribute("status", "200");
+
+            } catch (SQLException ex) {
+                request.setAttribute("message", ex.getMessage());
+            } finally {
+                request.getRequestDispatcher("/teacherModule.jsp").forward(request, response);
+            }
         } catch (SQLException ex) {
             request.setAttribute("message", ex.getMessage());
-        } finally {
+            request.getRequestDispatcher("/teacherModule.jsp").forward(request, response);
+        } catch (ClassNotFoundException ex) {
+            request.setAttribute("message", ex.getMessage());
             request.getRequestDispatcher("/teacherModule.jsp").forward(request, response);
         }
-
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

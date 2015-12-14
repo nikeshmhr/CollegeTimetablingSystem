@@ -12,6 +12,8 @@ import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -54,44 +56,54 @@ public class AddModuleController extends HttpServlet {
         /**
          * Service class for add module functionality *
          */
-        AddModuleService service = new AddModuleService();
-
-        int modifiedRows = 0;
+        AddModuleService service;
         try {
-            if (operation == null || operation.isEmpty()) {
-                m = getModuleParam(request, response);
-                modifiedRows = service.addModule(m);
-                if (modifiedRows > 0) {
-                    request.setAttribute("addMessage", "Module: " + m.getModuleName() + " added successfully.");
-                    request.setAttribute("status", "200");
-                } else {
-                    request.setAttribute("addMessage", "Module: " + m.getModuleName() + " was not added due to internal error.");
+            service = new AddModuleService();
+
+            int modifiedRows = 0;
+            try {
+                if (operation == null || operation.isEmpty()) {
+                    m = getModuleParam(request, response);
+                    modifiedRows = service.addModule(m);
+                    if (modifiedRows > 0) {
+                        request.setAttribute("addMessage", "Module: " + m.getModuleName() + " added successfully.");
+                        request.setAttribute("status", "200");
+                    } else {
+                        request.setAttribute("addMessage", "Module: " + m.getModuleName() + " was not added due to internal error.");
+                    }
+                } else if (operation.equalsIgnoreCase("update")) {
+                    m = getModuleParamUpdate(request, response);
+                    modifiedRows = service.updateModule(m);
+                    if (modifiedRows > 0) {
+                        request.setAttribute("message", "Module updated successfully.");
+                        request.setAttribute("status", "200");
+                    } else {
+                        request.setAttribute("message", "Module was not updated.");
+                    }
                 }
-            } else if (operation.equalsIgnoreCase("update")) {
-                m = getModuleParamUpdate(request, response);
-                modifiedRows = service.updateModule(m);
-                if (modifiedRows > 0) {
-                    request.setAttribute("message", "Module updated successfully.");
-                    request.setAttribute("status", "200");
+                request.getRequestDispatcher(dispatchLink).forward(request, response);
+            } catch (SQLException ex) {
+                if (ex.toString().contains("Duplicate")) {
+                    if (ex.toString().contains("PRIMARY")) {
+                        //System.out.println("PRIMARY KEY");
+                        request.setAttribute("addMessage", "Module with same ID already exists.");
+                    } else {
+                        //System.out.println("DUPLICATE NAME");
+                        request.setAttribute("addMessage", "Module with same name already exists.");
+                    }
                 } else {
-                    request.setAttribute("message", "Module was not updated.");
+                    request.setAttribute("addMessage", "Exception: " + ex.getMessage());
                 }
+                request.getRequestDispatcher(dispatchLink).forward(request, response);
             }
-            request.getRequestDispatcher(dispatchLink).forward(request, response);
         } catch (SQLException ex) {
-            if (ex.toString().contains("Duplicate")) {
-                if (ex.toString().contains("PRIMARY")) {
-                    //System.out.println("PRIMARY KEY");
-                    request.setAttribute("addMessage", "Module with same ID already exists.");
-                } else {
-                    //System.out.println("DUPLICATE NAME");
-                    request.setAttribute("addMessage", "Module with same name already exists.");
-                }
-            } else {
-                request.setAttribute("addMessage", "Exception: " + ex.getMessage());
-            }
+            request.setAttribute("message", ex.getMessage());
+            request.getRequestDispatcher(dispatchLink).forward(request, response);
+        } catch (ClassNotFoundException ex) {
+            request.setAttribute("message", ex.getMessage());
             request.getRequestDispatcher(dispatchLink).forward(request, response);
         }
+
         //out.println(modifiedRows);
     }
 

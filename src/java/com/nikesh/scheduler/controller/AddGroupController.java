@@ -37,27 +37,35 @@ public class AddGroupController extends HttpServlet {
 
         Group group = getGroupFormData(request, response);
 
-        AddGroupService service = new AddGroupService();
-
+        AddGroupService service;
         try {
-            int rowsModified = service.addGroup(group);
-            if (rowsModified > 0) {
-                request.setAttribute("message", "Group: " + group.getGroupCode() + " added successfully.");
-                request.setAttribute("status", "200");
+            service = new AddGroupService();
+
+            try {
+                int rowsModified = service.addGroup(group);
+                if (rowsModified > 0) {
+                    request.setAttribute("message", "Group: " + group.getGroupCode() + " added successfully.");
+                    request.setAttribute("status", "200");
+                }
+            } catch (SQLException ex) {
+                if (ex.toString().contains("Duplicate")) {
+                    if (ex.toString().contains("PRIMARY")) {
+                        //System.out.println("PRIMARY KEY");
+                        request.setAttribute("message", "Group with same ID already exists.");
+                    }
+                } else {
+                    request.setAttribute("message", ex.getMessage());
+                }
+            } finally {
+                dispatch.forward(request, response);
             }
         } catch (SQLException ex) {
-            if (ex.toString().contains("Duplicate")) {
-                if (ex.toString().contains("PRIMARY")) {
-                    //System.out.println("PRIMARY KEY");
-                    request.setAttribute("message", "Group with same ID already exists.");
-                }
-            } else {
-                request.setAttribute("message", ex.getMessage());
-            }
-        } finally {
+            request.setAttribute("message", ex.getMessage());
+            dispatch.forward(request, response);
+        } catch (ClassNotFoundException ex) {
+            request.setAttribute("message", ex.getMessage());
             dispatch.forward(request, response);
         }
-
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

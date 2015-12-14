@@ -18,11 +18,11 @@ public class AddTeacherServices {
     
     private AddTeacherDAO dao;
     
-    public AddTeacherServices(){
+    public AddTeacherServices() throws SQLException, ClassNotFoundException{
         dao = new AddTeacherDAO();
     }
     
-    public boolean addTeachers(Set<Teacher> teachers) throws SQLException{
+    public boolean addTeachers(Set<Teacher> teachers) throws SQLException, ClassNotFoundException{
         return dao.addTeachers(teachers);
     }
     

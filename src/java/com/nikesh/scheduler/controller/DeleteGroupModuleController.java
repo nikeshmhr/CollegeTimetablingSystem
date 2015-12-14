@@ -6,9 +6,11 @@
 package com.nikesh.scheduler.controller;
 
 import com.nikesh.scheduler.dao.GroupModuleDAO;
-import java.io.IOException; 
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -33,18 +35,26 @@ public class DeleteGroupModuleController extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
-        
+
         String identifier = request.getParameter("id");
-        
-        GroupModuleDAO groupModuleDAO = new GroupModuleDAO();
-        
+
+        GroupModuleDAO groupModuleDAO;
         try {
-            groupModuleDAO.deleteGroupModule(identifier);
-            request.setAttribute("message", "Relation deleted sucessfully");
-            request.setAttribute("status", "200");
+            groupModuleDAO = new GroupModuleDAO();
+            try {
+                groupModuleDAO.deleteGroupModule(identifier);
+                request.setAttribute("message", "Relation deleted sucessfully");
+                request.setAttribute("status", "200");
+            } catch (SQLException ex) {
+                request.setAttribute("message", ex.getMessage());
+            } finally {
+                request.getRequestDispatcher("/groupModule.jsp").forward(request, response);
+            }
         } catch (SQLException ex) {
             request.setAttribute("message", ex.getMessage());
-        } finally {
+            request.getRequestDispatcher("/groupModule.jsp").forward(request, response);
+        } catch (ClassNotFoundException ex) {
+            request.setAttribute("message", ex.getMessage());
             request.getRequestDispatcher("/groupModule.jsp").forward(request, response);
         }
     }

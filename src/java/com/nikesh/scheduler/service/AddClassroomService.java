@@ -12,11 +12,11 @@ public class AddClassroomService {
     
     private AddClassroomDAO dao;
     
-    public AddClassroomService(){
+    public AddClassroomService() throws SQLException, ClassNotFoundException{
         dao = new AddClassroomDAO();
     }
     
-    public int addClassroom(Classroom room) throws SQLException{
+    public int addClassroom(Classroom room) throws SQLException, ClassNotFoundException{
         return dao.addClassroom(room);
     }
     

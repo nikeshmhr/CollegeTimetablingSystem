@@ -43,24 +43,34 @@ public class AddTeacherController extends HttpServlet {
          */
         Set<Teacher> teachers = getTeachers(request, response);
 
-        AddTeacherServices service = new AddTeacherServices();
+        AddTeacherServices service;
         try {
-            boolean isInserted = service.addTeachers(teachers);
-            if (isInserted) {
-                request.setAttribute("message", "Teacher(s) added successfully.");
-                request.setAttribute("status", "200");
+            service = new AddTeacherServices();
+
+            try {
+                boolean isInserted = service.addTeachers(teachers);
+                if (isInserted) {
+                    request.setAttribute("message", "Teacher(s) added successfully.");
+                    request.setAttribute("status", "200");
+                }
+            } catch (SQLException ex) {
+                //System.err.println("Exception: " + ex.getMessage());
+                if (ex.toString().contains("Duplicate")) {
+                    if (ex.toString().contains("PRIMARY")) {
+                        //System.out.println("PRIMARY KEY");
+                        request.setAttribute("message", "Teacher with same ID already exists.");
+                    }
+                } else {
+                    request.setAttribute("message", ex.getMessage());
+                }
+            } finally {
+                dispatch.forward(request, response);
             }
         } catch (SQLException ex) {
-            //System.err.println("Exception: " + ex.getMessage());
-            if (ex.toString().contains("Duplicate")) {
-                if (ex.toString().contains("PRIMARY")) {
-                    //System.out.println("PRIMARY KEY");
-                    request.setAttribute("message", "Teacher with same ID already exists.");
-                }
-            } else {
-                request.setAttribute("message", ex.getMessage());
-            }
-        } finally {
+            request.setAttribute("message", ex.getMessage());
+            dispatch.forward(request, response);
+        } catch (ClassNotFoundException ex) {
+            request.setAttribute("message", ex.getMessage());
             dispatch.forward(request, response);
         }
     }
@@ -110,8 +120,8 @@ public class AddTeacherController extends HttpServlet {
          */
         String[] teachers = (request.getParameter("teacherName")).split(",");
         String[] ids = (request.getParameter("teacherId")).split(",");
-        
-        if(teachers.length != ids.length){
+
+        if (teachers.length != ids.length) {
             request.setAttribute("message", "No. of names doesn't match no. of ids.");
             request.getRequestDispatcher("addTeachers.jsp").forward(request, response);
         }

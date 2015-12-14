@@ -27,7 +27,7 @@ public class RetrieveResources {
 
     private static Connection connection;
 
-    public static List<Module> getModules() throws SQLException {
+    public static List<Module> getModules() throws SQLException, ClassNotFoundException {
         List<Module> listOfModules = new ArrayList<Module>();
 
         connection = DatabaseTool.getConnection();
@@ -53,7 +53,7 @@ public class RetrieveResources {
         return listOfModules;
     }
 
-    public static List<Teacher> getTeachers() throws SQLException {
+    public static List<Teacher> getTeachers() throws SQLException, ClassNotFoundException {
         List<Teacher> teachers = new ArrayList<Teacher>();
 
         connection = DatabaseTool.getConnection();
@@ -67,7 +67,7 @@ public class RetrieveResources {
         return teachers;
     }
 
-    public static String getTeacherName(String teacherId) throws SQLException {
+    public static String getTeacherName(String teacherId) throws SQLException, ClassNotFoundException {
         String teacherName = "";
 
         connection = DatabaseTool.getConnection();
@@ -82,7 +82,7 @@ public class RetrieveResources {
         return teacherName;
     }
 
-    public static List<Classroom> getClassrooms() throws SQLException {
+    public static List<Classroom> getClassrooms() throws SQLException, ClassNotFoundException {
         List<Classroom> classrooms = new ArrayList<Classroom>();
 
         connection = DatabaseTool.getConnection();
@@ -97,7 +97,7 @@ public class RetrieveResources {
         return classrooms;
     }
 
-    public static List<Group> getGroups() throws SQLException {
+    public static List<Group> getGroups() throws SQLException, ClassNotFoundException {
         List<Group> groups = new ArrayList<Group>();
 
         connection = DatabaseTool.getConnection();
@@ -118,7 +118,7 @@ public class RetrieveResources {
      *
      * @return
      */
-    public static List<String> getExistingIdentifier(String item) throws SQLException {
+    public static List<String> getExistingIdentifier(String item) throws SQLException, ClassNotFoundException {
         ArrayList<String> existingIdentifier = new ArrayList<String>();
 
         connection = DatabaseTool.getConnection();
@@ -140,8 +140,8 @@ public class RetrieveResources {
         return existingIdentifier;
     }
 
-    public static List<TeacherModule> getTeacherModules() throws SQLException {
-        Connection connection = DatabaseTool.getConnection();
+    public static List<TeacherModule> getTeacherModules() throws SQLException, ClassNotFoundException {
+        connection = DatabaseTool.getConnection();
         
         List<TeacherModule> listOfTeacherModule = new ArrayList<TeacherModule>();
         
@@ -173,7 +173,7 @@ public class RetrieveResources {
         return listOfTeacherModule;
     }
 
-    public static List<ClassType> getClassTypesForModule(String moduleId) throws SQLException {
+    public static List<ClassType> getClassTypesForModule(String moduleId) throws SQLException, ClassNotFoundException {
         List<ClassType> classTypes = new ArrayList<ClassType>();
 
         connection = DatabaseTool.getConnection();
@@ -191,7 +191,7 @@ public class RetrieveResources {
         return classTypes;
     }
 
-    public static String getModuleName(String moduleCode) throws SQLException {
+    public static String getModuleName(String moduleCode) throws SQLException, ClassNotFoundException {
         String moduleName = "";
 
         connection = DatabaseTool.getConnection();
@@ -209,7 +209,7 @@ public class RetrieveResources {
         return moduleName;
     }
     
-    public static List<GroupModule> getGroupModule() throws SQLException{
+    public static List<GroupModule> getGroupModule() throws SQLException, ClassNotFoundException{
         List<GroupModule> groupModules = new ArrayList<GroupModule>();
         
         connection = DatabaseTool.getConnection();

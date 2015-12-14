@@ -14,12 +14,14 @@ public class AddClassroomDAO {
     
     private static Connection connection;
     
-    public AddClassroomDAO(){
+    public AddClassroomDAO() throws SQLException, ClassNotFoundException{
         connection = DatabaseTool.getConnection();
     }
     
-    public int addClassroom(Classroom classroom) throws SQLException{
+    public int addClassroom(Classroom classroom) throws SQLException, ClassNotFoundException{
         int rowsInserted = 0;
+        
+        connection = DatabaseTool.getConnection();
         
         PreparedStatement statement = connection.prepareStatement("INSERT INTO classrooms VALUES(?, ?, ?, ?)");
         statement.setString(1, classroom.getRoomCode());
