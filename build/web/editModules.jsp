@@ -84,7 +84,7 @@
                 <div class="modal fade" tabindex="-1" role="dialog" id="<%= (m.getModuleCode())%>">
                     <div class="modal-dialog">
                         <div class="modal-content">
-                            <form action="AddModuleController" method="post">
+                            <form action="ModifyModuleController" method="post">
                                 <div class="modal-header">
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                                     <h4 class="modal-title">Edit Module</h4>
@@ -118,7 +118,7 @@
                                     </div>
                                 </div>
                                 <div class="modal-footer">
-                                    <input type="hidden" name="operation" value="update" />
+                                    <input type="hidden" name="action" value="update" />
                                     <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
                                     <input type="submit" value="Save changes" class="btn btn-success" />
                                 </div>

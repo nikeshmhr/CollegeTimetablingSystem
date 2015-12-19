@@ -131,7 +131,8 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <%                                boolean isEmpty = modules.isEmpty();
+                            <%                                
+                                boolean isEmpty = modules.isEmpty();
                                 for (Module m : modules) {
                                     String moduleCode = m.getModuleCode();
                                     String moduleName = m.getModuleName();
@@ -179,7 +180,7 @@
                         <div class="form-group">
                             <label for="classTypes">Types of classes</label>
                             <div class="checkbox">
-                                <label><input class="checkbox-inline" type="checkbox" name="typesOfClasses" value="1" checked onclick="getCheckedClasses(this);" required="true"> Lecture</label>
+                                <label><input class="checkbox-inline" type="checkbox" name="typesOfClasses" value="1" required checked onclick="getCheckedClasses(this);"> Lecture</label>
                                 <label><input class="checkbox-inline" type="checkbox" name="typesOfClasses" value="2" onclick="getCheckedClasses(this);"> Tutorial</label>
                                 <label><input class="checkbox-inline" type="checkbox" name="typesOfClasses" value="3" onclick="getCheckedClasses(this);"> Lab</label>
                                 <label><input class="checkbox-inline" type="checkbox" name="typesOfClasses" value="4" onclick="getCheckedClasses(this);"> Workshop</label>

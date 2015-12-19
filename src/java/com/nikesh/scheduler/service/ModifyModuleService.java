@@ -20,8 +20,8 @@ public class ModifyModuleService {
         return dao.deleteModule(moduleCode);
     }
     
-    /*public int addModifiedModule(Module module) throws SQLException{
-        return dao.addModifiedModule(module);
-    }*/
+    public int addModifiedModule(Module module) throws SQLException, ClassNotFoundException{
+        return dao.updateModule(module);
+    }
     
 }

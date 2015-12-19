@@ -71,15 +71,6 @@ public class AddModuleController extends HttpServlet {
                     } else {
                         request.setAttribute("addMessage", "Module: " + m.getModuleName() + " was not added due to internal error.");
                     }
-                } else if (operation.equalsIgnoreCase("update")) {
-                    m = getModuleParamUpdate(request, response);
-                    modifiedRows = service.updateModule(m);
-                    if (modifiedRows > 0) {
-                        request.setAttribute("message", "Module updated successfully.");
-                        request.setAttribute("status", "200");
-                    } else {
-                        request.setAttribute("message", "Module was not updated.");
-                    }
                 }
                 request.getRequestDispatcher(dispatchLink).forward(request, response);
             } catch (SQLException ex) {
@@ -158,34 +149,6 @@ public class AddModuleController extends HttpServlet {
         }
         /*out.println(m.getTypeOfClasses());
          out.println("<br/>");*/
-        return m;
-    }
-
-    private Module getModuleParamUpdate(HttpServletRequest request, HttpServletResponse response) {
-        Module m = new Module();
-        m.setModuleCode(request.getParameter("moduleCode"));
-        m.setModuleName(request.getParameter("moduleName"));
-
-        ArrayList<String> typesOfClasses = new ArrayList<String>();
-
-        if (request.getParameter("lectureHours") != null) {
-            typesOfClasses.add("1");
-        }
-        if (request.getParameter("tutorialHours") != null) {
-            typesOfClasses.add("2");
-        }
-        if (request.getParameter("labHours") != null) {
-            typesOfClasses.add("3");
-        }
-        if (request.getParameter("workshopHours") != null) {
-            typesOfClasses.add("4");
-        }
-
-        //System.out.println("PARAMETER EXISTS: "+ request.getParameter("testParameter"));
-        for (String type : typesOfClasses) {    // 4 possible types of class
-            ClassType classType = extractClassType(type, request, response);
-            m.getTypeOfClasses().add(classType);
-        }
         return m;
     }
 

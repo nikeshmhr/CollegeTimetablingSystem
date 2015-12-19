@@ -59,11 +59,11 @@ public class LoginController extends HttpServlet {
                 request.getRequestDispatcher("index.jsp").forward(request, response);
             }
         } catch (SQLException ex) {
-            request.setAttribute("message", "Could not login beacause of closed communication link. (DATABASE SERVER MIGHT NOT BE UP)");
-            request.getRequestDispatcher("includes/footer.html").forward(request, response);
+            request.setAttribute("message", "Could not login beacause of closed communication link. (POSSIBLE SERVER DOWN)");
+            request.getRequestDispatcher("index.jsp").forward(request, response);
         } catch (ClassNotFoundException ex) {
             request.setAttribute("message", "Login failed due to internal error.");
-            request.getRequestDispatcher("includes/footer.html").forward(request, response);
+            request.getRequestDispatcher("index.jsp").forward(request, response);
             System.out.println("INTERNAL SERVER ERROR");
         }
 

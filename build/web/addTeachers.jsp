@@ -83,7 +83,8 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <%                                boolean isDataAvailable = false;
+                            <%                                
+                                boolean isDataAvailable = false;
                                 while (rs.next()) {
                                     isDataAvailable = true;
                                     String teacherId = rs.getString("teacherId");

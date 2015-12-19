@@ -18,10 +18,5 @@ public class AddModuleService {
     
     public int addModule(Module module) throws SQLException, ClassNotFoundException{
         return dao.addModule(module);
-    }
-
-    public int updateModule(Module m) throws SQLException, ClassNotFoundException {
-        return dao.updateModule(m);
-    }
-    
+    }    
 }
