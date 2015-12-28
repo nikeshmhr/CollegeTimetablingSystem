@@ -108,16 +108,16 @@
                 <!-- FORM TO ADD TEACHERS -->
                 <div class="col-md-4 col-md-offset-1">
                     <h2 class="text-primary">Add teachers</h2>
-                    <small style="font-size: 80%" class="text-danger">NOTE: Use comma separate names and corresponding ids to add multiple teachers at once.</small>
+                    <small style="font-size: 80%" class="text-danger">NOTE: Use comma separate names add multiple teachers at once.</small>
                     <form action="AddTeacherController" method="post" role="form" onsubmit="return validateAddTeachers();">
                         <div class="form-group">
                             <label for="teacherName">Name(s)</label>
                             <input type="text" name="teacherName" id="teacherName" class="form-control" maxlength="500" required />
                         </div>
-                        <div class="form-group">
+                        <!--<div class="form-group">
                             <label for="teacherId">Id(s)</label>
                             <input type="text" name="teacherId" id="teacherId" class="form-control" maxlength="500" required /><span class="text-danger" id="errorMessage"></span>
-                        </div>
+                        </div>-->
                         <div class="">
                             <input type="submit" name="addTeacher" value="Add" class="btn btn-success" />
                         </div>

@@ -1,5 +1,6 @@
 package com.nikesh.scheduler.controller;
 
+import com.nikesh.scheduler.dao.RetrieveResources;
 import com.nikesh.scheduler.model.Teacher;
 import com.nikesh.scheduler.service.AddTeacherServices;
 import java.io.IOException;
@@ -41,7 +42,14 @@ public class AddTeacherController extends HttpServlet {
          * Extract value from form and convert it into objects, so that we can
          * pass it to the tools that inserts those data into database *
          */
-        Set<Teacher> teachers = getTeachers(request, response);
+        Set<Teacher> teachers = new HashSet<Teacher>();
+        try {
+            teachers = getTeachers(request, response);
+        } catch (SQLException ex) {
+            Logger.getLogger(AddTeacherController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(AddTeacherController.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
         AddTeacherServices service;
         try {
@@ -114,30 +122,33 @@ public class AddTeacherController extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
-    private Set<Teacher> getTeachers(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    private Set<Teacher> getTeachers(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException, ClassNotFoundException {
         /**
          * Data from form *
          */
         String[] teachers = (request.getParameter("teacherName")).split(",");
-        String[] ids = (request.getParameter("teacherId")).split(",");
+        //String[] ids = (request.getParameter("teacherId")).split(",");
 
-        if (teachers.length != ids.length) {
+        /*if (teachers.length != ids.length) {
             request.setAttribute("message", "No. of names doesn't match no. of ids.");
             request.getRequestDispatcher("addTeachers.jsp").forward(request, response);
-        }
+        }*/
 
         /**
          * Data to object *
          */
         Set<Teacher> setOfTeachers = new HashSet<Teacher>();
 
+        /** Extracting the last id from the database **/
+        int lastNumber = RetrieveResources.getLastIDForTeacher();
+        
         for (int i = 0; i < teachers.length; i++) {
-            Teacher t = new Teacher(ids[i], teachers[i]);
+            Teacher t = new Teacher("TH"+(++lastNumber), teachers[i]);
             if (!setOfTeachers.contains(t)) {
                 setOfTeachers.add(t);
             }
         }
-        System.out.println(setOfTeachers);
+        //System.out.println(setOfTeachers);
         return setOfTeachers;
     }
 

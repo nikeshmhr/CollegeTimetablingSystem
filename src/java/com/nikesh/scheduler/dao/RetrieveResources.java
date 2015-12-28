@@ -122,15 +122,15 @@ public class RetrieveResources {
         ArrayList<String> existingIdentifier = new ArrayList<String>();
 
         connection = DatabaseTool.getConnection();
-        
+
         PreparedStatement statement = null;
-        
-        if(item.equalsIgnoreCase("teacher_modules")){
+
+        if (item.equalsIgnoreCase("teacher_modules")) {
             statement = connection.prepareStatement("SELECT identifier FROM teacher_modules");
-        }else if(item.equalsIgnoreCase("group_modules")){
+        } else if (item.equalsIgnoreCase("group_modules")) {
             statement = connection.prepareStatement("SELECT identifier FROM group_module");
         }
-        
+
         ResultSet rs = DatabaseTool.executeQuery(statement);
         while (rs.next()) {
             String identifier = rs.getString("identifier");
@@ -142,12 +142,12 @@ public class RetrieveResources {
 
     public static List<TeacherModule> getTeacherModules() throws SQLException, ClassNotFoundException {
         connection = DatabaseTool.getConnection();
-        
+
         List<TeacherModule> listOfTeacherModule = new ArrayList<TeacherModule>();
-        
+
         PreparedStatement s = connection.prepareStatement("SELECT * FROM teacher_modules ORDER BY moduleCode, teacherId");
         ResultSet rs = s.executeQuery();
-        
+
         while (rs.next()) {
             TeacherModule tM = new TeacherModule();
 
@@ -208,45 +208,62 @@ public class RetrieveResources {
 
         return moduleName;
     }
-    
-    public static List<GroupModule> getGroupModule() throws SQLException, ClassNotFoundException{
+
+    public static List<GroupModule> getGroupModule() throws SQLException, ClassNotFoundException {
         List<GroupModule> groupModules = new ArrayList<GroupModule>();
-        
+
         connection = DatabaseTool.getConnection();
         PreparedStatement statement = connection.prepareStatement("SELECT * FROM group_module ORDER BY groupCode");
         ResultSet rs = statement.executeQuery();
-        while(rs.next()){
+        while (rs.next()) {
 //            System.out.println(rs.getString("groupCode") + "<br/>" + rs.getString("moduleCode") + "<br/>" + rs.getString("identifier"));
             String groupCode = rs.getString("groupCode");
             int noOfStudents = 0;
             PreparedStatement s = connection.prepareStatement("SELECT noOfStudents FROM groups WHERE groupCode=?");
             s.setString(1, groupCode);
             ResultSet result = s.executeQuery();
-            while(result.next()){
+            while (result.next()) {
                 noOfStudents = result.getInt("noOfStudents");
                 break;
             }
-            
+
             Group group = new Group(groupCode, noOfStudents);
             String identifier = rs.getString("identifier");
             Module module = new Module();
             module.setModuleCode(rs.getString("moduleCode"));
             module.setModuleName(getModuleName(rs.getString("moduleCode")));
-            
+
             List<ModuleAndItsType> moduleAndItsTypes = new ArrayList<ModuleAndItsType>();
-            
+
             ModuleAndItsType moduleAndItsType = new ModuleAndItsType();
             moduleAndItsType.setIdentifier(identifier);
             moduleAndItsType.setModule(module);
             moduleAndItsTypes.add(moduleAndItsType);
-            
+
             moduleAndItsTypes.add(moduleAndItsType);
-            
+
             GroupModule groupModule = new GroupModule(group, moduleAndItsTypes);
-            
+
             groupModules.add(groupModule);
         }
-        
+
         return groupModules;
+    }
+
+    public static int getLastIDForTeacher() throws SQLException, ClassNotFoundException {
+        int id = 0;
+        connection = DatabaseTool.getConnection();
+
+        PreparedStatement statement = connection.prepareStatement("SELECT * FROM teachers ORDER BY teacherId DESC");
+        ResultSet rs = statement.executeQuery();
+        while (rs.next()) {
+            String idString = rs.getString("teacherId");
+            
+            id = Integer.parseInt(idString.substring(2));
+            
+            break;
+        }
+        System.out.println(id);
+        return id;
     }
 }
