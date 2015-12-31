@@ -31,7 +31,7 @@ public class RetrieveResources {
         List<Module> listOfModules = new ArrayList<Module>();
 
         connection = DatabaseTool.getConnection();
-        PreparedStatement statement = connection.prepareStatement("SELECT * FROM modules");
+        PreparedStatement statement = connection.prepareStatement("SELECT * FROM modules ORDER BY moduleCode, moduleName");
         ResultSet rs = statement.executeQuery();
         while (rs.next()) {
             Module m = new Module();
@@ -57,7 +57,7 @@ public class RetrieveResources {
         List<Teacher> teachers = new ArrayList<Teacher>();
 
         connection = DatabaseTool.getConnection();
-        PreparedStatement statement = connection.prepareStatement("SELECT * FROM teachers");
+        PreparedStatement statement = connection.prepareStatement("SELECT * FROM teachers ORDER BY teacherName, teacherId");
         ResultSet rs = statement.executeQuery();
         while (rs.next()) {
             Teacher t = new Teacher(rs.getString("teacherId"), rs.getString("teacherName"));
@@ -145,7 +145,7 @@ public class RetrieveResources {
 
         List<TeacherModule> listOfTeacherModule = new ArrayList<TeacherModule>();
 
-        PreparedStatement s = connection.prepareStatement("SELECT * FROM teacher_modules ORDER BY moduleCode, teacherId");
+        PreparedStatement s = connection.prepareStatement("SELECT * FROM teacher_modules ORDER BY teacherId");
         ResultSet rs = s.executeQuery();
 
         while (rs.next()) {

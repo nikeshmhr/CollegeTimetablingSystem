@@ -56,4 +56,20 @@ public class Classroom {
         this.capacity = capacity;
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        if(!(obj instanceof Classroom)){
+            return false;
+        }
+        Classroom room = (Classroom) obj;
+        return this.roomCode.equals(room.roomCode);
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 23 * hash + (this.roomCode != null ? this.roomCode.hashCode() : 0);
+        return hash;
+    }
+
 }

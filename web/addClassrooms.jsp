@@ -4,6 +4,9 @@
     Author     : Nikesh
 --%>
 
+<%@page import="java.util.List"%>
+<%@page import="com.nikesh.scheduler.model.Classroom"%>
+<%@page import="com.nikesh.scheduler.dao.RetrieveResources"%>
 <%@page import="com.nikesh.scheduler.factory.ClassTypeFactory"%>
 <%@page import="com.nikesh.scheduler.abstractor.ClassType"%>
 <%@page import="java.sql.ResultSet"%>
@@ -56,9 +59,7 @@
             </span>
 
             <%
-                Connection c = DatabaseTool.getConnection();
-                PreparedStatement s = c.prepareStatement("SELECT * FROM classrooms");
-                ResultSet rs = s.executeQuery();
+                List<Classroom> classrooms = RetrieveResources.getClassrooms();
 
             %>
 
@@ -77,12 +78,12 @@
                         </thead>
                         <tbody>
                             <%                                boolean isDataAvailable = false;
-                                while (rs.next()) {
+                                for (Classroom room : classrooms) {
                                     isDataAvailable = true;
-                                    String roomCode = rs.getString("roomCode");
-                                    String roomName = rs.getString("roomName");
-                                    int roomCapacity = rs.getInt("roomCapacity");
-                                    String roomType = (String) ClassTypeFactory.getClassType(rs.getInt("typeId")).getTypeName();
+                                    String roomCode = room.getRoomCode();
+                                    String roomName = room.getRoomName();
+                                    int roomCapacity = room.getCapacity();
+                                    String roomType = room.getRoomType().getTypeName();
                             %>
                             <tr>
                                 <td><%= (roomCode)%></td>

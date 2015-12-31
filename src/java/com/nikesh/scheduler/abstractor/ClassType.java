@@ -9,6 +9,8 @@ public abstract class ClassType {
     private int typeId;
     private String typeName;
     private double classHours;
+    
+    public static final int LECTURE = 1, TUTORIAL = 2, LAB = 3, WORKSHOP = 4;
 
     public ClassType(int id, String name, double classHours) {
         this.typeId = id;

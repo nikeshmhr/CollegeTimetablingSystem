@@ -43,9 +43,13 @@ public class ModifyTeacherController extends HttpServlet {
             if (action.equalsIgnoreCase("delete")) {
                 teacherId = request.getParameter("id");
                 try {
-                    service.deleteTeacher(teacherId);
-                    request.setAttribute("message", "Teacher: " + teacherId + " deleted successfully.");
-                    request.setAttribute("status", "200");
+                    if (service.deleteTeacher(teacherId) > 0) {
+                        request.setAttribute("message", "Teacher: " + teacherId + " deleted successfully.");
+                        request.setAttribute("status", "200");
+                    }else{
+                        request.setAttribute("message", "Could not delete.");
+                    }
+
                 } catch (SQLException ex) {
                     request.setAttribute("message", ex.getMessage());
                 } finally {

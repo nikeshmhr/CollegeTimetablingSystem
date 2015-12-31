@@ -4,6 +4,9 @@
     Author     : Nikesh
 --%>
 
+<%@page import="java.util.List"%>
+<%@page import="com.nikesh.scheduler.dao.RetrieveResources"%>
+<%@page import="com.nikesh.scheduler.model.Group"%>
 <%@page import="java.sql.ResultSet"%>
 <%@page import="java.sql.PreparedStatement"%>
 <%@page import="com.nikesh.scheduler.util.DatabaseTool"%>
@@ -55,10 +58,7 @@
             </span>
 
             <%
-                Connection c = DatabaseTool.getConnection();
-                PreparedStatement s = c.prepareStatement("SELECT * FROM groups");
-                ResultSet rs = s.executeQuery();
-
+                List<Group> groups = RetrieveResources.getGroups();
             %>
 
             <div class="row">
@@ -74,10 +74,10 @@
                         </thead>
                         <tbody>
                             <%                                boolean isDataAvailable = false;
-                                while (rs.next()) {
+                                for (Group g : groups) {
                                     isDataAvailable = true;
-                                    String code = rs.getString("groupCode");
-                                    int noOfStudents = rs.getInt("noOfStudents");
+                                    String code = g.getGroupCode();
+                                    int noOfStudents = g.getNoOfStudents();
                             %>
                             <tr>
                                 <td><%= (code)%></td>

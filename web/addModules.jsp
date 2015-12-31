@@ -115,8 +115,6 @@
 
             <%
                 List<Module> modules = RetrieveResources.getModules();
-
-
             %>
 
             <div class="row">

@@ -3,8 +3,12 @@ package com.nikesh.scheduler.controller;
 import com.nikesh.scheduler.dao.RetrieveResources;
 import com.nikesh.scheduler.model.Teacher;
 import com.nikesh.scheduler.service.AddTeacherServices;
+import com.nikesh.scheduler.util.DatabaseTool;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashSet;
 import java.util.Set;
@@ -130,26 +134,53 @@ public class AddTeacherController extends HttpServlet {
         //String[] ids = (request.getParameter("teacherId")).split(",");
 
         /*if (teachers.length != ids.length) {
-            request.setAttribute("message", "No. of names doesn't match no. of ids.");
-            request.getRequestDispatcher("addTeachers.jsp").forward(request, response);
-        }*/
-
+         request.setAttribute("message", "No. of names doesn't match no. of ids.");
+         request.getRequestDispatcher("addTeachers.jsp").forward(request, response);
+         }*/
         /**
          * Data to object *
          */
         Set<Teacher> setOfTeachers = new HashSet<Teacher>();
 
-        /** Extracting the last id from the database **/
+        /**
+         * Extracting the last id from the database *
+         */
         int lastNumber = RetrieveResources.getLastIDForTeacher();
-        
+
         for (int i = 0; i < teachers.length; i++) {
-            Teacher t = new Teacher("TH"+(++lastNumber), teachers[i]);
+            String id = "";
+            do {
+                id = "TH" + (++lastNumber);
+            } while (isTeacherIdOccupied(id));
+
+            Teacher t = new Teacher(id, teachers[i]);
             if (!setOfTeachers.contains(t)) {
                 setOfTeachers.add(t);
             }
         }
         //System.out.println(setOfTeachers);
         return setOfTeachers;
+    }
+
+    private boolean isTeacherIdOccupied(String id) {
+        boolean occupied = false;
+
+        try {
+            Connection c = DatabaseTool.getConnection();
+            PreparedStatement s = c.prepareStatement("SELECT teacherId FROM teachers WHERE teacherId = ?");
+            s.setString(1, id);
+
+            ResultSet rs = s.executeQuery();
+            while (rs.next()) {
+                occupied = true;
+                break;
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(AddTeacherController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(AddTeacherController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return occupied;                
     }
 
 }

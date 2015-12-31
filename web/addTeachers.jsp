@@ -4,6 +4,9 @@
     Author     : Nikesh
 --%>
 
+<%@page import="com.nikesh.scheduler.model.Teacher"%>
+<%@page import="java.util.List"%>
+<%@page import="com.nikesh.scheduler.dao.RetrieveResources"%>
 <%@page import="java.sql.ResultSet"%>
 <%@page import="java.sql.PreparedStatement"%>
 <%@page import="java.sql.Connection"%>
@@ -65,9 +68,7 @@
             </span>
 
             <%
-                Connection c = DatabaseTool.getConnection();
-                PreparedStatement s = c.prepareStatement("SELECT * FROM teachers");
-                ResultSet rs = s.executeQuery();
+                List<Teacher> teachers = RetrieveResources.getTeachers();
 
             %>
 
@@ -85,10 +86,10 @@
                         <tbody>
                             <%                                
                                 boolean isDataAvailable = false;
-                                while (rs.next()) {
+                                for (Teacher t : teachers) {
                                     isDataAvailable = true;
-                                    String teacherId = rs.getString("teacherId");
-                                    String teacherName = rs.getString("teacherName");
+                                    String teacherId = t.getTeacherId();
+                                    String teacherName = t.getTeacherName();
                             %>
                             <tr>
                                 <td><%= (teacherId)%></td>

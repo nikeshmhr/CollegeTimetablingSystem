@@ -83,9 +83,13 @@ public class GroupModuleController extends HttpServlet {
             }
             groupModule.setListOfModulesAndItsType(listOfM);
             try {
-                groupModuleDAO.addGroupModule(groupModule);
-                request.setAttribute("message", "Relation created successfully.");
-                request.setAttribute("status", "200");
+                int rowsInserted = groupModuleDAO.addGroupModule(groupModule);
+                if (rowsInserted > 0) {
+                    request.setAttribute("message", "Relation created successfully. (" + rowsInserted + ")");
+                    request.setAttribute("status", "200");
+                }else{
+                    request.setAttribute("message", "Could not create relation.");
+                }
             } catch (SQLException ex) {
                 if (ex.toString().contains("Duplicate")) {
                     if (ex.toString().contains("PRIMARY")) {

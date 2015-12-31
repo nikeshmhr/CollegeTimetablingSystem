@@ -5,15 +5,15 @@ package com.nikesh.scheduler.model;
  * @author Nikesh
  */
 public class Group {
-    
+
     private String groupCode;
     private int noOfStudents;
-    
-    public Group(){
-        
+
+    public Group() {
+
     }
-    
-    public Group(String groupCode, int noOfStudents){
+
+    public Group(String groupCode, int noOfStudents) {
         this.groupCode = groupCode;
         this.noOfStudents = noOfStudents;
     }
@@ -32,6 +32,24 @@ public class Group {
 
     public void setNoOfStudents(int noOfStudents) {
         this.noOfStudents = noOfStudents;
-    }    
-    
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if(!(obj instanceof Group)){
+            return false;
+        }
+        
+        Group g = (Group) obj;
+        
+        return this.groupCode.equals(g.getGroupCode());
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 59 * hash + (this.groupCode != null ? this.groupCode.hashCode() : 0);
+        return hash;
+    }
+
 }

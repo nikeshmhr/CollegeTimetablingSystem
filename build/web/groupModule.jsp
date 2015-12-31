@@ -103,7 +103,7 @@
                 </div>
                 <!-- END OF CLASSROOM LIST -->
                 <!-- START OF FORM TO ADD CLASSROOMS -->
-                <div class="col-md-4 col-md-offset-1">
+                <div class="col-md-5">
                     <h2 class="text-primary">Create new relation</h2>
                     <form action="GroupModuleController" method="post" role="form">
                         <div class="form-group">

@@ -47,4 +47,22 @@ public class Module {
     public void setTypeOfClasses(Set<ClassType> typeOfClasses) {
         this.typeOfClasses = typeOfClasses;
     }
+
+    @Override
+    public int hashCode() {
+        int hash = 3;
+        hash = 71 * hash + (this.moduleCode != null ? this.moduleCode.hashCode() : 0);
+        return hash;
+    }
+    
+    @Override
+    public boolean equals(Object obj){
+        if(!(obj instanceof Module)){
+            return false;
+        }
+        
+        Module m = (Module) obj;
+        
+        return this.moduleCode.equals(m.getModuleCode());
+    }
 }
