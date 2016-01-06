@@ -9,7 +9,7 @@ import java.sql.SQLException;
  */
 public class LoginService {
     
-    private LoginDAO dao;
+    private final LoginDAO dao;
     
     public LoginService() throws SQLException, ClassNotFoundException{
         dao = new LoginDAO();

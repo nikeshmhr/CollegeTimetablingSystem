@@ -32,9 +32,11 @@ public class ModifyModuleDAO {
 
         connection = DatabaseTool.getConnection();
 
-        PreparedStatement statement = connection.prepareStatement("UPDATE modules SET moduleName = ? WHERE moduleCode = ?");
+        PreparedStatement statement = connection.prepareStatement("UPDATE modules SET moduleName = ?, year=?, semester=? WHERE moduleCode = ?");
         statement.setString(1, m.getModuleName());
-        statement.setString(2, m.getModuleCode());
+        statement.setInt(2, m.getYear());
+        statement.setInt(3, m.getSem());
+        statement.setString(4, m.getModuleCode());
 
         updatedRows = statement.executeUpdate();
 

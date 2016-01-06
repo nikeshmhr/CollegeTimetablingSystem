@@ -10,7 +10,7 @@ import java.sql.SQLException;
  */
 public class ModifyModuleService {
     
-    private ModifyModuleDAO dao;
+    private final ModifyModuleDAO dao;
     
     public ModifyModuleService() throws SQLException, ClassNotFoundException{
         dao = new ModifyModuleDAO();

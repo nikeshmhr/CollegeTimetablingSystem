@@ -23,6 +23,7 @@
             <word>arraylist</word>
             <word>listofmodulesanditstype</word>
             <word>moduleanditstype</word>
+            <word>servlet</word>
             <word>teachermodule</word>
         </spellchecker-wordlist>
     </configuration>

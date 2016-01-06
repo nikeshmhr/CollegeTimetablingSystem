@@ -10,7 +10,7 @@ import java.sql.SQLException;
  */
 public class ModifyTeacherService {
     
-    private ModifyTeacherDAO dao;
+    private final ModifyTeacherDAO dao;
     
     public ModifyTeacherService() throws SQLException, ClassNotFoundException{
         dao = new ModifyTeacherDAO();

@@ -5,7 +5,6 @@ import com.nikesh.scheduler.model.TeacherModule;
 import com.nikesh.scheduler.util.DatabaseTool;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 

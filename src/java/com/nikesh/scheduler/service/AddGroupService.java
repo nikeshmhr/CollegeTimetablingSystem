@@ -10,7 +10,7 @@ import java.sql.SQLException;
  */
 public class AddGroupService {
     
-    private AddGroupDAO dao;
+    private final AddGroupDAO dao;
     
     public AddGroupService() throws SQLException, ClassNotFoundException{
         dao = new AddGroupDAO();

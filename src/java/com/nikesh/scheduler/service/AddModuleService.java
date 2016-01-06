@@ -10,7 +10,7 @@ import java.sql.SQLException;
  */
 public class AddModuleService {
     
-    private AddModuleDAO dao;
+    private final AddModuleDAO dao;
     
     public AddModuleService() throws SQLException, ClassNotFoundException{
         dao = new AddModuleDAO();

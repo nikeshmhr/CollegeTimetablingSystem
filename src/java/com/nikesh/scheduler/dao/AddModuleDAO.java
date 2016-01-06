@@ -25,9 +25,11 @@ public class AddModuleDAO {
 
         connection = DatabaseTool.getConnection();
         
-        PreparedStatement statement = connection.prepareCall("INSERT INTO modules VALUES(?, ?)");
+        PreparedStatement statement = connection.prepareCall("INSERT INTO modules VALUES(?, ?, ?, ?)");
         statement.setString(1, module.getModuleCode());
         statement.setString(2, module.getModuleName());
+        statement.setInt(3, module.getYear());
+        statement.setInt(4, module.getSem());
 
         rowsModified = DatabaseTool.updateQuery(statement);
 

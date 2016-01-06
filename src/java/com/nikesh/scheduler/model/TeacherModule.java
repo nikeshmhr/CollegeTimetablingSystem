@@ -36,5 +36,10 @@ public class TeacherModule {
     public void setListOfModulesAndItsType(List<ModuleAndItsType> listOfModulesAndItsType) {
         this.listOfModulesAndItsType = listOfModulesAndItsType;
     }
+    
+    @Override
+    public String toString(){
+        return teacher.toString();
+    }
 
 }

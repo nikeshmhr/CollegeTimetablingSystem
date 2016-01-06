@@ -11,10 +11,6 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.text.DecimalFormat;
-import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -141,6 +137,8 @@ public class AddModuleController extends HttpServlet {
         Module m = new Module();
         m.setModuleCode(request.getParameter("moduleCode"));
         m.setModuleName(request.getParameter("moduleName"));
+        m.setYear(Integer.parseInt(request.getParameter("year")));
+        m.setSem(Integer.parseInt(request.getParameter("semester")));
 
         String[] typesOfClasses = request.getParameterValues("typesOfClasses");
         for (String type : typesOfClasses) {

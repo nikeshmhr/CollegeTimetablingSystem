@@ -10,7 +10,7 @@ import java.sql.SQLException;
  */
 public class ModifyGroupService {
     
-    private ModifyGroupDAO dao;
+    private final ModifyGroupDAO dao;
     
     public ModifyGroupService() throws SQLException, ClassNotFoundException{
         dao = new ModifyGroupDAO();

@@ -52,6 +52,8 @@
                 <h2 class="text-primary" style="text-align: center">Edit Modules</h2>
                 <thead>
                     <tr>
+                        <th>Year</th>
+                        <th>Sem</th>
                         <th>Module Code</th>
                         <th>Module Name</th>
                         <th>Action</th>
@@ -71,6 +73,8 @@
                                 infoString += t.getTypeName() + " (" + t.getClassHours() + ") ";
                             }
                         %>
+                        <td><%= (m.getYear()) %></td>
+                        <td><%= (m.getSem()) %></td>
                         <td><%= (m.getModuleCode())%></td>
                         <td><%= (m.getModuleName())%> <span class="text-primary" style="font-style: italic;font-size:90%"><%= (infoString)%></span></td>
 
@@ -89,12 +93,23 @@
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                                     <h4 class="modal-title">Edit Module</h4>
                                 </div>
-
+                                
                                 <div class="modal-body">
                                     <div class="form-group">
                                         <label for="moduleCode">Module Code</label>
                                         <input type="text" id="moduleCode" class="form-control" maxlength="10" value="<%= (m.getModuleCode())%>" disabled="true" required />
                                         <input type="hidden" name="moduleCode" value="<%= (m.getModuleCode())%>" />
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <label for="year">Year</label>
+                                        <input type="number" id="year" min="1" max="3" value="<%= (m.getYear()) %>" disabled="disabled" required />
+                                        <input type="hidden" name="year" value="3" />
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <label for="sem">Semester</label>
+                                        <input type="number" id="semester" name="semester" min="1" max="2" value="<%= (m.getSem()) %>" required />
                                     </div>
 
                                     <div class="form-group">

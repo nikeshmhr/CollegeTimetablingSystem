@@ -124,6 +124,8 @@
                         <h2 class="text-primary">List of Modules</h2>
                         <thead>
                             <tr>
+                                <th>Year</th>
+                                <th>Sem</th>
                                 <th>Module Code</th>
                                 <th>Module Name</th>
                             </tr>
@@ -134,6 +136,8 @@
                                 for (Module m : modules) {
                                     String moduleCode = m.getModuleCode();
                                     String moduleName = m.getModuleName();
+                                    int year = m.getYear();
+                                    int sem = m.getSem();
                             %>
                             <tr>
                                 <%
@@ -143,6 +147,8 @@
                                         infoString += t.getTypeName() + " (" + t.getClassHours() + ") ";
                                     }
                                 %>
+                                <td><%= (year) %></td>
+                                <td><%= (sem) %></td>
                                 <td><%= (moduleCode)%></td>
                                 <td><%= (moduleName)%> <span class="text-primary" style="font-style: italic;font-size:90%"><%= (infoString)%></span></td>
                             </tr>
@@ -166,6 +172,17 @@
                 <div class="col-md-4 col-md-offset-1">
                     <h2 class="text-primary">Add new module</h2>
                     <form action="AddModuleController" name="addModulesForm" method="post" role="form" onsubmit="return validateAddModule();">
+                        <div class="form-group">
+                            <label for="year">Year</label>
+                            <input type="number" id="year" class="form-control" min="1" max="3" value="3" disabled="disabled" required />
+                            <input type="hidden" name="year" value="3" />
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="semester">Semester</label>
+                            <input type="number" name="semester" id="semester" class="form-control" min="1" max="2" required />
+                        </div>
+                        
                         <div class="form-group">
                             <label for="moduleCode">Module Code</label>
                             <input type="text" name="moduleCode" id="moduleCode" class="form-control" maxlength="10" required />

@@ -16,8 +16,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -37,6 +35,8 @@ public class RetrieveResources {
             Module m = new Module();
             m.setModuleCode(rs.getString("moduleCode"));
             m.setModuleName(rs.getString("moduleName"));
+            m.setYear(rs.getInt("year"));
+            m.setSem(rs.getInt("semester"));
             listOfModules.add(m);
         }
 
@@ -116,7 +116,10 @@ public class RetrieveResources {
      * Existing Identifier means the combination of module and class type that
      * are already reserved
      *
+     * @param item
      * @return
+     * @throws java.sql.SQLException
+     * @throws java.lang.ClassNotFoundException
      */
     public static List<String> getExistingIdentifier(String item) throws SQLException, ClassNotFoundException {
         ArrayList<String> existingIdentifier = new ArrayList<String>();
@@ -258,12 +261,61 @@ public class RetrieveResources {
         ResultSet rs = statement.executeQuery();
         while (rs.next()) {
             String idString = rs.getString("teacherId");
-            
+
             id = Integer.parseInt(idString.substring(2));
-            
+
             break;
         }
         System.out.println(id);
         return id;
+    }
+
+    public static double getClassHours(String moduleCode, int classType) throws SQLException, ClassNotFoundException {
+        double hours = 0;
+
+        connection = DatabaseTool.getConnection();
+
+        PreparedStatement statement = connection.prepareStatement("SELECT classHours FROM module_classes WHERE typeId=? AND moduleCode=?");
+        statement.setInt(1, classType);
+        statement.setString(2, moduleCode);
+
+        ResultSet rs = statement.executeQuery();
+        while (rs.next()) {
+            hours = rs.getDouble("classHours");
+            break;
+        }
+
+        return hours;
+    }
+
+    public static String getClassroomName(String roomCode) throws SQLException, ClassNotFoundException {
+        String roomName = null;
+        
+        connection = DatabaseTool.getConnection();
+        PreparedStatement statement = connection.prepareStatement("SELECT roomName FROM classrooms WHERE roomCode=?");
+        statement.setString(1, roomCode);
+        
+        ResultSet resultSet = statement.executeQuery();
+        while(resultSet.next()){
+            roomName = resultSet.getString("roomName");
+            break;
+        }
+        
+        return roomName;
+    }
+
+    public static List<String> getClassroomsForType(int classType) throws SQLException, ClassNotFoundException {
+        List<String> rooms = new ArrayList<String>();
+        
+        connection = DatabaseTool.getConnection();
+        PreparedStatement statement = connection.prepareStatement("SELECT * FROM classrooms WHERE typeId=?");
+        statement.setInt(1, classType);
+        
+        ResultSet rs = statement.executeQuery();
+        while(rs.next()){
+            rooms.add(rs.getString("roomCode"));
+        }
+        
+        return rooms;
     }
 }

@@ -16,7 +16,7 @@ import java.util.Set;
  */
 public class AddTeacherServices {
     
-    private AddTeacherDAO dao;
+    private final AddTeacherDAO dao;
     
     public AddTeacherServices() throws SQLException, ClassNotFoundException{
         dao = new AddTeacherDAO();

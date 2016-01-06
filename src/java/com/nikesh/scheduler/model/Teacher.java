@@ -1,7 +1,5 @@
 package com.nikesh.scheduler.model;
 
-import java.io.Serializable;
-
 /**
  *
  * @author Nikesh

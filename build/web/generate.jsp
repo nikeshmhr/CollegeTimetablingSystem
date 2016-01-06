@@ -1,9 +1,13 @@
 <%-- 
     Document   : generate
     Created on : Dec 28, 2015, 8:12:12 PM
-    Author     : nilu
+    Author     : Nikesh Maharjan
 --%>
 
+<%@page import="com.nikesh.scheduler.model.Timetabler"%>
+<%@page import="com.nikesh.scheduler.dao.RetrieveResources"%>
+<%@page import="java.util.List"%>
+<%@page import="com.nikesh.scheduler.model.Timeslot"%>
 <%@page import="com.nikesh.scheduler.factory.ClassTypeFactory"%>
 <%@page import="java.sql.ResultSet"%>
 <%@page import="java.sql.PreparedStatement"%>
@@ -44,15 +48,15 @@
                 %>
             </span>
 
-            <form action="#" method="POST">
-                <button type="submit" class="btn btn-primary btn-toolbar">Generate <span class="glyphicon glyphicon-lamp"></span></button>
+            <form action="generate.jsp" method="POST">
+                <button type="submit" name="generate" class="btn btn-primary btn-toolbar" value="generate">Generate <span class="glyphicon glyphicon-lamp"></span></button>
             </form>
-            
+
+
             <div class="row">
                 <!-- TABLE TO SHOW THE GENERATED TIMETABLE -->
                 <table class="table table-striped table-hover">
                     <h2 class="text-primary" style="text-align: center">Timetable</h2>
-                    <caption>Computing Year 1</caption>
                     <thead>
                         <tr>
                             <th>Day</th>
@@ -66,27 +70,41 @@
                         </tr>
                     </thead>
 
+                    <%
+                        Timetabler generator = new Timetabler();
+                        if (request.getParameter("generate") != null && request.getParameter("generate").toString().equals("generate")) {
+                            List<Timeslot> generatedTimeslots = generator.getTimeslots();
+                            System.out.println("GEEEEEE:  " + generatedTimeslots);
+                    %>
                     <tbody>
+                        <%
+                            for (Timeslot t : generatedTimeslots) {
+                                //int day = t.getDay();
+                                String day = t.getDayString().substring(0, 3);
+                                String time = t.getStartTimeString() + " - " + t.getEndTimeString();
+                                String classType = ClassTypeFactory.getClassType(t.getClassType()).getTypeName();
+                                String moduleCode = t.getModuleCode();
+                                String moduleName = RetrieveResources.getModuleName(t.getModuleCode());
+                                String teacherName = RetrieveResources.getTeacherName(t.getTeacherId());
+                                String groups = t.getGroupCode();
+                                String classroom = RetrieveResources.getClassroomName(t.getRoomCode());
+                        %>
                         <tr>
-                            <td>SUN</td>
-                            <td>7:00 AM - 8:30 AM</td>
-                            <td>Lecture</td>
-                            <td>CC3006NI</td>
-                            <td>Current Developments</td>
-                            <td>Abhinav Dahal</td>
-                            <td>C4+C5</td>
-                            <td>Tower Bridge</td>
+                            <td><%= (day)%></td>
+                            <td><%= (time)%></td>
+                            <td><%= (classType)%></td>
+                            <td><%= (moduleCode)%></td>
+                            <td><%= (moduleName)%></td>
+                            <td><%= (teacherName)%></td>
+                            <td><%= (groups)%></td>
+                            <td><%= (classroom)%></td>
                         </tr>
-                        <tr>
-                            <td>SUN</td>
-                            <td>9:00 AM - 10:30 AM</td>
-                            <td>Lecture</td>
-                            <td>CC3004NI</td>
-                            <td>Software Engineering 2</td>
-                            <td>Prakash Shrestha</td>
-                            <td>C4+C5</td>
-                            <td>Tower Bridge</td>
-                        </tr>
+                        <%
+                                }
+                            }else{
+                        %>
+                    <td colspan="8" style="text-align: center;">No timetable yet.</td>
+                        <%}%>
                     </tbody>
                 </table>
             </div>

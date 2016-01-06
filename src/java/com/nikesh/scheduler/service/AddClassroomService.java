@@ -10,7 +10,7 @@ import java.sql.SQLException;
  */
 public class AddClassroomService {
     
-    private AddClassroomDAO dao;
+    private final AddClassroomDAO dao;
     
     public AddClassroomService() throws SQLException, ClassNotFoundException{
         dao = new AddClassroomDAO();
