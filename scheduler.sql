@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 13, 2015 at 03:53 PM
+-- Generation Time: Jan 07, 2016 at 02:39 PM
 -- Server version: 5.5.32
 -- PHP Version: 5.4.16
 
@@ -37,6 +37,33 @@ CREATE TABLE IF NOT EXISTS `classrooms` (
   UNIQUE KEY `roomName` (`roomName`),
   KEY `typeId` (`typeId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `classrooms`
+--
+
+INSERT INTO `classrooms` (`roomCode`, `roomName`, `roomCapacity`, `typeId`) VALUES
+('Lab01', 'Oxford', 80, 3),
+('Lab02', 'Nottingam', 40, 3),
+('Lab09', 'Cambridge', 70, 3),
+('Lab10', 'Liverpool', 35, 4),
+('Lab11', 'York', 35, 4),
+('Lab12', 'New Castle', 35, 4),
+('Lab13', 'Bath', 35, 4),
+('LT01', 'Buckingham Palace', 80, 1),
+('LT02', 'Kensington Palace', 80, 1),
+('LT03', 'Westminster Palace', 80, 1),
+('SR01', 'Tower Bridge', 60, 1),
+('SR02', 'Trafalgar Square', 50, 2),
+('SR03', 'Piccadilly Circus', 50, 4),
+('SR04', 'Tower of London', 50, 2),
+('TR01', 'Machapuchare', 35, 2),
+('TR02', 'Patan', 40, 2),
+('TR03', 'Kanchanjunga', 35, 2),
+('TR04', 'Sagarmatha', 35, 2),
+('TR05', 'Lumbini', 40, 4),
+('TR06', 'Annapurna', 40, 4),
+('TR10', 'Pokhara', 35, 2);
 
 -- --------------------------------------------------------
 
@@ -72,6 +99,19 @@ CREATE TABLE IF NOT EXISTS `groups` (
   PRIMARY KEY (`groupCode`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Dumping data for table `groups`
+--
+
+INSERT INTO `groups` (`groupCode`, `noOfStudents`) VALUES
+('L1C3', 30),
+('L3C1', 22),
+('L3C2', 25),
+('L3C3', 25),
+('L3C4', 32),
+('L3C5', 30),
+('L3C6', 30);
+
 -- --------------------------------------------------------
 
 --
@@ -87,6 +127,36 @@ CREATE TABLE IF NOT EXISTS `group_module` (
   KEY `moduleCode` (`moduleCode`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Dumping data for table `group_module`
+--
+
+INSERT INTO `group_module` (`groupCode`, `moduleCode`, `identifier`) VALUES
+('L1C3', 'CC1002NI', 'L1C3CC1002NI'),
+('L1C3', 'CC3002NI', 'L1C3CC3002NI'),
+('L1C3', 'CC3004NI', 'L1C3CC3004NI'),
+('L1C3', 'CC3006NI', 'L1C3CC3006NI'),
+('L3C1', 'CC1001NI', 'L3C1CC1001NI'),
+('L3C1', 'CC1002NI', 'L3C1CC1002NI'),
+('L3C1', 'CC3002NI', 'L3C1CC3002NI'),
+('L3C1', 'CC3004NI', 'L3C1CC3004NI'),
+('L3C1', 'CC3006NI', 'L3C1CC3006NI'),
+('L3C2', 'CC3002NI', 'L3C2CC3002NI'),
+('L3C2', 'CC3004NI', 'L3C2CC3004NI'),
+('L3C2', 'CC3006NI', 'L3C2CC3006NI'),
+('L3C3', 'CC3002NI', 'L3C3CC3002NI'),
+('L3C3', 'CC3004NI', 'L3C3CC3004NI'),
+('L3C3', 'CC3006NI', 'L3C3CC3006NI'),
+('L3C4', 'CC3001NI', 'L3C4CC3001NI'),
+('L3C4', 'CC3003NI', 'L3C4CC3003NI'),
+('L3C4', 'CC3005NI', 'L3C4CC3005NI'),
+('L3C5', 'CC3001NI', 'L3C5CC3001NI'),
+('L3C5', 'CC3003NI', 'L3C5CC3003NI'),
+('L3C5', 'CC3005NI', 'L3C5CC3005NI'),
+('L3C6', 'CC3001NI', 'L3C6CC3001NI'),
+('L3C6', 'CC3003NI', 'L3C6CC3003NI'),
+('L3C6', 'CC3005NI', 'L3C6CC3005NI');
+
 -- --------------------------------------------------------
 
 --
@@ -98,14 +168,15 @@ CREATE TABLE IF NOT EXISTS `login_info` (
   `username` varchar(50) NOT NULL,
   `password` varchar(50) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
 
 --
 -- Dumping data for table `login_info`
 --
 
 INSERT INTO `login_info` (`id`, `username`, `password`) VALUES
-(1, 'nikesh', '5d4f5c1332542272f4d9381ec152af6c');
+(1, 'nikesh', '5d4f5c1332542272f4d9381ec152af6c'),
+(2, 'admin', '21232f297a57a5a743894a0e4a801fc3');
 
 -- --------------------------------------------------------
 
@@ -116,9 +187,25 @@ INSERT INTO `login_info` (`id`, `username`, `password`) VALUES
 CREATE TABLE IF NOT EXISTS `modules` (
   `moduleCode` varchar(10) NOT NULL,
   `moduleName` varchar(255) NOT NULL,
+  `year` int(11) NOT NULL,
+  `semester` int(11) NOT NULL,
   PRIMARY KEY (`moduleCode`),
   UNIQUE KEY `moduleName` (`moduleName`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `modules`
+--
+
+INSERT INTO `modules` (`moduleCode`, `moduleName`, `year`, `semester`) VALUES
+('CC1001NI', 'Introduction to Programming', 3, 1),
+('CC1002NI', 'Further Programming', 3, 1),
+('CC3001NI', 'Advanced System Analysis', 3, 1),
+('CC3002NI', 'Advanced Database System', 3, 2),
+('CC3003NI', 'Software Engineering II', 3, 1),
+('CC3004NI', 'Post Implementation Issues', 3, 2),
+('CC3005NI', 'Current Developments', 3, 1),
+('CC3006NI', 'Employment Skills', 3, 2);
 
 -- --------------------------------------------------------
 
@@ -135,6 +222,36 @@ CREATE TABLE IF NOT EXISTS `module_classes` (
   KEY `moduleCode` (`moduleCode`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Dumping data for table `module_classes`
+--
+
+INSERT INTO `module_classes` (`typeId`, `moduleCode`, `classHours`) VALUES
+(1, 'CC1001NI', '2.00'),
+(1, 'CC1002NI', '2.00'),
+(1, 'CC3001NI', '2.00'),
+(1, 'CC3002NI', '2.00'),
+(1, 'CC3003NI', '2.00'),
+(1, 'CC3004NI', '2.00'),
+(1, 'CC3005NI', '2.00'),
+(1, 'CC3006NI', '2.00'),
+(2, 'CC1001NI', '1.50'),
+(2, 'CC1002NI', '1.50'),
+(2, 'CC3001NI', '1.50'),
+(2, 'CC3002NI', '1.50'),
+(2, 'CC3003NI', '1.50'),
+(2, 'CC3004NI', '1.50'),
+(2, 'CC3005NI', '1.50'),
+(2, 'CC3006NI', '1.50'),
+(3, 'CC1001NI', '1.50'),
+(3, 'CC1002NI', '1.50'),
+(3, 'CC3002NI', '1.50'),
+(4, 'CC3001NI', '1.50'),
+(4, 'CC3003NI', '1.50'),
+(4, 'CC3004NI', '1.50'),
+(4, 'CC3005NI', '1.50'),
+(4, 'CC3006NI', '1.50');
+
 -- --------------------------------------------------------
 
 --
@@ -146,6 +263,20 @@ CREATE TABLE IF NOT EXISTS `teachers` (
   `teacherName` varchar(50) NOT NULL,
   PRIMARY KEY (`teacherId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `teachers`
+--
+
+INSERT INTO `teachers` (`teacherId`, `teacherName`) VALUES
+('TH1', 'Abhinav Dahal'),
+('TH2', 'Rohit Pandey'),
+('TH3', 'Prakash Shrestha'),
+('TH4', 'Manish Kansakar'),
+('TH5', 'Prashant Lal Shrestha'),
+('TH6', 'Sanjeev Udash'),
+('TH7', 'Mukesh Regmi'),
+('TH8', ' Sailesh Neupane');
 
 -- --------------------------------------------------------
 
@@ -164,6 +295,36 @@ CREATE TABLE IF NOT EXISTS `teacher_modules` (
   KEY `typeId` (`typeId`),
   KEY `moduleCode` (`moduleCode`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `teacher_modules`
+--
+
+INSERT INTO `teacher_modules` (`teacherId`, `moduleCode`, `typeId`, `identifier`) VALUES
+('TH7', 'CC1001NI', 1, 'CC1001NI_1'),
+('TH7', 'CC1001NI', 2, 'CC1001NI_2'),
+('TH7', 'CC1001NI', 3, 'CC1001NI_3'),
+('TH8', 'CC1002NI', 1, 'CC1002NI_1'),
+('TH8', 'CC1002NI', 2, 'CC1002NI_2'),
+('TH8', 'CC1002NI', 3, 'CC1002NI_3'),
+('TH3', 'CC3001NI', 1, 'CC3001NI_1'),
+('TH3', 'CC3001NI', 2, 'CC3001NI_2'),
+('TH3', 'CC3001NI', 4, 'CC3001NI_4'),
+('TH4', 'CC3002NI', 1, 'CC3002NI_1'),
+('TH4', 'CC3002NI', 2, 'CC3002NI_2'),
+('TH4', 'CC3002NI', 3, 'CC3002NI_3'),
+('TH2', 'CC3003NI', 1, 'CC3003NI_1'),
+('TH2', 'CC3003NI', 2, 'CC3003NI_2'),
+('TH2', 'CC3003NI', 4, 'CC3003NI_4'),
+('TH5', 'CC3004NI', 1, 'CC3004NI_1'),
+('TH5', 'CC3004NI', 2, 'CC3004NI_2'),
+('TH5', 'CC3004NI', 4, 'CC3004NI_4'),
+('TH1', 'CC3005NI', 1, 'CC3005NI_1'),
+('TH1', 'CC3005NI', 2, 'CC3005NI_2'),
+('TH1', 'CC3005NI', 4, 'CC3005NI_4'),
+('TH6', 'CC3006NI', 1, 'CC3006NI_1'),
+('TH6', 'CC3006NI', 2, 'CC3006NI_2'),
+('TH6', 'CC3006NI', 4, 'CC3006NI_4');
 
 --
 -- Constraints for dumped tables
