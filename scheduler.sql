@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 07, 2016 at 02:39 PM
+-- Generation Time: Feb 01, 2016 at 05:45 PM
 -- Server version: 5.5.32
 -- PHP Version: 5.4.16
 
@@ -104,13 +104,10 @@ CREATE TABLE IF NOT EXISTS `groups` (
 --
 
 INSERT INTO `groups` (`groupCode`, `noOfStudents`) VALUES
-('L1C3', 30),
-('L3C1', 22),
 ('L3C2', 25),
 ('L3C3', 25),
 ('L3C4', 32),
-('L3C5', 30),
-('L3C6', 30);
+('L3C5', 30);
 
 -- --------------------------------------------------------
 
@@ -132,30 +129,15 @@ CREATE TABLE IF NOT EXISTS `group_module` (
 --
 
 INSERT INTO `group_module` (`groupCode`, `moduleCode`, `identifier`) VALUES
-('L1C3', 'CC1002NI', 'L1C3CC1002NI'),
-('L1C3', 'CC3002NI', 'L1C3CC3002NI'),
-('L1C3', 'CC3004NI', 'L1C3CC3004NI'),
-('L1C3', 'CC3006NI', 'L1C3CC3006NI'),
-('L3C1', 'CC1001NI', 'L3C1CC1001NI'),
-('L3C1', 'CC1002NI', 'L3C1CC1002NI'),
-('L3C1', 'CC3002NI', 'L3C1CC3002NI'),
-('L3C1', 'CC3004NI', 'L3C1CC3004NI'),
-('L3C1', 'CC3006NI', 'L3C1CC3006NI'),
-('L3C2', 'CC3002NI', 'L3C2CC3002NI'),
-('L3C2', 'CC3004NI', 'L3C2CC3004NI'),
-('L3C2', 'CC3006NI', 'L3C2CC3006NI'),
-('L3C3', 'CC3002NI', 'L3C3CC3002NI'),
-('L3C3', 'CC3004NI', 'L3C3CC3004NI'),
-('L3C3', 'CC3006NI', 'L3C3CC3006NI'),
+('L3C2', 'CC3001NI', 'L3C2CC3001NI'),
+('L3C2', 'CC3301NI', 'L3C2CC3301NI'),
+('L3C3', 'CC3301NI', 'L3C3CC3301NI'),
 ('L3C4', 'CC3001NI', 'L3C4CC3001NI'),
 ('L3C4', 'CC3003NI', 'L3C4CC3003NI'),
 ('L3C4', 'CC3005NI', 'L3C4CC3005NI'),
 ('L3C5', 'CC3001NI', 'L3C5CC3001NI'),
 ('L3C5', 'CC3003NI', 'L3C5CC3003NI'),
-('L3C5', 'CC3005NI', 'L3C5CC3005NI'),
-('L3C6', 'CC3001NI', 'L3C6CC3001NI'),
-('L3C6', 'CC3003NI', 'L3C6CC3003NI'),
-('L3C6', 'CC3005NI', 'L3C6CC3005NI');
+('L3C5', 'CC3005NI', 'L3C5CC3005NI');
 
 -- --------------------------------------------------------
 
@@ -198,14 +180,12 @@ CREATE TABLE IF NOT EXISTS `modules` (
 --
 
 INSERT INTO `modules` (`moduleCode`, `moduleName`, `year`, `semester`) VALUES
-('CC1001NI', 'Introduction to Programming', 3, 1),
-('CC1002NI', 'Further Programming', 3, 1),
 ('CC3001NI', 'Advanced System Analysis', 3, 1),
 ('CC3002NI', 'Advanced Database System', 3, 2),
 ('CC3003NI', 'Software Engineering II', 3, 1),
 ('CC3004NI', 'Post Implementation Issues', 3, 2),
 ('CC3005NI', 'Current Developments', 3, 1),
-('CC3006NI', 'Employment Skills', 3, 2);
+('CC3301NI', 'Employment Skills', 3, 1);
 
 -- --------------------------------------------------------
 
@@ -227,30 +207,24 @@ CREATE TABLE IF NOT EXISTS `module_classes` (
 --
 
 INSERT INTO `module_classes` (`typeId`, `moduleCode`, `classHours`) VALUES
-(1, 'CC1001NI', '2.00'),
-(1, 'CC1002NI', '2.00'),
 (1, 'CC3001NI', '2.00'),
 (1, 'CC3002NI', '2.00'),
 (1, 'CC3003NI', '2.00'),
 (1, 'CC3004NI', '2.00'),
 (1, 'CC3005NI', '2.00'),
-(1, 'CC3006NI', '2.00'),
-(2, 'CC1001NI', '1.50'),
-(2, 'CC1002NI', '1.50'),
+(1, 'CC3301NI', '2.00'),
 (2, 'CC3001NI', '1.50'),
 (2, 'CC3002NI', '1.50'),
 (2, 'CC3003NI', '1.50'),
 (2, 'CC3004NI', '1.50'),
 (2, 'CC3005NI', '1.50'),
-(2, 'CC3006NI', '1.50'),
-(3, 'CC1001NI', '1.50'),
-(3, 'CC1002NI', '1.50'),
+(2, 'CC3301NI', '1.50'),
 (3, 'CC3002NI', '1.50'),
 (4, 'CC3001NI', '1.50'),
 (4, 'CC3003NI', '1.50'),
 (4, 'CC3004NI', '1.50'),
 (4, 'CC3005NI', '1.50'),
-(4, 'CC3006NI', '1.50');
+(4, 'CC3301NI', '1.50');
 
 -- --------------------------------------------------------
 
@@ -301,12 +275,6 @@ CREATE TABLE IF NOT EXISTS `teacher_modules` (
 --
 
 INSERT INTO `teacher_modules` (`teacherId`, `moduleCode`, `typeId`, `identifier`) VALUES
-('TH7', 'CC1001NI', 1, 'CC1001NI_1'),
-('TH7', 'CC1001NI', 2, 'CC1001NI_2'),
-('TH7', 'CC1001NI', 3, 'CC1001NI_3'),
-('TH8', 'CC1002NI', 1, 'CC1002NI_1'),
-('TH8', 'CC1002NI', 2, 'CC1002NI_2'),
-('TH8', 'CC1002NI', 3, 'CC1002NI_3'),
 ('TH3', 'CC3001NI', 1, 'CC3001NI_1'),
 ('TH3', 'CC3001NI', 2, 'CC3001NI_2'),
 ('TH3', 'CC3001NI', 4, 'CC3001NI_4'),
@@ -319,12 +287,12 @@ INSERT INTO `teacher_modules` (`teacherId`, `moduleCode`, `typeId`, `identifier`
 ('TH5', 'CC3004NI', 1, 'CC3004NI_1'),
 ('TH5', 'CC3004NI', 2, 'CC3004NI_2'),
 ('TH5', 'CC3004NI', 4, 'CC3004NI_4'),
-('TH1', 'CC3005NI', 1, 'CC3005NI_1'),
+('TH4', 'CC3005NI', 1, 'CC3005NI_1'),
 ('TH1', 'CC3005NI', 2, 'CC3005NI_2'),
 ('TH1', 'CC3005NI', 4, 'CC3005NI_4'),
-('TH6', 'CC3006NI', 1, 'CC3006NI_1'),
-('TH6', 'CC3006NI', 2, 'CC3006NI_2'),
-('TH6', 'CC3006NI', 4, 'CC3006NI_4');
+('TH7', 'CC3301NI', 1, 'CC3301NI_1'),
+('TH7', 'CC3301NI', 2, 'CC3301NI_2'),
+('TH7', 'CC3301NI', 4, 'CC3301NI_4');
 
 --
 -- Constraints for dumped tables
