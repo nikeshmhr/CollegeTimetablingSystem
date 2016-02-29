@@ -68,7 +68,6 @@ public class Timetabler {
         //OccupiedTable.resetOccupiedResource();
         //OccupiedTable.getOccupiedClassroom().put("LT-101", (7 + groupedAndSortedTimeslot.get(0).getHours()));
         //System.out.println(OccupiedTable.getOccupiedClassroom());
-
         scheduleTimetabe();
         /*System.out.println("OCCUPIED");
          System.out.println(OccupiedTable.getOccupiedClassroom());
@@ -77,14 +76,19 @@ public class Timetabler {
 
     }
 
-    public static void main(String[] args) throws SQLException, ClassNotFoundException {
-        new Timetabler();
-    }
-
+    /*
+     public static void main(String[] args) throws SQLException, ClassNotFoundException {
+     new Timetabler();
+     }*/
     public List<Timeslot> getTimeslots() {
         return this.groupedAndSortedTimeslot;
     }
 
+    /**
+     * Returns the list of timeslots that are groupable (e.g: lecture class,
+     * Group1, Group2, Group3 takes Lecture1 so groupable timeslots includes
+     * three groups *
+     */
     private List<Timeslot> getGroupableTimeslots(String moduleCode) {
         List<Timeslot> groupables = new ArrayList<Timeslot>();
 
@@ -101,9 +105,6 @@ public class Timetabler {
                 }
             }
         }
-        //System.out.println(groupables);
-        //System.out.println(groupedTimeslot);
-        //System.out.println(groupedTimeslot.size());
         return groupables;
     }
 
@@ -266,8 +267,8 @@ public class Timetabler {
                 double hours = t.getHours();
 
                 if (t.getDay() == day && t.isIsOccupied() == false) {
-                    System.out.println("AVAILABLE ROOMS TO ASSIGN " + Availability.getAvailableClassrooms());
-                    System.out.println("AVAILABLE TEACHERS " + Availability.getAvailableTeachers());
+                    //System.out.println("AVAILABLE ROOMS TO ASSIGN " + Availability.getAvailableClassrooms());
+                    //System.out.println("AVAILABLE TEACHERS " + Availability.getAvailableTeachers());
                     boolean groupAvailability = Availability.isGroupsAvailable(groupCodes);
                     boolean teacherAvailability = Availability.isTeacherAvailable(teacherId);
                     boolean classroomAvailability = Availability.isRoomAvailableForType(classType);
@@ -301,33 +302,34 @@ public class Timetabler {
                         double gAvailabilityTime = 7;
                         double tAvailabilityTime = 7;
 
-                        System.out.println("GROUP AVAILABILITY: " + Availability.isGroupsAvailable(t.getGroupCodes()));
+                        //System.out.println("GROUP AVAILABILITY: " + Availability.isGroupsAvailable(t.getGroupCodes()));
                         if (!groupAvailability) {
-                            System.out.println("Group " + t.getGroupCodes() + " will be available at " + OccupiedTable.getEndTimeForGroups(t.getGroupCodes()));
+                            //System.out.println("Group " + t.getGroupCodes() + " will be available at " + OccupiedTable.getEndTimeForGroups(t.getGroupCodes()));
                             gAvailabilityTime = OccupiedTable.getEndTimeForGroups(groupCodes);
                             if (startTime < gAvailabilityTime) {
                                 startTime = gAvailabilityTime;
                                 System.out.println("So start time is " + startTime);
                             }
                         }
-                        if(day == 5 && (t.getGroupCode().equals("L3C5") || t.getGroupCode().equals("L3C3")))
-                            System.out.println("TEACHER AVAILABILITY: " + Availability.isTeacherAvailable(teacherId));
+                        /*if (day == 5 && (t.getGroupCode().equals("L3C5") || t.getGroupCode().equals("L3C3"))) {
+                         System.out.println("TEACHER AVAILABILITY: " + Availability.isTeacherAvailable(teacherId));
+                         }*/
                         if (!teacherAvailability) {
-                            System.out.println("Teacher " + t.getTeacherId() + " will be available at " + OccupiedTable.getEndTimeForTeacher(t.getTeacherId()));
+                            //System.out.println("Teacher " + t.getTeacherId() + " will be available at " + OccupiedTable.getEndTimeForTeacher(t.getTeacherId()));
                             tAvailabilityTime = OccupiedTable.getEndTimeForTeacher(teacherId);
                             if (startTime < tAvailabilityTime) {
                                 startTime = tAvailabilityTime;
-                                System.out.println("SO START TIME IS " + startTime);
+                                //System.out.println("SO START TIME IS " + startTime);
                             }
                         }
-                        System.out.println("AVAILABILITY OF ROOM : " + Availability.isRoomAvailableForType(classType));
+                        //System.out.println("AVAILABILITY OF ROOM : " + Availability.isRoomAvailableForType(classType));
                         if (!classroomAvailability) {
-                            System.out.println(ClassTypeFactory.getClassType(classType).getTypeName() + " not found or is not available.");
+                            //System.out.println(ClassTypeFactory.getClassType(classType).getTypeName() + " not found or is not available.");
 
                             List<String> possibleRoomSelection = RetrieveResources.getClassroomsForType(classType);
                             Collections.shuffle(possibleRoomSelection);
                             String roomCodeToSearch = "";
-                            System.out.println("POSSIBLE ROOMS :  " + possibleRoomSelection);
+                            //System.out.println("POSSIBLE ROOMS :  " + possibleRoomSelection);
                             //double max = OccupiedTable.getEndTimeForClassroom(possibleRoomSelection.get(0));
                             for (String room : possibleRoomSelection) {
                                 double selectedTime = OccupiedTable.getEndTimeForClassroom(room);
@@ -347,7 +349,7 @@ public class Timetabler {
                              startTime = OccupiedTable.getEndTimeForClassroom(roomCodeToSearch);*/
 //                            
                             //String roomCodeToSearch = OccupiedTable.getOccupiedRoomForType(classType);
-                            System.out.println("ROOM TO SEARCH " + roomCodeToSearch + " and the start time is " + startTime);
+                            //System.out.println("ROOM TO SEARCH " + roomCodeToSearch + " and the start time is " + startTime);
 //                            if (startTime < OccupiedTable.getEndTimeForClassroom(roomCodeToSearch)) {
 //                                startTime = OccupiedTable.getEndTimeForClassroom(roomCodeToSearch);
 //                            }
@@ -355,7 +357,7 @@ public class Timetabler {
                         } else {
                             selectedClassroom = Availability.getClassroomForType(classType);
                             Availability.getAvailableClassrooms().remove(selectedClassroom);
-                            System.out.println("SELECTED: " + selectedClassroom);
+                            //System.out.println("SELECTED: " + selectedClassroom);
                         }
                         //System.out.println("SELECTED CLASSROOM " + selectedClassroom);
                         endTime = startTime + hours;
@@ -369,21 +371,23 @@ public class Timetabler {
                         //Availability.getAvailableClassrooms().remove(selectedClassroom);
                         // First remove the exisiting value and put the updated value
                         //System.out.println("SELECTE ROOM: " + selectedClassroom);
-                        System.out.println("BEFORE REMOVE");
-                        System.out.println(OccupiedTable.getOccupiedClassroom());
-
+//                        System.out.println("BEFORE REMOVE");
+//                        System.out.println(OccupiedTable.getOccupiedClassroom());
                         double selectedClassromCurrentEndTime = OccupiedTable.getEndTimeForClassroom(selectedClassroom);
 
-                        /** 
-                         * UPDATING THE OCCUPIED TABLE ONLY IF THE VALUE TO UPDATE IS HIGHER THEN CURRENT VALUE
-                         * OR IF SOME RESOURCE ARE ALREADY AVAILABLE JUST REMOVE IT FROM AVAILABILITY AND ADD TO OCCUPIED
-                         **/
-                        if(groupAvailability){
+                        /**
+                         * UPDATING THE OCCUPIED TABLE ONLY IF THE VALUE TO
+                         * UPDATE IS HIGHER THEN CURRENT VALUE OR IF SOME
+                         * RESOURCE ARE ALREADY AVAILABLE JUST REMOVE IT FROM
+                         * AVAILABILITY AND ADD TO OCCUPIED
+                         *
+                         */
+                        if (groupAvailability) {
                             for (String g : groupCodes) {
                                 Availability.getAvailableGroups().remove(g);
                                 OccupiedTable.getOccupiedGroup().put(g, endTime);
                             }
-                        }else if (endTime > gAvailabilityTime) {
+                        } else if (endTime > gAvailabilityTime) {
                             for (String g : groupCodes) {
                                 OccupiedTable.getOccupiedGroup().remove(g);
                             }
@@ -392,16 +396,16 @@ public class Timetabler {
                                 OccupiedTable.getOccupiedGroup().put(s, endTime);
                             }
                         }
-                        
-                        if(classroomAvailability){
+
+                        if (classroomAvailability) {
                             Availability.getAvailableClassrooms().remove(selectedClassroom);
                             OccupiedTable.getOccupiedClassroom().put(selectedClassroom, endTime);
                         } else if (endTime > selectedClassromCurrentEndTime) {   // current or to occupied time is higher then only update
                             OccupiedTable.getOccupiedClassroom().remove(selectedClassroom);
                             OccupiedTable.getOccupiedClassroom().put(selectedClassroom, endTime);
                         }
-                        
-                        if(teacherAvailability){
+
+                        if (teacherAvailability) {
                             Availability.getAvailableTeachers().remove(teacherId);
                             OccupiedTable.getOccupiedTeacher().put(teacherId, endTime);
                         }
@@ -409,15 +413,14 @@ public class Timetabler {
                             OccupiedTable.getOccupiedTeacher().remove(teacherId);
                             OccupiedTable.getOccupiedTeacher().put(teacherId, endTime);
                         }
-                        
 
                         //System.out.println("AVAILABLE ROOM " + Availability.getAvailableClassrooms());
-                        System.out.println("AFTER ADD");
-                        System.out.println(OccupiedTable.getOccupiedClassroom());
+                        //System.out.println("AFTER ADD");
+                        //System.out.println(OccupiedTable.getOccupiedClassroom());
                     }
-                    System.out.println(t + ", " + t.getStartTime() + " - " + t.getEndTime());
+                    //System.out.println(t + ", " + t.getStartTime() + " - " + t.getEndTime());
 
-                    System.out.println("__________");
+                    //System.out.println("__________");
                 }
 
             }
@@ -427,12 +430,12 @@ public class Timetabler {
 //            System.out.println("END OF THE DAY");
         }
 
-        System.out.println("SCHEDULED");
-        for (Timeslot t : groupedAndSortedTimeslot) {
-            if (t.getDay() == Timeslot.SUN) {
-                System.out.println(t + " " + RetrieveResources.getClassroomName(t.getRoomCode()) + ", " + t.getStartTime() + " - " + t.getEndTime());
-            }
-        }
+        //System.out.println("SCHEDULED");
+        /*for (Timeslot t : groupedAndSortedTimeslot) {
+         if (t.getDay() == Timeslot.SUN) {
+         System.out.println(t + " " + RetrieveResources.getClassroomName(t.getRoomCode()) + ", " + t.getStartTime() + " - " + t.getEndTime());
+         }
+         }*/
     }
 
 }
